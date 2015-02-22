@@ -33,6 +33,8 @@ circle {
 @media only screen and (min-width: 1115px){
 }
 </style>
+<!--jQuery initializing-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <!--D3.js library initializing-->
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <!--Other javascript for the page-->
@@ -53,8 +55,8 @@ circle {
 <!--Visualization logic-->
 <script type="text/javascript" charset="utf-8">
 //visualization area dimensions
-var width = 750;
-var height = 750;
+var width = $(window).width();
+var height = $(window).height();
 
 var vis = d3.select("#visualizationDiv").append("svg:svg")
 	.attr("width", width)
