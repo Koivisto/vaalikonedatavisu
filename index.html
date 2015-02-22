@@ -68,14 +68,30 @@ circle {
 </div>
 <!--Visualization logic-->
 <script type="text/javascript" charset="utf-8">
+var fakeData = [0, 0, 100, 100];
+
 var width = $(document).width();
-var height = 500;
+var height = function (a) {
+						if( $(window).height() > 500 ){return 500}
+						else{return $(window).height()}
+					};
 var svg = d3.select("#visualizationSvg");
 
 svg
 	.attr("width", width)
 	.attr("height", height)
 
+//testing responsive
+var calc = 0;
+function redraw() {
+	svg.selectAll("circle").remove();
+	svg.selectAll("text").remove();
+
+	width = $("#visualizationDiv").width();
+svg
+	.attr("width", width)
+	.attr("height", height)
+		
 	svg.append("svg:text")
 		.attr("x", 50)
 		.attr("y", 10)
@@ -90,17 +106,11 @@ svg
 		.attr("cx", width)
 		.attr("cy", height)
 		.attr("r", 100);
-//testing responsive
-var calc = 0;
 
-function resize() {
-	width = $("#visualizationDiv").width();
-
-svg
-	.attr("width", width)
-
-	svg.selectAll("circle")
-		.attr("cx", width/2)
+	svg.append("svg:circle")
+		.attr("cx", width)
+		.attr("cy", height)
+		.attr("r", 100);
 
 	calc = calc + 1;
 	svg.append("svg:text")
@@ -109,9 +119,9 @@ svg
 		.text(calc)
 }
 
-d3.select(window).on('resize', resize); 
+d3.select(window).on('resize', redraw); 
 
-resize();
+redraw();
 
 </script>
 
