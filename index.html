@@ -68,7 +68,7 @@ circle {
 <!--Visualization logic-->
 <script type="text/javascript" charset="utf-8">
 
-var vis = d3.select("#visualizationSvg");
+var svg = d3.select("#visualizationSvg");
 
 
 //visualization area dimensions
@@ -81,23 +81,23 @@ var vis = d3.select("#visualizationSvg");
 
 
 /*
-var vis = d3.select("#visualizationDiv").append("svg:svg")
+var svg = d3.select("#visualizationDiv").append("svg:svg")
 	.attr("width", width)
 	.attr("height", height)
 */
 
 //testing
-vis.append("svg:text")
+svg.append("svg:text")
 	.attr("x", 50)
 	.attr("y", 10)
 	.text("Hello World!");
 
-vis.append("svg:circle")
+svg.append("svg:circle")
 	.attr("cx", 0)
 	.attr("cy", 0)
 	.attr("r", 100);
 
-vis.append("svg:circle")
+svg.append("svg:circle")
 	.attr("cx", 1000)
 	.attr("cy", 1000)
 	.attr("r", 100);
