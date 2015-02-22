@@ -62,8 +62,11 @@ circle {
 <!--Visualization logic-->
 <script type="text/javascript" charset="utf-8">
 //visualization area dimensions
-var width = $("visualizationDiv").width();
-var height = 800;//$("article").height();
+//var width = 1000;
+//This results 0 when text and circle are looking at width later on. ffs!
+//var width = $("visualizationDiv").width(); 
+var width = $(window).width();
+var height = $(window).height();
 
 var vis = d3.select("#visualizationDiv").append("svg:svg")
 	.attr("width", width)
@@ -71,12 +74,12 @@ var vis = d3.select("#visualizationDiv").append("svg:svg")
 
 //testing
 vis.append("svg:text")
-	.attr("x", width/10)
+	.attr("x", width-50)
 	.attr("y", height/10)
 	.text("Hello World!");
 
 vis.append("svg:circle")
-	.attr("cx", width/2)
+	.attr("cx", width)
 	.attr("cy", height/2)
 	.attr("r", 100);
 
