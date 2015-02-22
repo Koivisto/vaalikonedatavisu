@@ -24,3 +24,6 @@ Markku Niemivirran 2014 eurovaali YLE: http://www.helsinki.fi/~niemivir/Eurovaal
 Työvälineisiin ja visualisointiin liittyen
 Oletettavia työvälineitä 3Djs: http://d3js.org/
 Responsiivinen visualisointi: https://blog.safaribooksonline.com/2014/02/17/building-responsible-visualizations-d3-js/
+
+SVG juttuja
+http://tutorials.jenkov.com/svg/svg-viewport-view-box.html
