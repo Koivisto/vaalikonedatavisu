@@ -24,7 +24,7 @@ Markku Niemivirran 2014 eurovaali YLE: http://www.helsinki.fi/~niemivir/Eurovaal
 Työvälineisiin ja visualisointiin liittyen
 Oletettavia työvälineitä D3js: http://d3js.org/
 Responsiivinen visualisointi: https://blog.safaribooksonline.com/2014/02/17/building-responsible-visualizations-d3-js/
-*D3js vaatii HTTP kautta pyöräytyksen. Antaa erroria "XMLHttpRequest cannot load file:///..../data.csv. Cross origin requests are only supported for HTTP." Tosi kiva!
+*D3js tiedostot vaatisi HTTP kautta pyöräytyksen, mutta Firefox kiertää sen.
 
 SVG juttuja
 http://tutorials.jenkov.com/svg/svg-viewport-view-box.html
