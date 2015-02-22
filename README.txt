@@ -14,7 +14,7 @@ Itse data
 HS vaalikonedata 2015: http://www.hs.fi/politiikka/a1305929269692
 YLE, MTV3? tulee varmaan myöhemmin
 
-Ideoita
+Ideoita analyysiin
 Juha Törmänen 2011, idea oikean suuntainen, hieman "jäykkä" käyttää: http://peili.kirkas.info/archive/hsvaalikone11/kartta/
 Martti Leppäsen 2015 Puoluekone: puoluekone.tstm.info
 Markku Niemivirran 2011 katsaus: http://www.helsinki.fi/~niemivir/Eduskuntavaalit2011/HSvaalikone2011Niemivirta/HSvaalikoneNiemivirta.html
@@ -22,9 +22,12 @@ Markku Niemivirran 2014 eurovaali HS: http://www.helsinki.fi/~niemivir/Eurovaali
 Markku Niemivirran 2014 eurovaali YLE: http://www.helsinki.fi/~niemivir/Eurovaalit2014_Yle.html
 
 Työvälineisiin ja visualisointiin liittyen
-Oletettavia työvälineitä D3js: http://d3js.org/
+D3js vaikuttaa (edelleen hyvältä) datan visualisointiin: http://d3js.org/
+Paras tutoriali D3js liittyen: https://www.dashingd3js.com/table-of-contents
+Paras tutoriali SVG liittyen: http://tutorials.jenkov.com/svg/svg-viewport-view-box.html
 Responsiivinen visualisointi: https://blog.safaribooksonline.com/2014/02/17/building-responsible-visualizations-d3-js/
 *D3js tiedostot vaatisi HTTP kautta pyöräytyksen, mutta Firefox kiertää sen.
 
-SVG juttuja
-http://tutorials.jenkov.com/svg/svg-viewport-view-box.html
+Inspiraatiolähteitä 3Djs kirjastolle
+https://github.com/jfirebaugh/animations/
+http://bost.ocks.org/mike/
