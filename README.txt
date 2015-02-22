@@ -6,6 +6,8 @@ Omana tavoitteenani on ymmärtää paremmin kokonaisuutta ehdokkaiden vastausten
 
 Tähän projektiin liitty pieni kansalaisaktivismi, mutta myös CV-silmällä homman tekeminen. Tarkoituksena on houkutella pari muutakin tyyppiä messiin, jotta kyseessä ei olisi yksinäinen puurtaminen. 
 
+Lisätavoitteena visualisoinnista on tarkoitus saada täysin responsiivinen, jotta kun äänestyskopissa pohtii, ketä täytyisi äänestää, niin voi selfien ottamisen sijaan katsoa tätä. 
+
 Tässä muutamia osoitteita data-analyysiin liittyen
 
 Itse data
@@ -21,3 +23,4 @@ Markku Niemivirran 2014 eurovaali YLE: http://www.helsinki.fi/~niemivir/Eurovaal
 
 Työvälineisiin ja visualisointiin liittyen
 Oletettavia työvälineitä 3Djs: http://d3js.org/
+Responsiivinen visualisointi: https://blog.safaribooksonline.com/2014/02/17/building-responsible-visualizations-d3-js/
