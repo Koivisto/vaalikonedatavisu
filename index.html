@@ -9,7 +9,14 @@
 	width: device-width;
 }
 body{
-
+	margin: 0px 0px 0px 0px; /*top right bottom left*/
+	max-width: 1000px ;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+}
+article{
+	background: #FF9D76;
 }
 
 /*svg elements styles, ATTENTION! the syntax is different from pure html elements (color=fill etc.)*/
@@ -55,8 +62,8 @@ circle {
 <!--Visualization logic-->
 <script type="text/javascript" charset="utf-8">
 //visualization area dimensions
-var width = $(window).width();
-var height = $(window).height();
+var width = $("visualizationDiv").width();
+var height = 800;//$("article").height();
 
 var vis = d3.select("#visualizationDiv").append("svg:svg")
 	.attr("width", width)
