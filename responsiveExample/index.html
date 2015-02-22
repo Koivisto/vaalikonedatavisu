@@ -78,6 +78,9 @@ d3.csv("amzn.csv", function(error, data) {
     yScale.range([height, 0]).nice();
 
     /* Update the axis with the new scale */
+    yAxis.ticks(Math.max(height/50, 2));
+    xAxis.ticks(Math.max(width/50, 2));
+    
     graph.select('.x.axis')
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis);
