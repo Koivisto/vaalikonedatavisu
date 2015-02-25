@@ -89,6 +89,7 @@ function redraw() {
 	svg.selectAll("text").remove();
 
 width = $("#visualizationDiv").width();
+var height = getHeight();
 svg
 .attr("width", width)
 .attr("height", height)
@@ -100,17 +101,20 @@ svg.selectAll("circle")
 	.data(d)
 	.enter()
 		.append("circle")
-		.attr("cx", function(d){return width/2+((+d.scorex)*100);})
-		.attr("cy", function(d){return 250+((+d.scorex)*100);})
-		.attr("r", 30)
-		.style("fill", "red");
+		.attr("cx", function(d){return width/2+((+d.scorex)*(width/6));})
+		.attr("cy", function(d){return height/2+((+d.scorex)*(height/6));})
+		.attr("r", (width/60))
+		.style("fill", function(d){
+			if(d.party == "KOK") return "blue";
+			else return "red";
+		});
 
 svg.selectAll("text")
 	.data(d)
 	.enter()
 		.append("text")
-		.attr("x", function(d){return width/2+((+d.scorex)*100);})
-		.attr("y", function(d, i){return 250+((+d.scorex)*100);})
+		.attr("x", function(d){return width/2+((+d.scorex)*(width/6));})
+		.attr("y", function(d){return height/2+((+d.scorex)*(height/6));})
 		.text(function(d){return d.name+" "+d.party+" x-ero: "+d.scorex+" y-ero: "+d.scorey;});
 
 });//Data loppuu
