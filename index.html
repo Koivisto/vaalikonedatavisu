@@ -70,10 +70,12 @@ circle {
 <script type="text/javascript" charset="utf-8">
 
 var width = $(document).width();
-var height = function getHeight(a) {
-				if( $(window).height() > 500 ){return 500}
-				else{return $(window).height()}
-			};
+var height = getHeight();
+
+function getHeight(){
+	if( $(window).height() > 500 ){return 500;}
+	else{return $(window).height();}
+};
 
 var svg = d3.select("#visualizationSvg");
 svg
