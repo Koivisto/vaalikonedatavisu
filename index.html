@@ -68,60 +68,55 @@ circle {
 </div>
 <!--Visualization logic-->
 <script type="text/javascript" charset="utf-8">
-var fakeData = [0, 0, 100, 100];
 
 var width = $(document).width();
-var height = function (a) {
-						if( $(window).height() > 500 ){return 500}
-						else{return $(window).height()}
-					};
+var height = function getHeight(a) {
+				if( $(window).height() > 500 ){return 500}
+				else{return $(window).height()}
+			};
+
 var svg = d3.select("#visualizationSvg");
-
 svg
-	.attr("width", width)
-	.attr("height", height)
+.attr("width", width)
+.attr("height", height)
 
-//testing responsive
-var calc = 0;
+//Responsiivinen alkaa
 function redraw() {
+	//Vanhan poistaminen
 	svg.selectAll("circle").remove();
 	svg.selectAll("text").remove();
 
-	width = $("#visualizationDiv").width();
+width = $("#visualizationDiv").width();
 svg
-	.attr("width", width)
-	.attr("height", height)
-		
-	svg.append("svg:text")
-		.attr("x", 50)
-		.attr("y", 10)
-		.text("Hello World!");
+.attr("width", width)
+.attr("height", height)
 
-	svg.append("svg:circle")
-		.attr("cx", 0)
-		.attr("cy", 0)
-		.attr("r", 100);
+//Data alkaa
+d3.csv("testidata.csv", function(d){
 
-	svg.append("svg:circle")
-		.attr("cx", width)
-		.attr("cy", height)
-		.attr("r", 100);
+svg.selectAll("circle")
+	.data(d)
+	.enter()
+		.append("circle")
+		.attr("cx", function(d){return width/2+((+d.scorex)*100);})
+		.attr("cy", function(d){return 250+((+d.scorex)*100);})
+		.attr("r", 30)
+		.style("fill", "red");
 
-	svg.append("svg:circle")
-		.attr("cx", width)
-		.attr("cy", height)
-		.attr("r", 100);
+svg.selectAll("text")
+	.data(d)
+	.enter()
+		.append("text")
+		.attr("x", function(d){return width/2+((+d.scorex)*100);})
+		.attr("y", function(d, i){return 250+((+d.scorex)*100);})
+		.text(function(d){return d.name+" "+d.party+" x-ero: "+d.scorex+" y-ero: "+d.scorey;});
 
-	calc = calc + 1;
-	svg.append("svg:text")
-		.attr("x", 4*calc)
-		.attr("y", 4*calc)
-		.text(calc)
-}
+});//Data loppuu
 
+}//Responsiivinen loppuu
 d3.select(window).on('resize', redraw); 
-
 redraw();
+
 
 </script>
 
