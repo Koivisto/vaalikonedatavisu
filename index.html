@@ -95,17 +95,28 @@ svg
 .attr("height", height)
 
 //Data alkaa
-d3.csv("testidata.csv", function(d){
+d3.csv("kirkasinfo_data.csv", function(d){
 
 svg.selectAll("circle")
 	.data(d)
 	.enter()
 		.append("circle")
 		.attr("cx", function(d){return width/2+((+d.scorex)*(width/6));})
-		.attr("cy", function(d){return height/2+((+d.scorex)*(height/6));})
-		.attr("r", (width/60))
+		.attr("cy", function(d){return height/2+((+d.scorey)*(height/6));})
+		.attr("r", 8)
 		.style("fill", function(d){
-			if(d.party == "KOK") return "blue";
+			if     (d.party == "KOK") return "blue";
+			else if(d.party == "RKP") return "yellow";
+			else if(d.party == "PS") return "grey";
+			else if(d.party == "KESK") return "green";
+			else if(d.party == "VIHR") return "GnBu";
+			else if(d.party == "VAS") return "#FF0700";
+			else if(d.party == "SKP") return "#55110F";
+			else if(d.party == "KD") return "#9333C0";
+			else if(d.party == "IP") return "#5596CC";
+			else if(d.party == "PIR") return "black";
+			else if(d.party == "M11") return "white";
+			else if(d.party == "SDP") return "#930C08";
 			else return "red";
 		});
 
@@ -114,8 +125,8 @@ svg.selectAll("text")
 	.enter()
 		.append("text")
 		.attr("x", function(d){return width/2+((+d.scorex)*(width/6));})
-		.attr("y", function(d){return height/2+((+d.scorex)*(height/6));})
-		.text(function(d){return d.name+" "+d.party+" x-ero: "+d.scorex+" y-ero: "+d.scorey;});
+		.attr("y", function(d){return height/2+((+d.scorey)*(height/6));})
+		//.text(function(d){return d.name+" "+d.party+" x-ero: "+d.scorex+" y-ero: "+d.scorey;});
 
 });//Data loppuu
 
