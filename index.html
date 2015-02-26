@@ -63,7 +63,7 @@ circle {
 
 <p id="screenSizeWarning" >Visualisointi tarvitsee lisää näyttötilaa!</p>
 
-<div id="explanation" style="visibility: hidden;">lolselite</div>
+<div id="explanation" style="visibility: hidden; position: absolute; color:#000;">lolselite</div>
 
 <div id="visualizationDiv">
 	<svg id="visualizationSvg"></svg>
@@ -98,6 +98,8 @@ svg
 
 //Data alkaa
 d3.csv("testidata.csv", function(d){
+
+var person = svg.append("g")
 
 svg.selectAll("circle")
 	.data(d)
@@ -142,18 +144,43 @@ svg.selectAll("text")
 		.attr("y", height/2)//personCircle.cy)//function(personCircle){return personCircle.cy})
 		.text(function(d){
 			var explString = name+" "+party+" "+scorex+" "+scorey;
+
 			d3.select("#explanation")
-				.text(explString)
-				.style("visibility", "");
+				.style("visibility", "")
+				.style("display", "block");
+
+			//aina kun dokumentissa on hiiri, kutsutaan funktiota
+			document.onmousemove = annaKoordinaatit;
+			var Xakseli = 0
+			var Yakseli = 0
+			//funktio
+			function annaKoordinaatit(e) {
+				//tallentaa tällä tietoja muuttujiin
+				Xakseli = e.pageX
+				Yakseli = e.pageY
+				//näyttää tekstinä sisällä
+				document.getElementById('explanation').innerHTML = explString;
+				//positioi divin hiiren mukaiseen paikkaan
+			    document.getElementById('explanation').style.top = +Yakseli+ 10+'px';
+				document.getElementById('explanation').style.left = +Xakseli+ 10+'px';
+			}
+
+			//d3.select("#explanation")
+			//	.style("display", "block")
+			//	.style("left", "1000px")
+			//	.style("top", "2000px")
+			//	.text(explString)
+			//	;
 			return explString;
-	});
+		});
 	//alert("MOI");
 }
 
 function dontDisplayInfo(){
 	svg.selectAll("text").remove();
 	d3.select("#explanation")
-				.style("visibility", "none");
+		.style("visibility", "none")
+		.style("display", "none");
 }
 
 /*
