@@ -103,13 +103,20 @@ svg.selectAll("circle")
 		.attr("cx", function(d){return width/2+((+d.scorex)*(width/6));})
 		.attr("cy", function(d){return height/2+((+d.scorey)*(height/6));})
 		.attr("r", 8)
-		.on('mouseover', function(d){
+		.on('mouseenter', function(d){
 			displayInfo(d3.select(this), d.name, d.party, +d.scorex, +d.scorey);
-			})	
+			})
 		.on('mouseleave', function(d){
 			dontDisplayInfo();
 			d3.select(this).style({opacity:'1.0'});
-			})		
+			})
+		.on('touchstart', function(d){
+			displayInfo(d3.select(this), d.name, d.party, +d.scorex, +d.scorey);
+			})
+		.on('touchend', function(d){
+			dontDisplayInfo();
+			d3.select(this).style({opacity:'1.0'});
+			})
 		.style("fill", function(d){
 			switch(d.party){
 				case "KOK":  return "blue";
