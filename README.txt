@@ -31,3 +31,7 @@ Responsiivinen visualisointi: https://blog.safaribooksonline.com/2014/02/17/buil
 Inspiraatiolähteitä D3js kirjastolle
 https://github.com/jfirebaugh/animations/
 http://bost.ocks.org/mike/
+
+Mouseenter
+http://bl.ocks.org/mbostock/5247027
+http://jsfiddle.net/WLYUY/7/
