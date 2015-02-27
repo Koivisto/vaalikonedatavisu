@@ -107,15 +107,13 @@ svg.selectAll("circle")
 			displayInfo(d3.select(this), d.name, d.party, +d.scorex, +d.scorey);
 			})
 		.on('mouseleave', function(d){
-			dontDisplayInfo();
-			d3.select(this).style({opacity:'1.0'});
+			dontDisplayInfo(d3.select(this));
 			})
 		.on('touchstart', function(d){
 			displayInfo(d3.select(this), d.name, d.party, +d.scorex, +d.scorey);
 			})
 		.on('touchend', function(d){
-			dontDisplayInfo();
-			d3.select(this).style({opacity:'1.0'});
+			dontDisplayInfo(d3.select(this));
 			})
 		.style("fill", function(d){
 			switch(d.party){
@@ -136,18 +134,25 @@ svg.selectAll("circle")
 		});
 
 function displayInfo(personCircle, name, party, scorex, scorey){
-personCircle.style({opacity:'0.2'});
+personCircle
+	.transition()
+	.duration(1000)
+	.delay(100)
+	.attr("r", 30)
+	.style({opacity:'1.0'});
 
 svg.selectAll("text")
 	.data(d)
 	.enter()
 	.append("svg:text")
+
+		//svg text
 		.attr("x", width/2)
 		.attr("y", height/2)
 		.text(function(d){
 			var infoString = name+"<br>"+party+"<br>"+scorex+" "+scorey;
 
-
+		//html text
 			d3.select("#explanation")
 				.style("visibility", "")
 				.style("display", "block");
@@ -167,7 +172,14 @@ svg.selectAll("text")
 		});
 }
 
-function dontDisplayInfo(){
+function dontDisplayInfo(personCircle){
+personCircle
+	.transition()
+	.duration(1000)
+	.delay(100)
+	.attr("r", 8)
+	.style({opacity:'0.4'});
+
 	svg.selectAll("text").remove();
 	d3.select("#explanation")
 		.style("visibility", "none")
