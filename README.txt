@@ -16,7 +16,7 @@ YLE, MTV3? tulee varmaan myöhemmin
 
 Ideoita analyysiin
 Juha Törmänen 2011, idea oikean suuntainen, hieman "jäykkä" käyttää: http://peili.kirkas.info/archive/hsvaalikone11/kartta/
-Martti Leppäsen 2015 Puoluekone: puoluekone.tstm.info
+Martti Leppäsen 2015 Puoluekone: http://puoluekone.tstm.info/
 Markku Niemivirran 2011 katsaus: http://www.helsinki.fi/~niemivir/Eduskuntavaalit2011/HSvaalikone2011Niemivirta/HSvaalikoneNiemivirta.html
 Markku Niemivirran 2014 eurovaali HS: http://www.helsinki.fi/~niemivir/Eurovaalit2014.html
 Markku Niemivirran 2014 eurovaali YLE: http://www.helsinki.fi/~niemivir/Eurovaalit2014_Yle.html
@@ -28,6 +28,6 @@ Paras tutoriali SVG liittyen: http://tutorials.jenkov.com/svg/svg-viewport-view-
 Responsiivinen visualisointi: https://blog.safaribooksonline.com/2014/02/17/building-responsible-visualizations-d3-js/
 *D3js tiedostot vaatisi HTTP kautta pyöräytyksen, mutta Firefox kiertää sen.
 
-Inspiraatiolähteitä 3Djs kirjastolle
+Inspiraatiolähteitä D3js kirjastolle
 https://github.com/jfirebaugh/animations/
 http://bost.ocks.org/mike/
