@@ -74,9 +74,9 @@ svg
 .attr("width", width)
 .attr("height", height)
 
-//Responsiivinen alkaa
+//Visualization resizing starts
 function redraw() {
-	//Vanhan poistaminen
+	//Removing old elements
 	svg.selectAll("circle").remove();
 	svg.selectAll("text").remove();
 
@@ -86,7 +86,7 @@ svg
 .attr("width", width)
 .attr("height", height)
 
-//Data alkaa
+//Data begins
 d3.csv("testidata.csv", function(d){
 
 var person = svg.append("g")
@@ -99,8 +99,6 @@ svg.selectAll("circle")
 		.attr("cy", function(d){return height/2+((+d.scorey)*(height/6));})
 		.attr("r", 8)
 		.on('mouseover', function(d){
-			//d3.select(this).style({opacity:'0.2'});
-			//displayInfo(d3.select(this));
 			displayInfo(d3.select(this), d.name, d.party, +d.scorex, +d.scorey);
 			})	
 		.on('mouseleave', function(d){
@@ -108,19 +106,21 @@ svg.selectAll("circle")
 			d3.select(this).style({opacity:'1.0'});
 			})		
 		.style("fill", function(d){
-			if     (d.party == "KOK") return "blue";
-			else if(d.party == "RKP") return "yellow";
-			else if(d.party == "PS") return "grey";
-			else if(d.party == "KESK") return "green";
-			else if(d.party == "VIHR") return "GnBu";
-			else if(d.party == "VAS") return "#FF0700";
-			else if(d.party == "SKP") return "#55110F";
-			else if(d.party == "KD") return "#9333C0";
-			else if(d.party == "IP") return "#5596CC";
-			else if(d.party == "PIR") return "black";
-			else if(d.party == "M11") return "white";
-			else if(d.party == "SDP") return "#930C08";
-			else return "red";
+			switch(d.party){
+				case "KOK":  return "blue";
+				case "RKP":  return "yellow";
+				case "PS":   return "grey";
+				case "KESK": return "green";
+				case "VIHR": return "GnBu";
+				case "VAS":  return "#FF0700";
+				case "SKP":  return "#55110F";
+				case "KD":   return "#9333C0";
+				case "IP":   return "#5596CC";
+				case "PIR":  return "black";
+				case "M11":  return "white";
+				case "SDP":  return "#930C08";
+				default: 	 return "red";
+			}
 		});
 
 function displayInfo(personCircle, name, party, scorex, scorey){
@@ -130,40 +130,29 @@ svg.selectAll("text")
 	.data(d)
 	.enter()
 	.append("svg:text")
-		.attr("x", width/2)//personCircle.cx)//function(personCircle){return personCircle.cx})
-		.attr("y", height/2)//personCircle.cy)//function(personCircle){return personCircle.cy})
+		.attr("x", width/2)
+		.attr("y", height/2)
 		.text(function(d){
-			var explString = name+" "+party+" "+scorex+" "+scorey;
+			var infoString = name+"<br>"+party+"<br>"+scorex+" "+scorey;
+
 
 			d3.select("#explanation")
 				.style("visibility", "")
 				.style("display", "block");
-
-			//aina kun dokumentissa on hiiri, kutsutaan funktiota
-			document.onmousemove = annaKoordinaatit;
-			var Xakseli = 0
-			var Yakseli = 0
-			//funktio
-			function annaKoordinaatit(e) {
-				//tallentaa tällä tietoja muuttujiin
-				Xakseli = e.pageX
-				Yakseli = e.pageY
-				//näyttää tekstinä sisällä
-				document.getElementById('explanation').innerHTML = explString;
-				//positioi divin hiiren mukaiseen paikkaan
-			    document.getElementById('explanation').style.top = +Yakseli+ 10+'px';
-				document.getElementById('explanation').style.left = +Xakseli+ 10+'px';
+			//Gets the mouse location
+			document.onmousemove = getMouseCordinates;
+			var xCord, yCord = 0
+			function getMouseCordinates(e) {
+				xCord = e.pageX
+				yCord = e.pageY
+				//normal js here
+				document.getElementById('explanation').innerHTML = infoString;
+				document.getElementById('explanation').style.left = +xCord+ 10+'px';
+			    document.getElementById('explanation').style.top = +yCord+ 10+'px';
 			}
 
-			//d3.select("#explanation")
-			//	.style("display", "block")
-			//	.style("left", "1000px")
-			//	.style("top", "2000px")
-			//	.text(explString)
-			//	;
-			return explString;
+			return infoString;
 		});
-	//alert("MOI");
 }
 
 function dontDisplayInfo(){
@@ -173,18 +162,9 @@ function dontDisplayInfo(){
 		.style("display", "none");
 }
 
-/*
-svg.selectAll("text")
-	.data(d)
-	.enter()
-		.append("text")
-		.attr("x", function(d){return width/2+((+d.scorex)*(width/6));})
-		.attr("y", function(d){return height/2+((+d.scorey)*(height/6));})
-		//.text(function(d){return d.name+" "+d.party+" x-ero: "+d.scorex+" y-ero: "+d.scorey;});
-*/
-});//Data loppuu
+});//Data ends
 
-}//Responsiivinen loppuu
+}//Visualization resizing ends
 d3.select(window).on('resize', redraw); 
 redraw();
 
