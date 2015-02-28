@@ -79,6 +79,10 @@ svg
 .attr("width", width)
 .attr("height", height)
 
+//Data begins
+//d3.csv("testidata.csv", function(d){
+d3.csv("kirkasinfo_data.csv", function(d){
+
 //Visualization resizing starts
 function redraw() {
 	//Removing old elements
@@ -91,13 +95,11 @@ svg
 .attr("width", width)
 .attr("height", height)
 
-//Data begins
-d3.csv("testidata.csv", function(d){
-
 var person = svg.append("g")
-
-
 var isClicked = false;
+var selectedCandidates = [];
+//How to add candidate: selectedCandidates[selectedCandidates.length] = candidate;
+
 var previousCircle = null;
 svg.selectAll("circle")
 	.data(d)
@@ -108,22 +110,33 @@ svg.selectAll("circle")
 		.attr("r", 10)
 		/*It is possible to click candidate, so the info will keep showing without mouseover, but resets if mouseenter is called for another candidate*/
 		.on('click', function(d){
+			var candidate = {element:d3.select(this), 
+							name: d.name, 
+							party: d.party, 
+							scorex: +d.scorex, 
+							scorey: +d.scorey};
+			displayInfo(candidate.element, candidate.name, candidate.party, candidate.scorex, candidate.scorey);
+			selectedCandidates[selectedCandidates.length] = candidate;
 			isClicked = !isClicked;
-			displayInfo(d3.select(this), d.name, d.party, +d.scorex, +d.scorey);
 			previousCircle = d3.select(this);
+			displayInfoOnSelectedCandidates();
 			})
 		.on('mouseenter', function(d){
-			if(previousCircle != null){dontDisplayInfo(previousCircle);isClicked = !isClicked;}
+			if(previousCircle != null && isClicked){dontDisplayInfo(previousCircle);isClicked = !isClicked;}
 			displayInfo(d3.select(this), d.name, d.party, +d.scorex, +d.scorey);
+			displayInfoOnSelectedCandidates();
 			})
 		.on('mouseleave', function(d){
 			if(!isClicked){dontDisplayInfo(d3.select(this))};
+			displayInfoOnSelectedCandidates();
 			})
 		.on('touchstart', function(d){
 			displayInfo(d3.select(this), d.name, d.party, +d.scorex, +d.scorey);
+			displayInfoOnSelectedCandidates();
 			})
 		.on('touchend', function(d){
 			if(!isClicked){dontDisplayInfo(d3.select(this))};
+			displayInfoOnSelectedCandidates();
 			})
 		.style("fill", function(d){
 			switch(d.party){
@@ -172,6 +185,16 @@ function displayInfo(personCircle, name, party, scorex, scorey){
 
 }
 
+function displayInfoOnSelectedCandidates(){
+	for (var i = selectedCandidates.length - 1; i >= 0; i--) {
+		displayInfo(selectedCandidates[i].element,
+					selectedCandidates[i].name, 
+					selectedCandidates[i].party,
+					selectedCandidates[i].scorex, 
+					selectedCandidates[i].scorey);
+	};
+}
+
 function dontDisplayInfo(personCircle){
 	personCircle
 		.transition()
@@ -185,12 +208,13 @@ function dontDisplayInfo(personCircle){
 		.style("display", "none");
 }
 
-});//Data ends
 
+displayInfoOnSelectedCandidates;
 }//Visualization resizing ends
 d3.select(window).on('resize', redraw); 
 
 redraw();
+});//Data ends
 
 
 </script>
