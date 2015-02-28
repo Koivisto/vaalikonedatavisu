@@ -187,7 +187,7 @@ svg.selectAll("circle")
 
 
 
-function displayInfo(candidate){//candicate has candidate.element, candidate.name, candidate.party, candidate.scorex, candidate.scorey
+function displayInfo(candidate){
 	candidate.element
 		.transition()
 		.duration(300)
@@ -224,7 +224,7 @@ function displayInfoOnSelectedCandidates(){
 	};
 }
 
-function dontDisplayInfo(candidate){//candicate has candidate.element, candidate.name, candidate.party, candidate.scorex, candidate.scorey
+function dontDisplayInfo(candidate){
 	candidate.element
 		.transition()
 		.duration(300)
@@ -233,9 +233,6 @@ function dontDisplayInfo(candidate){//candicate has candidate.element, candidate
 
 	var infoDiv= document.getElementById(candidate.name);
 	infoDiv.parentNode.removeChild(infoDiv);
-	//d3.select("#explanations")
-	//	.style("visibility", "none")
-	//	.style("display", "none");
 }
 
 
