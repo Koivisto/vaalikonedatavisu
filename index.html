@@ -132,7 +132,6 @@ svg.selectAll("circle")
 			selectedCandidates[selectedCandidates.length] = candidate;
 			isClicked = !isClicked;
 			previousCandidate = candidate;
-			displayInfoOnSelectedCandidates();
 			})
 		.on('mouseenter', function(d){
 			defineCandidate(d, d3.select(this));
@@ -140,22 +139,18 @@ svg.selectAll("circle")
 				dontDisplayInfo(previousCandidate);
 				isClicked = !isClicked;}
 			displayInfo(candidate);
-			displayInfoOnSelectedCandidates();
 			})
 		.on('mouseleave', function(d){
 			defineCandidate(d, d3.select(this));
 			if(!isClicked){dontDisplayInfo(candidate);};
-			displayInfoOnSelectedCandidates();
 			})
 		.on('touchstart', function(d){
 			defineCandidate(d, d3.select(this));
 			displayInfo(candidate);
-			displayInfoOnSelectedCandidates();
 			})
 		.on('touchend', function(d){
 			defineCandidate(d, d3.select(this));
 			if(!isClicked){dontDisplayInfo(candidate)};
-			displayInfoOnSelectedCandidates();
 			})
 		.style("fill", function(d){
 			switch(d.party){
@@ -187,6 +182,7 @@ function defineCandidate(d, givenElement){
 
 /*highlights svg element, creates infoBox div with candidate information*/
 function displayInfo(candidate){
+	//TODO here comes undefined sometimes! //if(typeof candidate.element === 'undefined'){console.log("nyt errori");}
 	candidate.element
 		.transition()
 		.duration(300)
@@ -223,6 +219,7 @@ function displayInfoOnSelectedCandidates(){
 					selectedCandidates[i].scorey);
 	};
 }
+displayInfoOnSelectedCandidates;
 
 /*restores the svg element size, deletes the infoBox div*/
 function dontDisplayInfo(candidate){
@@ -236,7 +233,6 @@ function dontDisplayInfo(candidate){
 	infoDiv.parentNode.removeChild(infoDiv);
 }
 
-displayInfoOnSelectedCandidates;
 }//Visualization resizing ends
 
 d3.select(window).on('resize', redraw); 
