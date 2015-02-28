@@ -115,6 +115,7 @@ var person = svg.append("g");
 var isClicked = false;
 var selectedCandidates = [];
 var previousCandidate = null;
+var candidate= null;
 
 /*Connects the data to svg elements, determines the interaction logic*/
 svg.selectAll("circle")
@@ -126,12 +127,7 @@ svg.selectAll("circle")
 		.attr("r", 10)
 		/*It is possible to click candidate, so the info will keep showing*/
 		.on('click', function(d){
-			var candidate = {element:d3.select(this), 
-							name: d.name, 
-							party: d.party, 
-							url: d.www,
-							scorex: +d.scorex, 
-							scorey: +d.scorey};
+			defineCandidate(d, d3.select(this));
 			displayInfo(candidate);
 			selectedCandidates[selectedCandidates.length] = candidate;
 			isClicked = !isClicked;
@@ -139,45 +135,25 @@ svg.selectAll("circle")
 			displayInfoOnSelectedCandidates();
 			})
 		.on('mouseenter', function(d){
+			defineCandidate(d, d3.select(this));
 			if(previousCandidate != null && isClicked){
 				dontDisplayInfo(previousCandidate);
 				isClicked = !isClicked;}
-			var candidate = {element:d3.select(this), 
-							name: d.name, 
-							party: d.party, 
-							url: d.www,
-							scorex: +d.scorex, 
-							scorey: +d.scorey};
 			displayInfo(candidate);
 			displayInfoOnSelectedCandidates();
 			})
 		.on('mouseleave', function(d){
-			var candidate = {element:d3.select(this), 
-				name: d.name, 
-				party: d.party, 
-				url: d.www,
-				scorex: +d.scorex, 
-				scorey: +d.scorey};
+			defineCandidate(d, d3.select(this));
 			if(!isClicked){dontDisplayInfo(candidate);};
 			displayInfoOnSelectedCandidates();
 			})
 		.on('touchstart', function(d){
-			var candidate = {element:d3.select(this), 
-							name: d.name, 
-							party: d.party, 
-							url: d.www,
-							scorex: +d.scorex, 
-							scorey: +d.scorey};
+			defineCandidate(d, d3.select(this));
 			displayInfo(candidate);
 			displayInfoOnSelectedCandidates();
 			})
 		.on('touchend', function(d){
-			var candidate = {element:d3.select(this), 
-				name: d.name, 
-				party: d.party, 
-				url: d.www,
-				scorex: +d.scorex, 
-				scorey: +d.scorey};
+			defineCandidate(d, d3.select(this));
 			if(!isClicked){dontDisplayInfo(candidate)};
 			displayInfoOnSelectedCandidates();
 			})
@@ -198,6 +174,16 @@ svg.selectAll("circle")
 				default: 	 return "red";
 			}
 		});
+
+function defineCandidate(d, givenElement){
+	candidate = {element: givenElement, 
+					name: d.name, 
+					party: d.party, 
+					url: d.www,
+					scorex: +d.scorex, 
+					scorey: +d.scorey};
+	return candidate;
+}
 
 /*highlights svg element, creates infoBox div with candidate information*/
 function displayInfo(candidate){
