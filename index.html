@@ -18,7 +18,7 @@ body{
 article{
 	background: #FF9D76;
 }
-#explanation{
+#explanations{
 	color:#000;
 	background-color: #FFF;
 
@@ -58,7 +58,7 @@ circle {
 	<p>Tähän tulee jotain metajuttuja, tekijöitä ja sellasia</p>
 </header>
 
-<div id="explanation" style="visibility: hidden; position: absolute;">selite</div>
+<div id="explanations" style="visibility: hidden; position: absolute;">selite</div>
 
 <div id="visualizationDiv">
 	<svg id="visualizationSvg"></svg>
@@ -167,20 +167,23 @@ function displayInfo(personCircle, name, party, scorex, scorey){
 
 	//html text
 	var infoString = name+"<br>"+party+"<br>"+scorex+" "+scorey;
-	d3.select("#explanation")
+	
+	d3.select("#explanations")
 		.style("visibility", "")
 		.style("display", "block");
-	//Gets the mouse location
-	document.onmousemove = getMouseCordinates;
-	var xCord, yCord = 0
-	function getMouseCordinates(e) {
-		xCord = e.pageX
-		yCord = e.pageY
-		//normal js here to place info div with current info
-		document.getElementById('explanation').innerHTML = infoString;
-		document.getElementById('explanation').style.left = parseInt(personCircle.attr("cx") + svg.offsetLeft) + "px";
-	    document.getElementById('explanation').style.top = parseInt(personCircle.attr("cy") + svg.offsetTop) + "px";
-	}
+
+	var infoDiv = document.createElement('div');
+	document.getElementById('explanations').appendChild(infoDiv);
+	infoDiv.id = name;
+	//d3.select("#"+name)
+	//	.style("visibility", "")
+	//	.style("display", "block")
+	//	.style("position", "absolute");
+	infoDiv.innerHTML = infoString;
+	infoDiv.style.position = "absolute";
+	infoDiv.style.left = parseInt(personCircle.attr("cx") + svg.offsetLeft) + "px";
+	infoDiv.style.top = parseInt(personCircle.attr("cy") + svg.offsetTop) + "px";
+
 	return infoString;
 
 }
@@ -203,7 +206,7 @@ function dontDisplayInfo(personCircle){
 		.style({opacity:'0.4'});
 
 	svg.selectAll("text").remove();
-	d3.select("#explanation")
+	d3.select("#explanations")
 		.style("visibility", "none")
 		.style("display", "none");
 }
