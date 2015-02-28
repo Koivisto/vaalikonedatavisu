@@ -140,7 +140,7 @@ svg.selectAll("circle")
 				party: d.party, 
 				scorex: +d.scorex, 
 				scorey: +d.scorey};
-			if(!isClicked){dontDisplayInfo(candidate)};
+			if(!isClicked){dontDisplayInfo(candidate);};
 			displayInfoOnSelectedCandidates();
 			})
 		.on('touchstart', function(d){
@@ -227,9 +227,9 @@ function dontDisplayInfo(candidate){//candicate has candidate.element, candidate
 
 	var infoDiv= document.getElementById(candidate.name);
 	infoDiv.parentNode.removeChild(infoDiv);
-	d3.select("#explanations")
-		.style("visibility", "none")
-		.style("display", "none");
+	//d3.select("#explanations")
+	//	.style("visibility", "none")
+	//	.style("display", "none");
 }
 
 
