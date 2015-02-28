@@ -102,6 +102,14 @@ svg
 .attr("width", width)
 .attr("height", height)
 
+//scaling data to screen size
+var linearWidthScale = d3.scale.linear()
+    .domain([-2.5,2.5])
+    .range([0,width]);
+var linearHeigthScale = d3.scale.linear()
+    .domain([-2.5,2.5])
+    .range([0,height]);
+
 var person = svg.append("g")
 var isClicked = false;
 var selectedCandidates = [];
@@ -112,8 +120,8 @@ svg.selectAll("circle")
 	.data(d)
 	.enter()
 		.append("circle")
-		.attr("cx", function(d){return width/2+((+d.scorex)*(width/6));})
-		.attr("cy", function(d){return height/2+((+d.scorey)*(height/6));})
+		.attr("cx", function(d){return linearWidthScale(d.scorex);})
+		.attr("cy", function(d){return linearHeigthScale(d.scorey);})
 		.attr("r", 10)
 		/*It is possible to click candidate, so the info will keep showing without mouseover, but resets if mouseenter is called for another candidate*/
 		.on('click', function(d){
