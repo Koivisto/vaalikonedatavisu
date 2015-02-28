@@ -21,7 +21,10 @@ article{
 #explanations{
 	color:#000;
 	background-color: #FFF;
-
+}
+.infoBox{
+	color:#000;
+	background-color: #FFF;
 }
 
 /*svg elements styles, ATTENTION! the syntax is different from pure html elements (color=fill etc.)*/
@@ -174,11 +177,8 @@ function displayInfo(personCircle, name, party, scorex, scorey){
 
 	var infoDiv = document.createElement('div');
 	document.getElementById('explanations').appendChild(infoDiv);
+	infoDiv.className = "infoBox";
 	infoDiv.id = name;
-	//d3.select("#"+name)
-	//	.style("visibility", "")
-	//	.style("display", "block")
-	//	.style("position", "absolute");
 	infoDiv.innerHTML = infoString;
 	infoDiv.style.position = "absolute";
 	infoDiv.style.left = parseInt(personCircle.attr("cx") + svg.offsetLeft) + "px";
