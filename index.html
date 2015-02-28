@@ -96,7 +96,9 @@ d3.csv("testidata.csv", function(d){
 
 var person = svg.append("g")
 
+/*It is possible to click candidate, so the info will keep showing without mouseover, but resets if mouseenter is called for another candidate*/
 var isShowingInfo = false;
+var previousCircle = null;
 svg.selectAll("circle")
 	.data(d)
 	.enter()
@@ -107,8 +109,10 @@ svg.selectAll("circle")
 		.on('click', function(d){
 			isShowingInfo = !isShowingInfo;
 			displayInfo(d3.select(this), d.name, d.party, +d.scorex, +d.scorey);
+			previousCircle = d3.select(this);
 			})
 		.on('mouseenter', function(d){
+			if(previousCircle != null){dontDisplayInfo(previousCircle);isShowingInfo = !isShowingInfo;}
 			displayInfo(d3.select(this), d.name, d.party, +d.scorex, +d.scorey);
 			})
 		.on('mouseleave', function(d){
