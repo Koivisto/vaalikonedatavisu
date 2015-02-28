@@ -61,7 +61,7 @@ circle {
 	<p>Tähän tulee jotain metajuttuja, tekijöitä ja sellasia</p>
 </header>
 
-<div id="explanations" style="visibility: hidden; position: absolute;">selite</div>
+<div id="explanations" style="visibility: hidden; position: absolute;"></div>
 
 <div id="visualizationDiv">
 	<svg id="visualizationSvg"></svg>
@@ -103,7 +103,7 @@ var isClicked = false;
 var selectedCandidates = [];
 //How to add candidate: selectedCandidates[selectedCandidates.length] = candidate;
 
-var previousCircle = null;
+var previousCandidate = null;
 svg.selectAll("circle")
 	.data(d)
 	.enter()
@@ -118,27 +118,47 @@ svg.selectAll("circle")
 							party: d.party, 
 							scorex: +d.scorex, 
 							scorey: +d.scorey};
-			displayInfo(candidate.element, candidate.name, candidate.party, candidate.scorex, candidate.scorey);
+			displayInfo(candidate);
 			selectedCandidates[selectedCandidates.length] = candidate;
 			isClicked = !isClicked;
-			previousCircle = d3.select(this);
+			previousCandidate = candidate;
 			displayInfoOnSelectedCandidates();
 			})
 		.on('mouseenter', function(d){
-			if(previousCircle != null && isClicked){dontDisplayInfo(previousCircle);isClicked = !isClicked;}
-			displayInfo(d3.select(this), d.name, d.party, +d.scorex, +d.scorey);
+			if(previousCandidate != null && isClicked){dontDisplayInfo(previousCandidate);isClicked = !isClicked;}
+			var candidate = {element:d3.select(this), 
+							name: d.name, 
+							party: d.party, 
+							scorex: +d.scorex, 
+							scorey: +d.scorey};
+			displayInfo(candidate);
 			displayInfoOnSelectedCandidates();
 			})
 		.on('mouseleave', function(d){
-			if(!isClicked){dontDisplayInfo(d3.select(this))};
+			var candidate = {element:d3.select(this), 
+				name: d.name, 
+				party: d.party, 
+				scorex: +d.scorex, 
+				scorey: +d.scorey};
+			if(!isClicked){dontDisplayInfo(candidate)};
 			displayInfoOnSelectedCandidates();
 			})
 		.on('touchstart', function(d){
-			displayInfo(d3.select(this), d.name, d.party, +d.scorex, +d.scorey);
+			var candidate = {element:d3.select(this), 
+							name: d.name, 
+							party: d.party, 
+							scorex: +d.scorex, 
+							scorey: +d.scorey};
+			displayInfo(candidate);
 			displayInfoOnSelectedCandidates();
 			})
 		.on('touchend', function(d){
-			if(!isClicked){dontDisplayInfo(d3.select(this))};
+			var candidate = {element:d3.select(this), 
+				name: d.name, 
+				party: d.party, 
+				scorex: +d.scorex, 
+				scorey: +d.scorey};
+			if(!isClicked){dontDisplayInfo(candidate)};
 			displayInfoOnSelectedCandidates();
 			})
 		.style("fill", function(d){
@@ -161,15 +181,15 @@ svg.selectAll("circle")
 
 
 
-function displayInfo(personCircle, name, party, scorex, scorey){
-	personCircle
+function displayInfo(candidate){//candicate has candidate.element, candidate.name, candidate.party, candidate.scorex, candidate.scorey
+	candidate.element
 		.transition()
 		.duration(300)
 		.attr("r", 30)
 		.style({opacity:'1.0'});
 
 	//html text
-	var infoString = name+"<br>"+party+"<br>"+scorex+" "+scorey+"<br><a href=\"http://yle.fi/uutiset/\">linkki jonnekkin</a>";
+	var infoString = candidate.name+"<br>"+candidate.party+"<br>"+candidate.scorex+" "+candidate.scorey+"<br><a href=\"http://yle.fi/uutiset/\">linkki jonnekkin</a>";
 	
 	d3.select("#explanations")
 		.style("visibility", "")
@@ -178,11 +198,11 @@ function displayInfo(personCircle, name, party, scorex, scorey){
 	var infoDiv = document.createElement('div');
 	document.getElementById('explanations').appendChild(infoDiv);
 	infoDiv.className = "infoBox";
-	infoDiv.id = name;
+	infoDiv.id = candidate.name;
 	infoDiv.innerHTML = infoString;
 	infoDiv.style.position = "absolute";
-	infoDiv.style.left = parseInt(personCircle.attr("cx") + svg.offsetLeft) + "px";
-	infoDiv.style.top = parseInt(personCircle.attr("cy") + svg.offsetTop) + "px";
+	infoDiv.style.left = parseInt(candidate.element.attr("cx") + svg.offsetLeft) + "px";
+	infoDiv.style.top = parseInt(candidate.element.attr("cy") + svg.offsetTop) + "px";
 
 	return infoString;
 
@@ -198,14 +218,15 @@ function displayInfoOnSelectedCandidates(){
 	};
 }
 
-function dontDisplayInfo(personCircle){
-	personCircle
+function dontDisplayInfo(candidate){//candicate has candidate.element, candidate.name, candidate.party, candidate.scorex, candidate.scorey
+	candidate.element
 		.transition()
 		.duration(300)
 		.attr("r", 10)
 		.style({opacity:'0.4'});
 
-	svg.selectAll("text").remove();
+	var infoDiv= document.getElementById(candidate.name);
+	infoDiv.parentNode.removeChild(infoDiv);
 	d3.select("#explanations")
 		.style("visibility", "none")
 		.style("display", "none");
