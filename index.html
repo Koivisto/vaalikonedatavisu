@@ -117,6 +117,7 @@ svg.selectAll("circle")
 			var candidate = {element:d3.select(this), 
 							name: d.name, 
 							party: d.party, 
+							url: d.www,
 							scorex: +d.scorex, 
 							scorey: +d.scorey};
 			displayInfo(candidate);
@@ -130,6 +131,7 @@ svg.selectAll("circle")
 			var candidate = {element:d3.select(this), 
 							name: d.name, 
 							party: d.party, 
+							url: d.www,
 							scorex: +d.scorex, 
 							scorey: +d.scorey};
 			displayInfo(candidate);
@@ -139,6 +141,7 @@ svg.selectAll("circle")
 			var candidate = {element:d3.select(this), 
 				name: d.name, 
 				party: d.party, 
+				url: d.www,
 				scorex: +d.scorex, 
 				scorey: +d.scorey};
 			if(!isClicked){dontDisplayInfo(candidate);};
@@ -148,6 +151,7 @@ svg.selectAll("circle")
 			var candidate = {element:d3.select(this), 
 							name: d.name, 
 							party: d.party, 
+							url: d.www,
 							scorex: +d.scorex, 
 							scorey: +d.scorey};
 			displayInfo(candidate);
@@ -157,6 +161,7 @@ svg.selectAll("circle")
 			var candidate = {element:d3.select(this), 
 				name: d.name, 
 				party: d.party, 
+				url: d.www,
 				scorex: +d.scorex, 
 				scorey: +d.scorey};
 			if(!isClicked){dontDisplayInfo(candidate)};
@@ -190,7 +195,7 @@ function displayInfo(candidate){//candicate has candidate.element, candidate.nam
 		.style({opacity:'1.0'});
 
 	//html text
-	var infoString = candidate.name+"<br>"+candidate.party+"<br>"+candidate.scorex+" "+candidate.scorey+"<br><a href=\"http://yle.fi/uutiset/\">linkki jonnekkin</a>";
+	var infoString = candidate.name+"<br>"+candidate.party+"<br>"+candidate.scorex+" "+candidate.scorey+"<br><a href=\""+candidate.url+"\">"+candidate.url+"</a>";
 	
 	d3.select("#explanations")
 		.style("visibility", "")
