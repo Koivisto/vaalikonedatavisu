@@ -25,6 +25,7 @@ article{
 .infoBox{
 	color:#000;
 	background-color: #FFF;
+	transform: translate(-50%, -100%);
 }
 
 /*svg elements styles, ATTENTION! the syntax is different from pure html elements (color=fill etc.)*/
@@ -202,7 +203,7 @@ function displayInfo(candidate){//candicate has candidate.element, candidate.nam
 	infoDiv.innerHTML = infoString;
 	infoDiv.style.position = "absolute";
 	infoDiv.style.left = parseInt(candidate.element.attr("cx") + svg.offsetLeft) + "px";
-	infoDiv.style.top = parseInt(candidate.element.attr("cy") + svg.offsetTop) + "px";
+	infoDiv.style.top = parseInt(candidate.element.attr("cy") + svg.offsetTop) +-10+"px";
 
 	return infoString;
 
