@@ -96,8 +96,8 @@ d3.csv("testidata.csv", function(d){
 
 var person = svg.append("g")
 
-/*It is possible to click candidate, so the info will keep showing without mouseover, but resets if mouseenter is called for another candidate*/
-var isShowingInfo = false;
+
+var isClicked = false;
 var previousCircle = null;
 svg.selectAll("circle")
 	.data(d)
@@ -106,23 +106,24 @@ svg.selectAll("circle")
 		.attr("cx", function(d){return width/2+((+d.scorex)*(width/6));})
 		.attr("cy", function(d){return height/2+((+d.scorey)*(height/6));})
 		.attr("r", 10)
+		/*It is possible to click candidate, so the info will keep showing without mouseover, but resets if mouseenter is called for another candidate*/
 		.on('click', function(d){
-			isShowingInfo = !isShowingInfo;
+			isClicked = !isClicked;
 			displayInfo(d3.select(this), d.name, d.party, +d.scorex, +d.scorey);
 			previousCircle = d3.select(this);
 			})
 		.on('mouseenter', function(d){
-			if(previousCircle != null){dontDisplayInfo(previousCircle);isShowingInfo = !isShowingInfo;}
+			if(previousCircle != null){dontDisplayInfo(previousCircle);isClicked = !isClicked;}
 			displayInfo(d3.select(this), d.name, d.party, +d.scorex, +d.scorey);
 			})
 		.on('mouseleave', function(d){
-			if(!isShowingInfo){dontDisplayInfo(d3.select(this))};
+			if(!isClicked){dontDisplayInfo(d3.select(this))};
 			})
 		.on('touchstart', function(d){
 			displayInfo(d3.select(this), d.name, d.party, +d.scorex, +d.scorey);
 			})
 		.on('touchend', function(d){
-			if(!isShowingInfo){dontDisplayInfo(d3.select(this))};
+			if(!isClicked){dontDisplayInfo(d3.select(this))};
 			})
 		.style("fill", function(d){
 			switch(d.party){
@@ -151,27 +152,23 @@ personCircle
 	.attr("r", 30)
 	.style({opacity:'1.0'});
 
-			var infoString = name+"<br>"+party+"<br>"+scorex+" "+scorey;
-
-		//html text
-			d3.select("#explanation")
-				.style("visibility", "")
-				.style("display", "block");
-			//Gets the mouse location
-			document.onmousemove = getMouseCordinates;
-			var xCord, yCord = 0
-			function getMouseCordinates(e) {
-				xCord = e.pageX
-				yCord = e.pageY
-				//normal js here
-				document.getElementById('explanation').innerHTML = infoString;
-
-
-				document.getElementById('explanation').style.left = parseInt(personCircle.attr("cx") + svg.offsetLeft) + "px";
-			    document.getElementById('explanation').style.top = parseInt(personCircle.attr("cy") + svg.offsetTop) + "px";
-			}
-
-			return infoString;
+	//html text
+	var infoString = name+"<br>"+party+"<br>"+scorex+" "+scorey;
+	d3.select("#explanation")
+		.style("visibility", "")
+		.style("display", "block");
+	//Gets the mouse location
+	document.onmousemove = getMouseCordinates;
+	var xCord, yCord = 0
+	function getMouseCordinates(e) {
+		xCord = e.pageX
+		yCord = e.pageY
+		//normal js here to place info div with current info
+		document.getElementById('explanation').innerHTML = infoString;
+		document.getElementById('explanation').style.left = parseInt(personCircle.attr("cx") + svg.offsetLeft) + "px";
+	    document.getElementById('explanation').style.top = parseInt(personCircle.attr("cy") + svg.offsetTop) + "px";
+	}
+	return infoString;
 
 }
 
@@ -192,8 +189,6 @@ personCircle
 
 }//Visualization resizing ends
 d3.select(window).on('resize', redraw); 
-//TODO click logic
-//d3.select(window).on('click', function(){redraw;}); 
 
 redraw();
 
