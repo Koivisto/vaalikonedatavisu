@@ -76,6 +76,7 @@ circle {
 var width = $(document).width();
 var height = getHeight();
 
+/*Decides proper height for the visualization, that is window height or 1000px*/
 function getHeight(){
 	if( $(window).height() > 1000 ){return 1000;}
 	else{return $(window).height();}
@@ -83,8 +84,8 @@ function getHeight(){
 
 var svg = d3.select("#visualizationSvg");
 svg
-.attr("width", width)
-.attr("height", height)
+	.attr("width", width)
+	.attr("height", height)
 
 //Data begins
 //d3.csv("testidata.csv", function(d){
@@ -99,23 +100,23 @@ function redraw() {
 width = $("#visualizationDiv").width();
 var height = getHeight();
 svg
-.attr("width", width)
-.attr("height", height)
+	.attr("width", width)
+	.attr("height", height)
 
-//scaling data to screen size
+//scales the data to screen size, these variables are used as functions later on.
 var linearWidthScale = d3.scale.linear()
-    .domain([-2.5,2.5])
+    .domain([-2.5,2.5])//these might vary
     .range([0,width]);
 var linearHeigthScale = d3.scale.linear()
     .domain([-2.5,2.5])
     .range([0,height]);
 
-var person = svg.append("g")
+var person = svg.append("g");
 var isClicked = false;
 var selectedCandidates = [];
-//How to add candidate: selectedCandidates[selectedCandidates.length] = candidate;
-
 var previousCandidate = null;
+
+/*Connects the data to svg elements, determines the interaction logic*/
 svg.selectAll("circle")
 	.data(d)
 	.enter()
@@ -123,7 +124,7 @@ svg.selectAll("circle")
 		.attr("cx", function(d){return linearWidthScale(d.scorex);})
 		.attr("cy", function(d){return linearHeigthScale(d.scorey);})
 		.attr("r", 10)
-		/*It is possible to click candidate, so the info will keep showing without mouseover, but resets if mouseenter is called for another candidate*/
+		/*It is possible to click candidate, so the info will keep showing*/
 		.on('click', function(d){
 			var candidate = {element:d3.select(this), 
 							name: d.name, 
@@ -198,8 +199,7 @@ svg.selectAll("circle")
 			}
 		});
 
-
-
+/*highlights svg element, creates infoBox div with candidate information*/
 function displayInfo(candidate){
 	candidate.element
 		.transition()
@@ -225,11 +225,9 @@ function displayInfo(candidate){
 	infoDiv.style.position = "absolute";
 	infoDiv.style.left = parseInt(candidate.element.attr("cx") + svg.offsetLeft) + "px";
 	infoDiv.style.top = parseInt(candidate.element.attr("cy") + svg.offsetTop) +-10+"px";
-
-	return infoString;
-
 }
 
+/*loop trough selectedCandidates array and uses displayInfo()*/
 function displayInfoOnSelectedCandidates(){
 	for (var i = selectedCandidates.length - 1; i >= 0; i--) {
 		displayInfo(selectedCandidates[i].element,
@@ -240,6 +238,7 @@ function displayInfoOnSelectedCandidates(){
 	};
 }
 
+/*restores the svg element size, deletes the infoBox div*/
 function dontDisplayInfo(candidate){
 	candidate.element
 		.transition()
@@ -251,11 +250,10 @@ function dontDisplayInfo(candidate){
 	infoDiv.parentNode.removeChild(infoDiv);
 }
 
-
 displayInfoOnSelectedCandidates;
 }//Visualization resizing ends
-d3.select(window).on('resize', redraw); 
 
+d3.select(window).on('resize', redraw); 
 redraw();
 });//Data ends
 
