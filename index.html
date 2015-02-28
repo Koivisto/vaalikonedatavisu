@@ -130,7 +130,9 @@ svg.selectAll("circle")
 			displayInfoOnSelectedCandidates();
 			})
 		.on('mouseenter', function(d){
-			if(previousCandidate != null && isClicked){dontDisplayInfo(previousCandidate);isClicked = !isClicked;}
+			if(previousCandidate != null && isClicked){
+				dontDisplayInfo(previousCandidate);
+				isClicked = !isClicked;}
 			var candidate = {element:d3.select(this), 
 							name: d.name, 
 							party: d.party, 
@@ -198,7 +200,10 @@ function displayInfo(candidate){
 		.style({opacity:'1.0'});
 
 	//html text
-	var infoString = candidate.name+"<br>"+candidate.party+"<br>"+candidate.scorex+" "+candidate.scorey+"<br><a href=\""+candidate.url+"\">"+candidate.url+"</a>";
+	var infoString = candidate.name+"<br>"+
+		candidate.party+"<br>"+
+		candidate.scorex+" "+candidate.scorey+
+		"<br><a href=\""+candidate.url+"\">"+candidate.url+"</a>";
 	
 	d3.select("#explanations")
 		.style("visibility", "")
