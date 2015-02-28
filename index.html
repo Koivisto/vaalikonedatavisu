@@ -147,15 +147,6 @@ personCircle
 	.attr("r", 30)
 	.style({opacity:'1.0'});
 
-svg.selectAll("text")
-	.data(d)
-	.enter()
-	.append("svg:text")
-
-		//svg text
-		.attr("x", width/2)
-		.attr("y", height/2)
-		.text(function(d){
 			var infoString = name+"<br>"+party+"<br>"+scorex+" "+scorey;
 
 		//html text
@@ -177,7 +168,7 @@ svg.selectAll("text")
 			}
 
 			return infoString;
-		});
+
 }
 
 function dontDisplayInfo(personCircle){
