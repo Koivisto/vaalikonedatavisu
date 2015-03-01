@@ -24,3 +24,24 @@ Kohujournalisti etsii skuuppia vaalirahoituksesta ja henkilökohtaisia tragedioi
 
 Kansalainen haluaa tietää meneekö ydinvoima/nato/tasa-arvo/viski/maahanmuutto/muu-asia läpi eduskunnassa tulevalla vaalikaudella
 	->	Kansanedustajien vaalikonevastausten ja puoluelinjausten perusteella muodostetut vastaukset kysymyksiin
+
+
+
+Ehdokkaiden sijainti joidenkin akselien kautta
+-oikeisto-vasemmisto
+-konservatiivi-liberaali
+-vihreä
+-Eurooppalaisuus, NATO
+
+Muuta visualisoitavaa
+Ikä? Sukupuoli?
+-Nämä visualisoituna kokonaisuudessaan, puolueittain, alueittain
+
+Onko vaalialueella merkitystä ehdokkaiden näkemyksiin?
+-Ovatko pääkaupunkiseudulla asuvat keskustalaiset vihreämpiä tai vaikuttaako mielipiteeseen pakkoruotsista rannikolla asuminen?
+-Arvokonservatiivisuus
+
+Vastaajaprofiilit vaalikoneiden vastausten perusteella
+-Ulottuvuudet ja näkemysten joukkoja
+-Eriytymistä eri väittämäfaktoreiden suhteen, puolueittain
+-Vastaajaprofiilien suurimmat erot yksittäisissä vaalikoneen kysymyksissä
