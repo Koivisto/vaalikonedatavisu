@@ -116,6 +116,7 @@ var isClicked = false;
 var previousCandidate = null;
 var candidate= null;
 
+/*Main logic is here, when data is used to create DOM elements, and events are decided*/
 /*Connects the data to svg elements, determines the interaction logic*/
 svg.selectAll("circle")
 	.data(d)
@@ -187,7 +188,7 @@ function displayInfo(candidate){
 		.attr("r", 30)
 		.style({opacity:'1.0'});
 
-	//html text
+	//html text for infoBox
 	var infoString = candidate.name+"<br>"+
 		candidate.party+"<br>"+
 		candidate.scorex+" "+candidate.scorey+
@@ -197,6 +198,7 @@ function displayInfo(candidate){
 		.style("visibility", "")
 		.style("display", "block");
 
+	//infoBox above candidates
 	var infoDiv = document.createElement('div');
 	document.getElementById('explanations').appendChild(infoDiv);
 	infoDiv.className = "infoBox";
@@ -206,6 +208,7 @@ function displayInfo(candidate){
 	infoDiv.style.left = parseInt(candidate.element.attr("cx") + svg.offsetLeft) + "px";
 	infoDiv.style.top = parseInt(candidate.element.attr("cy") + svg.offsetTop) +-10+"px";
 
+	//infobox closing button
 	var closeButton = document.createElement("BUTTON");
 	closeButton.appendChild(document.createTextNode("sulje"));
 	closeButton.addEventListener("click",function(d){dontDisplayInfo(candidate);});
