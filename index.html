@@ -108,12 +108,32 @@ function redraw() {
 	//Removing old elements
 	svg.selectAll("circle").remove();
 	svg.selectAll("text").remove();
+	svg.selectAll("line").remove();
 
 width = $("#visualizationDiv").width();
 var height = getHeight();
 svg
 	.attr("width", width)
 	.attr("height", height)
+
+//Draw axis
+//vertical
+var line = svg.append("line")
+	.attr("x1", width/2)
+	.attr("y1", 0)
+	.attr("x2", width/2)
+	.attr("y2", height)
+	.attr("stroke-width", 2)
+	.attr("stroke", "black");
+//horisontal
+var line = svg.append("line")
+	.attr("x1", 0)
+	.attr("y1", height/2)
+	.attr("x2", width)
+	.attr("y2", height/2)
+	.attr("stroke-width", 2)
+	.attr("stroke", "black");
+
 
 //scales the data to screen size, these variables are used as functions later on.
 var linearWidthScale = d3.scale.linear()
