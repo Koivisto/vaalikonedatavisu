@@ -28,18 +28,19 @@ article{
 	transform: translate(-50%, -100%);
 	-webkit-transform: translate(-50%, -100%);
 	-ms-transform: translate(-50%, -100%);
-	box-shadow: 0px 5px 30px #000;
+	box-shadow: 0px 0px 10px #000;
 }
 
 /*svg elements styles, ATTENTION! the syntax is different from pure html elements (color=fill etc.)*/
 svg{
-	background-color: #333;
+	background-color: #DDD;
 }
 text{
 	fill: #FFFFFF;
 }
 circle {
 	stroke: #000;
+	stroke-width: 1;
 	fill  : #00cc00;
 }
 
@@ -75,10 +76,12 @@ circle {
 
 var width = $(document).width();
 var height = getHeight();
+var MAXHEIGHT = 1000;
+var MAXWIDTH = 1800;
 
 /*Decides proper height for the visualization, that is window height or 1000px*/
 function getHeight(){
-	if( $(window).height() > 1000 ){return 1000;}
+	if( $(window).height() > MAXHEIGHT ){return MAXHEIGHT;}
 	else{return $(window).height();}
 };
 
@@ -110,6 +113,9 @@ var linearWidthScale = d3.scale.linear()
 var linearHeigthScale = d3.scale.linear()
     .domain([-2.5,2.5])
     .range([0,height]);
+var linearElementScale = d3.scale.linear()
+    .domain([0, MAXHEIGHT])
+    .range([2,10]);
 
 var person = svg.append("g");
 var isClicked = false;
@@ -124,7 +130,7 @@ svg.selectAll("circle")
 		.append("circle")
 		.attr("cx", function(d){return linearWidthScale(d.scorex);})
 		.attr("cy", function(d){return linearHeigthScale(d.scorey);})
-		.attr("r", 10)
+		.attr("r", function(d){return linearElementScale(height);})
 		/*It is possible to click candidate, so the info will keep showing*/
 		.on('click', function(d){
 			isClicked = !isClicked;
@@ -168,7 +174,6 @@ svg.selectAll("circle")
 				default: 	 return "red";
 			}
 		})
-		.style("stroke-width", 10);
 
 /*Creates candidate data object containing element, name, party, url, scorex, scorey*/
 function defineCandidate(d, givenElement){
@@ -186,8 +191,7 @@ function displayInfo(candidate){
 	candidate.element
 		.transition()
 		.duration(300)
-		.attr("r", 30)
-		.style({opacity:'1.0'});
+		.attr("r", function(d){return linearElementScale(height)*2;})
 
 	//html text for infoBox
 	var infoString = candidate.name+"<br>"+
@@ -204,6 +208,8 @@ function displayInfo(candidate){
 	infoDiv.style.position = "absolute";
 	infoDiv.style.left = parseInt(candidate.element.attr("cx") + svg.offsetLeft) + "px";
 	infoDiv.style.top = parseInt(candidate.element.attr("cy") + svg.offsetTop) +-10+"px";
+	infoDiv.style.width = "200px";
+	infoDiv.style.opacity = "0.95";
 
 	//infobox closing button
 	var closeButton = document.createElement("BUTTON");
@@ -217,8 +223,7 @@ function dontDisplayInfo(candidate){
 	candidate.element
 		.transition()
 		.duration(300)
-		.attr("r", 10)
-		.style({opacity:'0.4'});
+		.attr("r", function(d){return linearElementScale(height);})
 
 	var infoDiv= document.getElementById(candidate.name);
 	infoDiv.parentNode.removeChild(infoDiv);
