@@ -213,18 +213,6 @@ function displayInfo(candidate){
 	infoDiv.appendChild(closeButton);
 }
 
-/*loop trough selectedCandidates array and uses displayInfo()*/
-function displayInfoOnSelectedCandidates(){
-	for (var i = selectedCandidates.length - 1; i >= 0; i--) {
-		displayInfo(selectedCandidates[i].element,
-					selectedCandidates[i].name, 
-					selectedCandidates[i].party,
-					selectedCandidates[i].scorex, 
-					selectedCandidates[i].scorey);
-	};
-}
-displayInfoOnSelectedCandidates;
-
 /*restores the svg element size, deletes the infoBox div*/
 function dontDisplayInfo(candidate){
 	candidate.element
