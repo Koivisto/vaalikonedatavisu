@@ -1,0 +1,26 @@
+Use Caset
+
+Ennen vaaleja:
+Äänestäjä äänestyskopissa tulee mobiililaitteella sivulle katsomaan hänelle sopivaa ehdokasta (vaalipiiristään) numeron perusteella. 
+	->	Sivuston pitää olla kevyt, jotta se latautuu äänestyskoppiin nopeasti
+	->	Visualisoinnin ja analyysin täytyy olla täysin käytettäviä mobiililaitteella
+	->	Ehdokkaita pitää pystyä rajaamaan vaalipiirettäin, nimellä, numerolla, puolueella
+	->	Visualisoinnista on pystyttävä katsomaan yksittäisen ehdokkaan tiedot ja äänestysnumero
+
+Äänestäjä haluaa tietää millainen ehdokas on. Hän haluaa tutustua mahdollisimman hyvin ehdokkaan ajamiin asioihin ja persoonaan.
+	->	Ehdokkaan tietoihin on linkitetty YLEn vaaligalleriavideo (4 min haastattelu yle areenassa)
+	->	Ehdokkaan tietoihin on linkitetty hänen mahdolliset vaalisivustonsa ja some-kanavat
+	->	Ehdokkaan vaalikonevastauksia on verrattu hänen edustaman puolueen viralliseen kantaan
+
+Vaalien jälkeen:
+Politiikantoimittaja koittaa muodostaa kuvaa vaalituloksesta
+	->	Visualisointi näyttää minkä tyyppisiä ehdokkaita puolueista valittiin eduskuntaan
+	->	Äänimäärät ja äänikuninkaat selkeästi esiin
+	->	Rannalle jääneiden ehdokkaiden äänimäärät ja analyysi sen merkityksestä. Mikä on puolueen linja äänestäneiden mukaan ja mikä se on puolueen tuoreiden kansanedustajien mukaan?
+
+Kohujournalisti etsii skuuppia vaalirahoituksesta ja henkilökohtaisia tragedioita rannalle jääneistä ehdokkaista
+	->	Visualisointi vaalirahoitusilmoitusten perusteella läpi päässeistä ja rannalle jääneistä
+	->	Kalleimmat ja halvimmat äänet
+
+Kansalainen haluaa tietää meneekö ydinvoima/nato/tasa-arvo/viski/maahanmuutto/muu-asia läpi eduskunnassa tulevalla vaalikaudella
+	->	Kansanedustajien vaalikonevastausten ja puoluelinjausten perusteella muodostetut vastaukset kysymyksiin
