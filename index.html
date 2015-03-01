@@ -65,7 +65,7 @@ circle {
 	<p>Tähän tulee jotain metajuttuja, tekijöitä ja sellasia</p>
 </header>
 
-<div id="explanations" style="visibility: hidden; position: absolute;"></div>
+<div id="explanations" style="position: absolute;"></div>
 
 <div id="visualizationDiv">
 	<svg id="visualizationSvg"></svg>
@@ -193,10 +193,6 @@ function displayInfo(candidate){
 		candidate.party+"<br>"+
 		candidate.scorex+" "+candidate.scorey+
 		"<br><a href=\""+candidate.url+"\">"+candidate.url+"</a>";
-
-	d3.select("#explanations")
-		.style("visibility", "")
-		.style("display", "block");
 
 	//infoBox above candidates
 	var infoDiv = document.createElement('div');
