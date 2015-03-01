@@ -127,17 +127,17 @@ svg.selectAll("circle")
 		.attr("r", 10)
 		/*It is possible to click candidate, so the info will keep showing*/
 		.on('click', function(d){
-			defineCandidate(d, d3.select(this));
-			displayInfo(candidate);
-			selectedCandidates[selectedCandidates.length] = candidate;
 			isClicked = !isClicked;
+			defineCandidate(d, d3.select(this));
+			selectedCandidates[selectedCandidates.length] = candidate;
+			displayInfo(candidate);
 			previousCandidate = candidate;
 			})
 		.on('mouseenter', function(d){
 			defineCandidate(d, d3.select(this));
 			if(previousCandidate != null && isClicked){
 				dontDisplayInfo(previousCandidate);
-				isClicked = !isClicked;}
+				isClicked = !isClicked;}//prepares for new a click
 			displayInfo(candidate);
 			})
 		.on('mouseleave', function(d){
@@ -182,7 +182,6 @@ function defineCandidate(d, givenElement){
 
 /*highlights svg element, creates infoBox div with candidate information*/
 function displayInfo(candidate){
-	//TODO here comes undefined sometimes! //if(typeof candidate.element === 'undefined'){console.log("nyt errori");}
 	candidate.element
 		.transition()
 		.duration(300)
@@ -194,7 +193,7 @@ function displayInfo(candidate){
 		candidate.party+"<br>"+
 		candidate.scorex+" "+candidate.scorey+
 		"<br><a href=\""+candidate.url+"\">"+candidate.url+"</a>";
-	
+
 	d3.select("#explanations")
 		.style("visibility", "")
 		.style("display", "block");
@@ -207,6 +206,11 @@ function displayInfo(candidate){
 	infoDiv.style.position = "absolute";
 	infoDiv.style.left = parseInt(candidate.element.attr("cx") + svg.offsetLeft) + "px";
 	infoDiv.style.top = parseInt(candidate.element.attr("cy") + svg.offsetTop) +-10+"px";
+
+	var closeButton = document.createElement("BUTTON");
+	closeButton.appendChild(document.createTextNode("sulje"));
+	closeButton.addEventListener("click",function(d){dontDisplayInfo(candidate);});
+	infoDiv.appendChild(closeButton);
 }
 
 /*loop trough selectedCandidates array and uses displayInfo()*/
@@ -238,7 +242,6 @@ function dontDisplayInfo(candidate){
 d3.select(window).on('resize', redraw); 
 redraw();
 });//Data ends
-
 
 </script>
 
