@@ -113,7 +113,6 @@ var linearHeigthScale = d3.scale.linear()
 
 var person = svg.append("g");
 var isClicked = false;
-var selectedCandidates = [];
 var previousCandidate = null;
 var candidate= null;
 
@@ -129,7 +128,6 @@ svg.selectAll("circle")
 		.on('click', function(d){
 			isClicked = !isClicked;
 			defineCandidate(d, d3.select(this));
-			selectedCandidates[selectedCandidates.length] = candidate;
 			displayInfo(candidate);
 			previousCandidate = candidate;
 			})
