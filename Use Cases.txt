@@ -4,7 +4,7 @@ Ennen vaaleja:
 Äänestäjä äänestyskopissa tulee mobiililaitteella sivulle katsomaan hänelle sopivaa ehdokasta (vaalipiiristään) numeron perusteella. 
 	->	Sivuston pitää olla kevyt, jotta se latautuu äänestyskoppiin nopeasti
 	->	Visualisoinnin ja analyysin täytyy olla täysin käytettäviä mobiililaitteella
-	->	Ehdokkaita pitää pystyä rajaamaan vaalipiirettäin, nimellä, numerolla, puolueella
+	->	Ehdokkaita pitää pystyä rajaamaan vaalipiireittäin, nimellä, numerolla, puolueella
 	->	Visualisoinnista on pystyttävä katsomaan yksittäisen ehdokkaan tiedot ja äänestysnumero
 
 Äänestäjä haluaa tietää millainen ehdokas on. Hän haluaa tutustua mahdollisimman hyvin ehdokkaan ajamiin asioihin ja persoonaan.
@@ -27,10 +27,10 @@ Kansalainen haluaa tietää meneekö ydinvoima/nato/tasa-arvo/viski/maahanmuutto
 
 
 
-Ehdokkaiden sijainti joidenkin akselien kautta
+Ehdokkaiden sijainti suhteessa toisiinsa joidenkin akselien kautta
 -oikeisto-vasemmisto
 -konservatiivi-liberaali
--vihreä
+-vihreys
 -Eurooppalaisuus, NATO
 
 Muuta visualisoitavaa
