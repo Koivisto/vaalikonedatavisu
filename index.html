@@ -136,14 +136,14 @@ var line = svg.append("line")
 
 //scales the data to screen size, these variables are used as functions later on.
 var linearWidthScale = d3.scale.linear()
-    .domain([-3,3])//these might vary
-    .range([0,width]);
+	.domain([-3,3])//these might vary
+	.range([0,width]);
 var linearHeigthScale = d3.scale.linear()
-    .domain([3,-3])
-    .range([0,height]);
+	.domain([3,-3])
+	.range([0,height]);
 var linearElementScale = d3.scale.linear()
-    .domain([0, MAXHEIGHT])
-    .range([2,10]);
+	.domain([0, MAXHEIGHT])
+	.range([2,10]);
 
 var person = svg.append("g");
 var isClicked = false;
