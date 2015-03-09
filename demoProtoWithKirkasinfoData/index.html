@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<head>
+<title>Visualisointi (vaiheessa)</title>
+<meta property="og:title" content="Data-analyysi ja visualisointi #vaalit2015" />
+<meta property="og:type" content="website" />
+<meta property="og:description" content="Avoimen vaalidatan analysointia ja visualisointia. Lähteinä käytetty vaalikoneita, puolueohjelmia, toisten analyysejä ja vaalirahoitusta." />
+<!--
+<meta property="article:author" content="" />
+<meta property="article:tag" content="" />
+<meta property="og:url" content="" />
+<meta property="og:image" content="" />
+<meta name="author" content="" />
+<link rel="shortcut icon" href="" />
+-->
+<meta charset="utf-8"/>
+<style type="text/css">
+@-ms-viewport{
+	width: device-width;
+}
+body{
+	margin: 0px 0px 0px 0px; /*top right bottom left*/
+	max-width: 1800px ;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+}
+article{
+	background: #FF9D76;
+}
+#explanations{
+	color:#000;
+	background-color: #FFF;
+}
+.infoBox{
+	color:#000;
+	background-color: #FFF;
+	transform: translate(-50%, -100%);
+	-webkit-transform: translate(-50%, -100%);
+	-ms-transform: translate(-50%, -100%);
+	box-shadow: 0px 0px 10px #000;
+}
+
+/*svg elements styles, ATTENTION! the syntax is different from pure html elements (color=fill etc.)*/
+svg{
+	background-color: #DDD;
+}
+text{
+	fill: #FFFFFF;
+}
+circle {
+	stroke: #000;
+	stroke-width: 1;
+	fill  : #00cc00;
+}
+
+@media only screen and (max-width: 999px){
+
+}
+
+</style>
+<!--jQuery initializing-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<!--D3.js library initializing-->
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<!--Other javascript for the page-->
+<script type="text/javascript">
+</script>
+</head>
+
+<body>
+	<article>
+
+<header>
+	<h1>Otsikko jos ois</h1>
+	<p>Tähän tulee jotain metajuttuja, tekijöitä ja sellasia</p>
+</header>
+
+<div id="explanations" style="position: absolute;"></div>
+
+<div id="visualizationDiv">
+	<svg id="visualizationSvg"></svg>
+</div>
+<!--Visualization logic-->
+<script type="text/javascript" charset="utf-8">
+
+var width = $(document).width();
+var height = getHeight();
+var MAXHEIGHT = 1000;
+var MAXWIDTH = 1800;
+
+/*Decides proper height for the visualization, that is window height or 1000px*/
+function getHeight(){
+	if( $(window).height() > MAXHEIGHT ){return MAXHEIGHT;}
+	else{return $(window).height();}
+};
+
+var svg = d3.select("#visualizationSvg");
+svg
+	.attr("width", width)
+	.attr("height", height)
+
+//Data begins
+//d3.csv("testidata.csv", function(d){
+d3.csv("kirkasinfo_data.csv", function(d){
+
+//Visualization resizing starts
+function redraw() {
+	//Removing old elements
+	svg.selectAll("circle").remove();
+	svg.selectAll("text").remove();
+	svg.selectAll("line").remove();
+
+width = $("#visualizationDiv").width();
+var height = getHeight();
+svg
+	.attr("width", width)
+	.attr("height", height)
+
+//Draw axis
+//vertical
+var line = svg.append("line")
+	.attr("x1", width/2)
+	.attr("y1", 0)
+	.attr("x2", width/2)
+	.attr("y2", height)
+	.attr("stroke-width", 2)
+	.attr("stroke", "black");
+//horisontal
+var line = svg.append("line")
+	.attr("x1", 0)
+	.attr("y1", height/2)
+	.attr("x2", width)
+	.attr("y2", height/2)
+	.attr("stroke-width", 2)
+	.attr("stroke", "black");
+
+
+//scales the data to screen size, these variables are used as functions later on.
+var linearWidthScale = d3.scale.linear()
+    .domain([-2.5,2.5])//these might vary
+    .range([0,width]);
+var linearHeigthScale = d3.scale.linear()
+    .domain([2.5,-2.5])
+    .range([0,height]);
+var linearElementScale = d3.scale.linear()
+    .domain([0, MAXHEIGHT])
+    .range([2,10]);
+
+var person = svg.append("g");
+var isClicked = false;
+var previousCandidate = null;
+var candidate= null;
+
+/*Main logic is here, when data is used to create DOM elements, and events are decided*/
+/*Connects the data to svg elements, determines the interaction logic*/
+svg.selectAll("circle")
+	.data(d)
+	.enter()
+		.append("circle")
+		.attr("cx", function(d){return linearWidthScale(d.scorex);})
+		.attr("cy", function(d){return linearHeigthScale(d.scorey);})
+		.attr("r", function(d){return linearElementScale(height);})
+		/*It is possible to click candidate, so the info will keep showing*/
+		.on('click', function(d){
+			isClicked = !isClicked;
+			defineCandidate(d, d3.select(this));
+			displayInfo(candidate);
+			previousCandidate = candidate;
+			})
+		.on('mouseenter', function(d){
+			defineCandidate(d, d3.select(this));
+			if(previousCandidate != null && isClicked){
+				dontDisplayInfo(previousCandidate);
+				isClicked = !isClicked;}//prepares for new a click
+			displayInfo(candidate);
+			})
+		.on('mouseleave', function(d){
+			defineCandidate(d, d3.select(this));
+			if(!isClicked){dontDisplayInfo(candidate);};
+			})
+		.on('touchstart', function(d){
+			defineCandidate(d, d3.select(this));
+			displayInfo(candidate);
+			})
+		.on('touchend', function(d){
+			defineCandidate(d, d3.select(this));
+			if(!isClicked){dontDisplayInfo(candidate)};
+			})
+		.style("fill", function(d){
+			switch(d.party){
+				case "KOK":  return "blue";
+				case "RKP":  return "yellow";
+				case "PS":   return "grey";
+				case "KESK": return "green";
+				case "VIHR": return "#00cc00";
+				case "VAS":  return "#FF0700";
+				case "SKP":  return "#55110F";
+				case "KD":   return "#9333C0";
+				case "IP":   return "#5596CC";
+				case "PIR":  return "black";
+				case "M11":  return "white";
+				case "SDP":  return "#930C08";
+				default: 	 return "red";
+			}
+		})
+
+/*Creates candidate data object containing element, name, party, url, scorex, scorey*/
+function defineCandidate(d, givenElement){
+	candidate = {element: givenElement, 
+					name: d.name, 
+					party: d.party, 
+					url: d.www,
+					scorex: +d.scorex, 
+					scorey: +d.scorey};
+	return candidate;
+}
+
+/*highlights svg element, creates infoBox div with candidate information*/
+function displayInfo(candidate){
+	candidate.element
+		.transition()
+		.duration(300)
+		.attr("r", function(d){return linearElementScale(height)*2;})
+
+	//html text for infoBox
+	var infoString = candidate.name+"<br>"+
+		candidate.party+"<br>"+
+		candidate.scorex+" "+candidate.scorey+
+		"<br><a href=\""+candidate.url+"\">"+candidate.url+"</a>";
+
+	//infoBox above candidates
+	var infoDiv = document.createElement('div');
+	document.getElementById('explanations').appendChild(infoDiv);
+	infoDiv.className = "infoBox";
+	infoDiv.id = candidate.name;
+	infoDiv.innerHTML = infoString;
+	infoDiv.style.position = "absolute";
+	infoDiv.style.left = parseInt(candidate.element.attr("cx") + svg.offsetLeft) + "px";
+	infoDiv.style.top = parseInt(candidate.element.attr("cy") + svg.offsetTop) +-10+"px";
+	infoDiv.style.width = "200px";
+	infoDiv.style.opacity = "0.95";
+
+	//infobox closing button
+	var closeButton = document.createElement("BUTTON");
+	closeButton.appendChild(document.createTextNode("sulje"));
+	closeButton.addEventListener("click",function(d){dontDisplayInfo(candidate);});
+	infoDiv.appendChild(closeButton);
+}
+
+/*restores the svg element size, deletes the infoBox div*/
+function dontDisplayInfo(candidate){
+	candidate.element
+		.transition()
+		.duration(300)
+		.attr("r", function(d){return linearElementScale(height);})
+
+	var infoDiv= document.getElementById(candidate.name);
+	infoDiv.parentNode.removeChild(infoDiv);
+}
+
+}//Visualization resizing ends
+
+d3.select(window).on('resize', redraw); 
+redraw();
+});//Data ends
+
+</script>
+
+<p>Visualisointi tossa päällä. Tähän tulee tiukkaa analyysiä</p>
+
+	</article>
+</body>
+</html>
