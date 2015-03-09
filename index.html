@@ -101,7 +101,8 @@ svg
 
 //Data begins
 //d3.csv("testidata.csv", function(d){
-d3.csv("kirkasinfo_data.csv", function(d){
+var dsv = d3.dsv(";", "text/plain");
+dsv("HS+MN_data_utf8.csv", function(error, data){
 
 //Visualization resizing starts
 function redraw() {
@@ -137,10 +138,10 @@ var line = svg.append("line")
 
 //scales the data to screen size, these variables are used as functions later on.
 var linearWidthScale = d3.scale.linear()
-    .domain([-2.5,2.5])//these might vary
+    .domain([-5,5])//these might vary
     .range([0,width]);
 var linearHeigthScale = d3.scale.linear()
-    .domain([2.5,-2.5])
+    .domain([5,-5])
     .range([0,height]);
 var linearElementScale = d3.scale.linear()
     .domain([0, MAXHEIGHT])
@@ -154,11 +155,11 @@ var candidate= null;
 /*Main logic is here, when data is used to create DOM elements, and events are decided*/
 /*Connects the data to svg elements, determines the interaction logic*/
 svg.selectAll("circle")
-	.data(d)
+	.data(data)
 	.enter()
 		.append("circle")
-		.attr("cx", function(d){return linearWidthScale(d.scorex);})
-		.attr("cy", function(d){return linearHeigthScale(d.scorey);})
+		.attr("cx", function(d){return linearWidthScale(d.oik);})
+		.attr("cy", function(d){return linearHeigthScale(d.lib);})
 		.attr("r", function(d){return linearElementScale(height);})
 		/*It is possible to click candidate, so the info will keep showing*/
 		.on('click', function(d){
@@ -210,8 +211,8 @@ function defineCandidate(d, givenElement){
 					name: d.name, 
 					party: d.party, 
 					url: d.www,
-					scorex: +d.scorex, 
-					scorey: +d.scorey};
+					scorex: +d.oik, 
+					scorey: +d.lib};
 	return candidate;
 }
 
