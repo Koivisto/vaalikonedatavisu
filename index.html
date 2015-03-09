@@ -100,9 +100,7 @@ svg
 	.attr("height", height)
 
 //Data begins
-//d3.csv("testidata.csv", function(d){
-var dsv = d3.dsv(";", "text/plain");
-dsv("HS+MN_data_utf8.csv", function(error, data){
+d3.csv("HS+MN_data_utf8.csv", function(d){
 
 //Visualization resizing starts
 function redraw() {
@@ -138,10 +136,10 @@ var line = svg.append("line")
 
 //scales the data to screen size, these variables are used as functions later on.
 var linearWidthScale = d3.scale.linear()
-    .domain([-5,5])//these might vary
+    .domain([-3,3])//these might vary
     .range([0,width]);
 var linearHeigthScale = d3.scale.linear()
-    .domain([5,-5])
+    .domain([3,-3])
     .range([0,height]);
 var linearElementScale = d3.scale.linear()
     .domain([0, MAXHEIGHT])
@@ -155,7 +153,7 @@ var candidate= null;
 /*Main logic is here, when data is used to create DOM elements, and events are decided*/
 /*Connects the data to svg elements, determines the interaction logic*/
 svg.selectAll("circle")
-	.data(data)
+	.data(d)
 	.enter()
 		.append("circle")
 		.attr("cx", function(d){return linearWidthScale(d.oik);})
