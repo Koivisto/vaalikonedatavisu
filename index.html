@@ -115,6 +115,10 @@ svg
 	.attr("width", width)
 	.attr("height", height)
 
+//Selected axis mockup
+var xAxis = "oikeisto-akseli";//mockup
+var yAxis = "liberaali-akseli";
+
 //Draw axis
 //vertical
 var line = svg.append("line")
@@ -132,7 +136,14 @@ var line = svg.append("line")
 	.attr("y2", height/2)
 	.attr("stroke-width", 2)
 	.attr("stroke", "black");
-
+var text = svg.append("text")
+	.attr("x", 20)
+	.attr("y", height/2)
+	.text(xAxis);
+var text = svg.append("text")
+	.attr("x", width/2)
+	.attr("y", 10)
+	.text(yAxis);
 
 //scales the data to screen size, these variables are used as functions later on.
 var linearWidthScale = d3.scale.linear()
