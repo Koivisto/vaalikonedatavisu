@@ -116,7 +116,7 @@ svg
 	.attr("height", height)
 
 //Selected axis mockup
-var xAxis = "oikeisto-akseli";//mockup
+var xAxis = "impivaara-akseli";//mockup
 var yAxis = "liberaali-akseli";
 
 //Draw axis
@@ -167,7 +167,7 @@ svg.selectAll("circle")
 	.data(d)
 	.enter()
 		.append("circle")
-		.attr("cx", function(d){return linearWidthScale(d.oik);})
+		.attr("cx", function(d){return linearWidthScale(d.imp);})
 		.attr("cy", function(d){return linearHeigthScale(d.lib);})
 		.attr("r", function(d){return linearElementScale(height);})
 		/*It is possible to click candidate, so the info will keep showing*/
@@ -220,7 +220,7 @@ function defineCandidate(d, givenElement){
 					name: d.name, 
 					party: d.party, 
 					url: d.www,
-					scorex: +d.oik, 
+					scorex: +d.imp, 
 					scorey: +d.lib};
 	return candidate;
 }
