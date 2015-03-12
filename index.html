@@ -244,7 +244,6 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 
 			candidates
 				.attr('display', function(d) { 
-					// If out of current area, always filter
 					if (currentDistrict && d.district !== currentDistrict)
 						return 'none';
 				})
@@ -305,26 +304,23 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 			infoDiv.parentNode.removeChild(infoDiv);
 		}
 
+		// UI control logic
+		districtSelector.selectAll('option.local')
+			.data(areas)
+			.enter().append('option')
+				.attr('class', 'local')
+				.attr('value', function(d) { return d; })
+				.text(function(d) { return d; });
+		districtSelector.on('change', function(){
+			filterCandidates();
+			alert("moi");
+			
+		});
 	}//Visualization resizing ends
 	/***********************************************************************/
-
-	// UI control logic
-	districtSelector.selectAll('option.local')
-		.data(areas)
-		.enter().append('option')
-			.attr('class', 'local')
-			.attr('value', function(d) { return d; })
-			.text(function(d) { return d; });
-	districtSelector.on('change', function(){
-		alert("moi");
-		filterCandidates();
-		
-	});
-
-
-
 	d3.select(window).on('resize', redraw); 
 	redraw();
+
 });//Data ends
 
 </script>
