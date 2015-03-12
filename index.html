@@ -103,228 +103,228 @@ svg
 d3.csv("HS+MN_data_utf8.csv", function(d){
 
 
-/*UI elements*/
-var districtSelector = d3.select("#visualizationDiv").append('select');
-districtSelector.append('option')
-	.attr('value', 'all')
-	.text("perusjuttui");
-// Data parsing what voting districts are present?
-var areadict = {}, areas = [];
-d.forEach(function(d) {
-	areadict[d.district] = true;
-});
-for (key in areadict) {
-	areas.push(key);
-}
-areas.sort();
-//
-var currentarea = null;
-
-
-/***********************************************************************/
-//Visualization resizing starts
-function redraw() {
-	//Removing old elements
-	svg.selectAll("circle").remove();
-	svg.selectAll("text").remove();
-	svg.selectAll("line").remove();
-
-width = $("#visualizationDiv").width();
-var height = getHeight();
-svg
-	.attr("width", width)
-	.attr("height", height)
-
-//Selected axis mockup
-var xAxis = "impivaara-akseli";//mockup
-var yAxis = "liberaali-akseli";
-
-//Draw axis
-//vertical
-var line = svg.append("line")
-	.attr("x1", width/2)
-	.attr("y1", 0)
-	.attr("x2", width/2)
-	.attr("y2", height)
-	.attr("stroke-width", 2)
-	.attr("stroke", "black");
-//horisontal
-var line = svg.append("line")
-	.attr("x1", 0)
-	.attr("y1", height/2)
-	.attr("x2", width)
-	.attr("y2", height/2)
-	.attr("stroke-width", 2)
-	.attr("stroke", "black");
-var text = svg.append("text")
-	.attr("x", 20)
-	.attr("y", height/2)
-	.text(xAxis);
-var text = svg.append("text")
-	.attr("x", width/2)
-	.attr("y", 10)
-	.text(yAxis);
-
-//scales the data to screen size, these variables are used as functions later on.
-var linearWidthScale = d3.scale.linear()
-	.domain([-3,3])//these might vary
-	.range([0,width]);
-var linearHeigthScale = d3.scale.linear()
-	.domain([3,-3])
-	.range([0,height]);
-var linearElementScale = d3.scale.linear()
-	.domain([0, MAXHEIGHT])
-	.range([2,10]);
-
-var person = svg.append("g");
-var isClicked = false;
-var previousCandidate = null;
-var candidate= null;
-
-/*Main logic is here, when data is used to create DOM elements, and events are decided*/
-/*Connects the data to svg elements, determines the interaction logic*/
-var candidates = svg.selectAll("circle")
-	.data(d)
-	.enter()
-		.append("circle")
-		.attr("cx", function(d){return linearWidthScale(d.imp);})
-		.attr("cy", function(d){return linearHeigthScale(d.lib);})
-		.attr("r", function(d){return linearElementScale(height);})
-		/*It is possible to click candidate, so the info will keep showing*/
-		.on('click', function(d){
-			isClicked = !isClicked;
-			defineCandidate(d, d3.select(this));
-			displayInfo(candidate);
-			previousCandidate = candidate;
-			})
-		.on('mouseenter', function(d){
-			defineCandidate(d, d3.select(this));
-			if(previousCandidate != null && isClicked){
-				dontDisplayInfo(previousCandidate);
-				isClicked = !isClicked;}//prepares for new a click
-			displayInfo(candidate);
-			})
-		.on('mouseleave', function(d){
-			defineCandidate(d, d3.select(this));
-			if(!isClicked){dontDisplayInfo(candidate);};
-			})
-		.on('touchstart', function(d){
-			defineCandidate(d, d3.select(this));
-			displayInfo(candidate);
-			})
-		.on('touchend', function(d){
-			defineCandidate(d, d3.select(this));
-			if(!isClicked){dontDisplayInfo(candidate)};
-			})
-		.style("fill", function(d){
-			switch(d.party){
-				case "Kokoomus": return "blue";
-				case "RKP": return "yellow";
-				case "Perussuomalaiset": return "grey";
-				case "Keskusta": return "green";
-				case "Vihreät": return "#00cc00";
-				case "Vasemmistoliitto": return "#FF0700";
-				case "SKP": return "#55110F";
-				case "Kristillisdemokraatit": return "#9333C0";
-				case "Itsenäisyyspuolue": return "#5596CC";
-				case "Piraattipuolue": return "#000000";
-				case "Muutos 2011": return "#DDDDDD";
-				case "SDP": return "#930C08";
-				default: return "#FFFFFF";
-			}
-		})
-
-
-function filterCandidates(){
-	if (districtSelector.property('selectedIndex') > 0) {
-		// since index 0 means entire country...
-		currentarea = areas[districtSelector.property('selectedIndex')-1];
+	/*UI elements*/
+	var districtSelector = d3.select("#visualizationDiv").append('select');
+	districtSelector.append('option')
+		.attr('value', 'all')
+		.text("perusjuttui");
+	// Data parsing what voting districts are present?
+	var areadict = {}, areas = [];
+	d.forEach(function(d) {
+		areadict[d.district] = true;
+	});
+	for (key in areadict) {
+		areas.push(key);
 	}
-	alert("täällä ja alue on "+currentarea);
-
-	candidates
-		.attr('display', function(d) { 
-			// If out of current area, always filter
-			if (currentarea && d.area !== currentarea)
-				return 'none';
-		})
-}
-filterCandidates();
-
-/*Creates candidate data object containing element, name, party, url, scorex, scorey*/
-function defineCandidate(d, givenElement){
-	candidate = {element: givenElement, 
-					name: d.name, 
-					party: d.party, 
-					url: d.www,
-					scorex: +d.imp, 
-					scorey: +d.lib};
-	return candidate;
-}
-
-/*highlights svg element, creates infoBox div with candidate information*/
-function displayInfo(candidate){
-	candidate.element
-		.transition()
-		.duration(300)
-		.attr("r", function(d){return linearElementScale(height)*2;})
-
-	//html text for infoBox
-	var infoString = candidate.name+"<br>"+
-		candidate.party+"<br>"+
-		candidate.scorex+" "+candidate.scorey+
-		"<br><a href=\""+candidate.url+"\">"+candidate.url+"</a>";
-
-	//infoBox above candidates
-	var infoDiv = document.createElement('div');
-	document.getElementById('explanations').appendChild(infoDiv);
-	infoDiv.className = "infoBox";
-	infoDiv.id = candidate.name;
-	infoDiv.innerHTML = infoString;
-	infoDiv.style.position = "absolute";
-	infoDiv.style.left = parseInt(candidate.element.attr("cx") + svg.offsetLeft) + "px";
-	infoDiv.style.top = parseInt(candidate.element.attr("cy") + svg.offsetTop) +-10+"px";
-	infoDiv.style.width = "200px";
-	infoDiv.style.opacity = "0.95";
-
-	//infobox closing button
-	var closeButton = document.createElement("BUTTON");
-	closeButton.appendChild(document.createTextNode("sulje"));
-	closeButton.addEventListener("click",function(d){dontDisplayInfo(candidate);});
-	infoDiv.appendChild(closeButton);
-}
-
-/*restores the svg element size, deletes the infoBox div*/
-function dontDisplayInfo(candidate){
-	candidate.element
-		.transition()
-		.duration(300)
-		.attr("r", function(d){return linearElementScale(height);})
-
-	var infoDiv= document.getElementById(candidate.name);
-	infoDiv.parentNode.removeChild(infoDiv);
-}
-
-}//Visualization resizing ends
-/***********************************************************************/
-
-// UI control logic
-districtSelector.selectAll('option.local')
-	.data(areas)
-	.enter().append('option')
-		.attr('class', 'local')
-		.attr('value', function(d) { return d; })
-		.text(function(d) { return d; });
-districtSelector.on('change', function(){
-	alert("moi");
-	filterCandidates();
-	
-});
+	areas.sort();
+	//
+	var currentarea = null;
 
 
+	/***********************************************************************/
+	//Visualization resizing starts
+	function redraw() {
+		//Removing old elements
+		svg.selectAll("circle").remove();
+		svg.selectAll("text").remove();
+		svg.selectAll("line").remove();
 
-d3.select(window).on('resize', redraw); 
-redraw();
+		width = $("#visualizationDiv").width();
+		var height = getHeight();
+		svg
+			.attr("width", width)
+			.attr("height", height)
+
+		//Selected axis mockup
+		var xAxis = "impivaara-akseli";//mockup
+		var yAxis = "liberaali-akseli";
+
+		//Draw axis
+		//vertical
+		var line = svg.append("line")
+			.attr("x1", width/2)
+			.attr("y1", 0)
+			.attr("x2", width/2)
+			.attr("y2", height)
+			.attr("stroke-width", 2)
+			.attr("stroke", "black");
+		//horisontal
+		var line = svg.append("line")
+			.attr("x1", 0)
+			.attr("y1", height/2)
+			.attr("x2", width)
+			.attr("y2", height/2)
+			.attr("stroke-width", 2)
+			.attr("stroke", "black");
+		var text = svg.append("text")
+			.attr("x", 20)
+			.attr("y", height/2)
+			.text(xAxis);
+		var text = svg.append("text")
+			.attr("x", width/2)
+			.attr("y", 10)
+			.text(yAxis);
+
+		//scales the data to screen size, these variables are used as functions later on.
+		var linearWidthScale = d3.scale.linear()
+			.domain([-3,3])//these might vary
+			.range([0,width]);
+		var linearHeigthScale = d3.scale.linear()
+			.domain([3,-3])
+			.range([0,height]);
+		var linearElementScale = d3.scale.linear()
+			.domain([0, MAXHEIGHT])
+			.range([2,10]);
+
+		var person = svg.append("g");
+		var isClicked = false;
+		var previousCandidate = null;
+		var candidate= null;
+
+		/*Main logic is here, when data is used to create DOM elements, and events are decided*/
+		/*Connects the data to svg elements, determines the interaction logic*/
+		var candidates = svg.selectAll("circle")
+			.data(d)
+			.enter()
+				.append("circle")
+				.attr("cx", function(d){return linearWidthScale(d.imp);})
+				.attr("cy", function(d){return linearHeigthScale(d.lib);})
+				.attr("r", function(d){return linearElementScale(height);})
+				/*It is possible to click candidate, so the info will keep showing*/
+				.on('click', function(d){
+					isClicked = !isClicked;
+					defineCandidate(d, d3.select(this));
+					displayInfo(candidate);
+					previousCandidate = candidate;
+					})
+				.on('mouseenter', function(d){
+					defineCandidate(d, d3.select(this));
+					if(previousCandidate != null && isClicked){
+						dontDisplayInfo(previousCandidate);
+						isClicked = !isClicked;}//prepares for new a click
+					displayInfo(candidate);
+					})
+				.on('mouseleave', function(d){
+					defineCandidate(d, d3.select(this));
+					if(!isClicked){dontDisplayInfo(candidate);};
+					})
+				.on('touchstart', function(d){
+					defineCandidate(d, d3.select(this));
+					displayInfo(candidate);
+					})
+				.on('touchend', function(d){
+					defineCandidate(d, d3.select(this));
+					if(!isClicked){dontDisplayInfo(candidate)};
+					})
+				.style("fill", function(d){
+					switch(d.party){
+						case "Kokoomus": return "blue";
+						case "RKP": return "yellow";
+						case "Perussuomalaiset": return "grey";
+						case "Keskusta": return "green";
+						case "Vihreät": return "#00cc00";
+						case "Vasemmistoliitto": return "#FF0700";
+						case "SKP": return "#55110F";
+						case "Kristillisdemokraatit": return "#9333C0";
+						case "Itsenäisyyspuolue": return "#5596CC";
+						case "Piraattipuolue": return "#000000";
+						case "Muutos 2011": return "#DDDDDD";
+						case "SDP": return "#930C08";
+						default: return "#FFFFFF";
+					}
+				})
+
+
+		function filterCandidates(){
+			if (districtSelector.property('selectedIndex') > 0) {
+				// since index 0 means entire country...
+				currentarea = areas[districtSelector.property('selectedIndex')-1];
+			}
+			alert("täällä ja alue on "+currentarea);
+
+			candidates
+				.attr('display', function(d) { 
+					// If out of current area, always filter
+					if (currentarea && d.area !== currentarea)
+						return 'none';
+				})
+		}
+		filterCandidates();
+
+		/*Creates candidate data object containing element, name, party, url, scorex, scorey*/
+		function defineCandidate(d, givenElement){
+			candidate = {element: givenElement, 
+							name: d.name, 
+							party: d.party, 
+							url: d.www,
+							scorex: +d.imp, 
+							scorey: +d.lib};
+			return candidate;
+		}
+
+		/*highlights svg element, creates infoBox div with candidate information*/
+		function displayInfo(candidate){
+			candidate.element
+				.transition()
+				.duration(300)
+				.attr("r", function(d){return linearElementScale(height)*2;})
+
+			//html text for infoBox
+			var infoString = candidate.name+"<br>"+
+				candidate.party+"<br>"+
+				candidate.scorex+" "+candidate.scorey+
+				"<br><a href=\""+candidate.url+"\">"+candidate.url+"</a>";
+
+			//infoBox above candidates
+			var infoDiv = document.createElement('div');
+			document.getElementById('explanations').appendChild(infoDiv);
+			infoDiv.className = "infoBox";
+			infoDiv.id = candidate.name;
+			infoDiv.innerHTML = infoString;
+			infoDiv.style.position = "absolute";
+			infoDiv.style.left = parseInt(candidate.element.attr("cx") + svg.offsetLeft) + "px";
+			infoDiv.style.top = parseInt(candidate.element.attr("cy") + svg.offsetTop) +-10+"px";
+			infoDiv.style.width = "200px";
+			infoDiv.style.opacity = "0.95";
+
+			//infobox closing button
+			var closeButton = document.createElement("BUTTON");
+			closeButton.appendChild(document.createTextNode("sulje"));
+			closeButton.addEventListener("click",function(d){dontDisplayInfo(candidate);});
+			infoDiv.appendChild(closeButton);
+		}
+
+		/*restores the svg element size, deletes the infoBox div*/
+		function dontDisplayInfo(candidate){
+			candidate.element
+				.transition()
+				.duration(300)
+				.attr("r", function(d){return linearElementScale(height);})
+
+			var infoDiv= document.getElementById(candidate.name);
+			infoDiv.parentNode.removeChild(infoDiv);
+		}
+
+	}//Visualization resizing ends
+	/***********************************************************************/
+
+	// UI control logic
+	districtSelector.selectAll('option.local')
+		.data(areas)
+		.enter().append('option')
+			.attr('class', 'local')
+			.attr('value', function(d) { return d; })
+			.text(function(d) { return d; });
+	districtSelector.on('change', function(){
+		alert("moi");
+		filterCandidates();
+		
+	});
+
+
+
+	d3.select(window).on('resize', redraw); 
+	redraw();
 });//Data ends
 
 </script>
