@@ -125,18 +125,23 @@ d3.csv("data.csv", function(d){
 		areas.push(key);
 	}
 	areas.sort();
-
 	var currentDistrict = null;
-	var axisValues = ["Impivaaralaisuus", "Talousoikeistolaisuus", "Arvoliberaalius", "Vihreys"];
 
-	var axisXSelector = d3.select("#visualizationDiv").append('select');
-	axisXSelector.append('option')
-		.attr('value', 'all')
+	//x and y axis selection option menus
+	var axisValues = ["Impivaaralaisuus", "Talousoikeistolaisuus", "Arvoliberaalius", "Vihreys"];
+	var axisXSelector = div.append("select");
+	axisXSelector.append("option")
+		.attr("value", "all")
 		.text("X-akselin sisältö");
-	var axisYSelector = d3.select("#visualizationDiv").append('select');
-	axisYSelector.append('option')
-		.attr('value', 'all')
+	var axisYSelector = div.append("select");
+	axisYSelector.append("option")
+		.attr("value", "all")
 		.text("Y-akselin sisältö");
+
+	//segment party toggle
+	var toggleColorReason = div.append()
+	  d3.select("#togglelegend").on("click", toggleLegend);
+
 
 	/***********************************************************************/
 	//Visualization resizing starts
