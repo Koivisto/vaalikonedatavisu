@@ -240,8 +240,8 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 				// since index 0 means entire country...
 				currentDistrict = areas[districtSelector.property('selectedIndex')-1];
 			}
-			alert("täällä ja alue on "+currentDistrict);
 
+			//Let the filtering begin
 			candidates
 				.attr('display', function(d) { 
 					if (currentDistrict && d.district !== currentDistrict)
@@ -313,8 +313,6 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 				.text(function(d) { return d; });
 		districtSelector.on('change', function(){
 			filterCandidates();
-			alert("moi");
-			
 		});
 	}//Visualization resizing ends
 	/***********************************************************************/
