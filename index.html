@@ -118,7 +118,7 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 	}
 	areas.sort();
 	//
-	var currentarea = null;
+	var currentDistrict = null;
 
 
 	/***********************************************************************/
@@ -238,14 +238,14 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 		function filterCandidates(){
 			if (districtSelector.property('selectedIndex') > 0) {
 				// since index 0 means entire country...
-				currentarea = areas[districtSelector.property('selectedIndex')-1];
+				currentDistrict = areas[districtSelector.property('selectedIndex')-1];
 			}
-			alert("täällä ja alue on "+currentarea);
+			alert("täällä ja alue on "+currentDistrict);
 
 			candidates
 				.attr('display', function(d) { 
 					// If out of current area, always filter
-					if (currentarea && d.area !== currentarea)
+					if (currentDistrict && d.district !== currentDistrict)
 						return 'none';
 				})
 		}
