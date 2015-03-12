@@ -81,8 +81,8 @@ circle {
 
 <!--Form that contains controls-->
 <form id="visualizationForm">
-	<input type="radio" name="color" value="party" id="party" checked>Puolueen värit
-	<input type="radio" name="color" value="segment" id="segment">Segmenttien värit
+	<input type="radio" name="color" value="party" id="party" checked>Värit puolueittain
+	<input type="radio" name="color" value="segment" id="segment">Värit segmenteittäin
 </form>
 <!--Div that contains all explanations-->
 <div id="explanations" style="position: absolute;"></div>
@@ -140,11 +140,11 @@ d3.csv("data.csv", function(d){
 	var axisXSelector = form.append("select");
 	axisXSelector.append("option")
 		.attr("value", "all")
-		.text("X-akselin sisältö");
+		.text("Valitse X-akseli");
 	var axisYSelector = form.append("select");
 	axisYSelector.append("option")
 		.attr("value", "all")
-		.text("Y-akselin sisältö");
+		.text("Valitse Y-akseli");
 
 	//segment party toggle
 	var showPartyColors = true;
