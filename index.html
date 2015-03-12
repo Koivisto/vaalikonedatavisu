@@ -40,12 +40,18 @@ article{
 	box-shadow: 0px 0px 10px #000;
 }
 
+
+
 /*svg elements styles, ATTENTION! the syntax is different from pure html elements (color=fill etc.)*/
 svg{
 	background-color: #DDD;
 }
 text{
 	fill: #FFFFFF;
+}
+.axisExplanation{
+	fill: #000;
+	font-size: 40px;
 }
 circle {
 	stroke: #000;
@@ -127,7 +133,10 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 	axisXSelector.append('option')
 		.attr('value', 'all')
 		.text("X-akselin sisältö");
-
+	var axisYSelector = d3.select("#visualizationDiv").append('select');
+	axisYSelector.append('option')
+		.attr('value', 'all')
+		.text("Y-akselin sisältö");
 
 	/***********************************************************************/
 	//Visualization resizing starts
@@ -143,20 +152,27 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 			.attr("width", width)
 			.attr("height", height)
 
-		//Selected axis mockup
-		var xAxis = "impivaara-akseli";//mockup
-		var yAxis = "liberaali-akseli";
-
+		//Axis selection
 		var xAxisValue = "Impivaaralaisuus"
+		var yAxisValue = "Arvoliberaalius"
 		function changeAxisX(){
 			if (axisXSelector.property('selectedIndex') > 0) {
 				xAxisValue = axisValues[axisXSelector.property('selectedIndex')-1];
 			}
 		}
 		changeAxisX();
+		function changeAxisY(){
+			if (axisYSelector.property('selectedIndex') > 0) {
+				yAxisValue = axisValues[axisYSelector.property('selectedIndex')-1];
+			}
+		}
+		changeAxisY();
 
 		function getXValue(d){
 			return getValueFromStr(d, xAxisValue);
+		}
+		function getYValue(d){
+			return getValueFromStr(d, yAxisValue);
 		}
 		function getValueFromStr(d, str){
 			if(str == "Impivaaralaisuus") return d.imp;
@@ -177,6 +193,7 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 		var text = svg.append("text")
 			.attr("x", 20)
 			.attr("y", height/2)
+			.attr("class", "axisExplanation")
 			.text(xAxisValue);
 		//vertical yAxis
 		var line = svg.append("line")
@@ -188,8 +205,9 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 			.attr("stroke", "black");
 		var text = svg.append("text")
 			.attr("x", width/2)
-			.attr("y", 10)
-			.text(yAxis);
+			.attr("y", 30)
+			.attr("class", "axisExplanation")
+			.text(yAxisValue);
 
 		//scales the data to screen size, these variables are used as functions later on.
 		var linearWidthScale = d3.scale.linear()
@@ -214,7 +232,7 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 			.enter()
 				.append("circle")
 				.attr("cx", function(d){return linearWidthScale(getXValue(d));})
-				.attr("cy", function(d){return linearHeigthScale(d.lib);})
+				.attr("cy", function(d){return linearHeigthScale(getYValue(d));})
 				.attr("r", function(d){return linearElementScale(height);})
 				/*It is possible to click candidate, so the info will keep showing*/
 				.on('click', function(d){
@@ -283,7 +301,7 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 							party: d.party, 
 							url: d.www,
 							scorex: +getXValue(d), 
-							scorey: +d.lib};
+							scorey: +getYValue(d)};
 			return candidate;
 		}
 
@@ -355,6 +373,15 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 			.attr('value', function(d) { return d; })
 			.text(function(d) { return d; });
 	axisXSelector.on('change', function(){
+		redraw();
+	});
+	axisYSelector.selectAll('option.local')
+		.data(axisValues)
+		.enter().append('option')
+			.attr('class', 'local')
+			.attr('value', function(d) { return d; })
+			.text(function(d) { return d; });
+	axisYSelector.on('change', function(){
 		redraw();
 	});
 
