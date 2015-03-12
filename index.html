@@ -117,6 +117,11 @@ svg
 d3.csv("data.csv", function(d){
 
 	/*Initializes UI elements inside the form*/
+	//Candidate color toggle on party/segment
+	var showPartyColors = true;
+	d3.select("#party").on("click", function() {showPartyColors = true; redraw();});
+	d3.select("#segment").on("click", function() {showPartyColors = false; redraw();});
+
 	//District option menu
 	var districtSelector = form.append("select");
 	districtSelector.append("option")
@@ -146,12 +151,7 @@ d3.csv("data.csv", function(d){
 		.attr("value", "all")
 		.text("Valitse Y-akseli");
 
-	//segment party toggle
-	var showPartyColors = true;
-	d3.select("#party").on("click", function() {showPartyColors = true; redraw();});
-	d3.select("#segment").on("click", function() {showPartyColors = false; redraw();});
-
-	//namefilter
+	//name and candidate number filtering
 	var searchInput = form.append('input')
 		.attr('placeholder', "Etsi nimellä/numerolla")
 		.attr('type', 'text');
@@ -167,6 +167,7 @@ d3.csv("data.csv", function(d){
 		svg.selectAll("circle").remove();
 		svg.selectAll("text").remove();
 		svg.selectAll("line").remove();
+		removeInfoDivs();
 
 		width = $("#visualizationDiv").width();
 		var height = getHeight();
@@ -175,21 +176,21 @@ d3.csv("data.csv", function(d){
 			.attr("height", height)
 
 		//Axis selection
-		var xAxisValue = "Impivaaralaisuus"
-		var yAxisValue = "Arvoliberaalius"
+		var xAxisValue = axisValues[0], yAxisValue = axisValues[2];
 		function changeAxisX(){
 			if (axisXSelector.property('selectedIndex') > 0) {
 				xAxisValue = axisValues[axisXSelector.property('selectedIndex')-1];
 			}
 		}
-		changeAxisX();
+		changeAxisX();//redraw is called when axis are changed
 		function changeAxisY(){
 			if (axisYSelector.property('selectedIndex') > 0) {
 				yAxisValue = axisValues[axisYSelector.property('selectedIndex')-1];
 			}
 		}
-		changeAxisY();
+		changeAxisY();//redraw is called when axis are changed
 
+		//Lazy enum for axis labels
 		function getXValue(d){
 			return getValueFromStr(d, xAxisValue);
 		}
@@ -197,10 +198,12 @@ d3.csv("data.csv", function(d){
 			return getValueFromStr(d, yAxisValue);
 		}
 		function getValueFromStr(d, str){
-			if(str == "Impivaaralaisuus") return d.imp;
-			if(str == "Talousoikeistolaisuus") return d.oik;
-			if(str == "Arvoliberaalius") return d.lib;
-			if(str == "Vihreys") return d.vih;
+			switch(str){
+				case "Impivaaralaisuus": return d.imp;
+				case "Talousoikeistolaisuus": return d.oik;
+				case "Arvoliberaalius": return d.lib;
+				case "Vihreys": return d.vih;
+				default: return 0;}
 		}
 
 		//Draw axis
@@ -242,7 +245,6 @@ d3.csv("data.csv", function(d){
 			.domain([0, MAXHEIGHT])
 			.range([2,10]);
 
-		var person = svg.append("g");
 		var isClicked = false;
 		var previousCandidate = null;
 		var candidate= null;
@@ -257,7 +259,6 @@ d3.csv("data.csv", function(d){
 				.attr("cy", function(d){return linearHeigthScale(getYValue(d));})
 				.attr("r", function(d){return linearElementScale(height);});
 		
-
 		/*Assign actions on candidate elements
 		It is possible to click candidate, so the info will keep showing*/
 		candidates
@@ -286,6 +287,7 @@ d3.csv("data.csv", function(d){
 					defineCandidate(d, d3.select(this));
 					if(!isClicked){dontDisplayInfo(candidate)};
 		});
+
 		/*Style for candidate elements*/
 		candidates.style("fill", function(d){
 			if(showPartyColors){
@@ -317,28 +319,29 @@ d3.csv("data.csv", function(d){
 			}
 		});
 
-
+		/*Sets display to none for filtered candidate elements*/
 		function filterCandidates(){
-			// since index 0 means entire country...
+			//updates district filter
 			if (districtSelector.property('selectedIndex') > 0) {
 				currentDistrict = areas[districtSelector.property('selectedIndex')-1];
 			}
-			//name filter
+			//updates name and candidate number filter
 			var searchValue = searchInput.property('value').toLowerCase();
 			var searchArray = searchValue.split(' ');
 
-			//Let the filtering begin
+			//Let the filtering begin!
 			candidates
 				.attr('display', function(d) { 
+					//district filter
 					if (currentDistrict === "-Koko maa-") return "inline";
 					else if (currentDistrict && d.district !== currentDistrict) return 'none';
 
-					//if something in the search box
+					//if something in the search box then also filter with that
 					if (searchValue) {
 						for (var i = 0; i < searchArray.length; i++) {
 							//name as default
 							if (d.name.toLowerCase().indexOf(searchArray[i].trim()) < 0){
-								//candidate voting number as secondary quess
+								//candidate voting number as secondary quess for input
 								if (d.id.toLowerCase().indexOf(searchArray[i].trim()) < 0){
 									return "none";	}
 							} 
@@ -348,7 +351,8 @@ d3.csv("data.csv", function(d){
 		}
 		filterCandidates();
 
-		/*Creates candidate data object containing element, name, party, url, scorex, scorey*/
+		/*Creates candidate data object containing element, name, party, segment, 
+		id (candidate number), district, age, education, url, xCoordinate, yCoordinate*/
 		function defineCandidate(d, givenElement){
 			candidate = {element: givenElement, 
 							name: d.name, 
@@ -359,8 +363,8 @@ d3.csv("data.csv", function(d){
 							age: d.age,
 							education: d.education,
 							url: d.www,
-							scorex: +getXValue(d), 
-							scorey: +getYValue(d)};
+							xCoordinate: +getXValue(d), 
+							yCoordinate: +getYValue(d)};
 			return candidate;
 		}
 
@@ -378,7 +382,7 @@ d3.csv("data.csv", function(d){
 				candidate.district+"<br>"+
 				candidate.education+"<br>"+
 				candidate.age+" vuotias<br>"+
-				"**debug: x:"+candidate.scorex+" y:"+candidate.scorey+"**"+
+				"**debug: x:"+candidate.xCoordinate+" y:"+candidate.yCoordinate+"**"+
 				"<br><a href=\""+candidate.url+"\">"+candidate.url+"</a>";
 
 			//infoBox above candidates
@@ -411,45 +415,47 @@ d3.csv("data.csv", function(d){
 			infoDiv.parentNode.removeChild(infoDiv);
 		}
 
-		// UI control logic
-		districtSelector.selectAll('option.local')
+		/*removes all info boxes present*/
+		function removeInfoDivs(){
+			var explanationsDiv = document.getElementById("explanations");
+			while (explanationsDiv.hasChildNodes()) {
+			    explanationsDiv.removeChild(explanationsDiv.lastChild);
+			}
+		}
+
+		/*UI control for district (needs to be inside resizing)*/
+		districtSelector.selectAll("option.local")
 			.data(areas)
-			.enter().append('option')
-				.attr('class', 'local')
-				.attr('value', function(d) { return d; })
+			.enter().append("option")
+				.attr("class", "local")
+				.attr("value", function(d) { return d; })
 				.text(function(d) { return d; });
-		districtSelector.on('change', function(){
+		districtSelector.on("change", function(){
 			filterCandidates();
 		});
-
-
 	}
 /***********************************************************************
 	Visualization resizing ends
 ***********************************************************************/
 
-	d3.select(window).on('resize', redraw); 
+	d3.select(window).on("resize", redraw); 
 	redraw();
 
-
-	axisXSelector.selectAll('option.local')
+	/*UI control for axis*/
+	axisXSelector.selectAll("option.local")
 		.data(axisValues)
-		.enter().append('option')
-			.attr('class', 'local')
-			.attr('value', function(d) { return d; })
+		.enter().append("option")
+			.attr("class", "local")
+			.attr("value", function(d) { return d; })
 			.text(function(d) { return d; });
-	axisXSelector.on('change', function(){
-		redraw();
-	});
-	axisYSelector.selectAll('option.local')
+	axisYSelector.selectAll("option.local")
 		.data(axisValues)
-		.enter().append('option')
-			.attr('class', 'local')
-			.attr('value', function(d) { return d; })
+		.enter().append("option")
+			.attr("class", "local")
+			.attr("value", function(d) { return d; })
 			.text(function(d) { return d; });
-	axisYSelector.on('change', function(){
-		redraw();
-	});
+	axisXSelector.on("change", function(){redraw();});
+	axisYSelector.on("change", function(){redraw();});
 
 });//Data ends
 
@@ -459,7 +465,6 @@ d3.csv("data.csv", function(d){
 
 <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://users.aalto.fi/~leinona1/sahlays/" data-text="KESKEN - ÄLÄ JAA PLS! Vaalidatan faktorianalyysiä" data-via="AarneLeinonen" data-hashtags="vaalit2015">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-
 
 	</article>
 </body>
