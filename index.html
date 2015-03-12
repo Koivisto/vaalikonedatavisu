@@ -134,6 +134,7 @@ d3.csv("data.csv", function(d){
 	for (key in areadict) {
 		areas.push(key);
 	}
+	areas.push("-Koko maa-");
 	areas.sort();
 	var currentDistrict = null;
 
@@ -324,8 +325,8 @@ d3.csv("data.csv", function(d){
 			//Let the filtering begin
 			candidates
 				.attr('display', function(d) { 
-					if (currentDistrict && d.district !== currentDistrict)
-						return 'none';
+					if (currentDistrict === "-Koko maa-") return "inline";
+					else if (currentDistrict && d.district !== currentDistrict) return 'none';
 				})
 		}
 		filterCandidates();
