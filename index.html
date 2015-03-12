@@ -122,6 +122,11 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 	//
 	var currentDistrict = null;
 
+	var axisXSelector = d3.select("#visualizationDiv").append('select');
+	axisXSelector.append('option')
+		.attr('value', 'all')
+		.text("X-akselin sisältö");
+
 
 	/***********************************************************************/
 	//Visualization resizing starts
@@ -140,6 +145,10 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 		//Selected axis mockup
 		var xAxis = "impivaara-akseli";//mockup
 		var yAxis = "liberaali-akseli";
+
+		function changeAxisX(){
+			alert("moi");
+		}
 
 		//Draw axis
 		//vertical
@@ -316,6 +325,18 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 		districtSelector.on('change', function(){
 			filterCandidates();
 		});
+
+		var axisValues = ["imp", "oik"];
+		axisXSelector.selectAll('option.local')
+			.data(axisValues)
+			.enter().append('option')
+				.attr('class', 'local')
+				.attr('value', function(d) { return d; })
+				.text(function(d) { return d; });
+		axisXSelector.on('change', function(){
+			changeAxisX();
+		});
+
 	}//Visualization resizing ends
 	/***********************************************************************/
 	d3.select(window).on('resize', redraw); 
