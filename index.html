@@ -119,8 +119,9 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 		areas.push(key);
 	}
 	areas.sort();
-	//
+
 	var currentDistrict = null;
+	var axisValues = ["imp", "oik"];
 
 	var axisXSelector = d3.select("#visualizationDiv").append('select');
 	axisXSelector.append('option')
@@ -146,20 +147,16 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 		var xAxis = "impivaara-akseli";//mockup
 		var yAxis = "liberaali-akseli";
 
+		var xAxisValue = "imp"
 		function changeAxisX(){
-			alert("moi");
+			if (axisXSelector.property('selectedIndex') > 0) {
+				xAxisValue = axisValues[axisXSelector.property('selectedIndex')-1];
+			}
 		}
+		changeAxisX();
 
 		//Draw axis
-		//vertical
-		var line = svg.append("line")
-			.attr("x1", width/2)
-			.attr("y1", 0)
-			.attr("x2", width/2)
-			.attr("y2", height)
-			.attr("stroke-width", 2)
-			.attr("stroke", "black");
-		//horisontal
+		//horisontal xAxis
 		var line = svg.append("line")
 			.attr("x1", 0)
 			.attr("y1", height/2)
@@ -170,7 +167,15 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 		var text = svg.append("text")
 			.attr("x", 20)
 			.attr("y", height/2)
-			.text(xAxis);
+			.text(xAxisValue);
+		//vertical yAxis
+		var line = svg.append("line")
+			.attr("x1", width/2)
+			.attr("y1", 0)
+			.attr("x2", width/2)
+			.attr("y2", height)
+			.attr("stroke-width", 2)
+			.attr("stroke", "black");
 		var text = svg.append("text")
 			.attr("x", width/2)
 			.attr("y", 10)
@@ -247,8 +252,8 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 
 
 		function filterCandidates(){
+			// since index 0 means entire country...
 			if (districtSelector.property('selectedIndex') > 0) {
-				// since index 0 means entire country...
 				currentDistrict = areas[districtSelector.property('selectedIndex')-1];
 			}
 
@@ -326,21 +331,22 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 			filterCandidates();
 		});
 
-		var axisValues = ["imp", "oik"];
-		axisXSelector.selectAll('option.local')
-			.data(axisValues)
-			.enter().append('option')
-				.attr('class', 'local')
-				.attr('value', function(d) { return d; })
-				.text(function(d) { return d; });
-		axisXSelector.on('change', function(){
-			changeAxisX();
-		});
 
 	}//Visualization resizing ends
 	/***********************************************************************/
 	d3.select(window).on('resize', redraw); 
 	redraw();
+
+
+	axisXSelector.selectAll('option.local')
+		.data(axisValues)
+		.enter().append('option')
+			.attr('class', 'local')
+			.attr('value', function(d) { return d; })
+			.text(function(d) { return d; });
+	axisXSelector.on('change', function(){
+		redraw();
+	});
 
 });//Data ends
 
