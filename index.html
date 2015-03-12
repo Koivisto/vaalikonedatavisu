@@ -338,8 +338,12 @@ d3.csv("data.csv", function(d){
 					//if something in the search box
 					if (searchValue) {
 						for (var i = 0; i < searchArray.length; i++) {
-							if (d.name.toLowerCase().indexOf(searchArray[i].trim()) < 0)
-								return 'none';
+							//name as default
+							if (d.name.toLowerCase().indexOf(searchArray[i].trim()) < 0){
+								//candidate voting number as secondary quess
+								if (d.id.toLowerCase().indexOf(searchArray[i].trim()) < 0){
+									return "none";	}
+							} 
 						}
 					}
 				})
