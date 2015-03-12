@@ -156,7 +156,7 @@ d3.csv("data.csv", function(d){
 
 	//namefilter
 	var nameFilterInput = form.append('input')
-		.attr('placeholder', "Etsi nimellä")
+		.attr('placeholder', "Etsi nimellä/numerolla")
 		.attr('type', 'text');
 	nameFilterInput.on('input', function() {
 			redraw();
