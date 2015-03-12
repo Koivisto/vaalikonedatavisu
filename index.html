@@ -154,6 +154,14 @@ d3.csv("data.csv", function(d){
 	d3.select("#party").on("click", function() {showPartyColors = true; redraw();});
 	d3.select("#segment").on("click", function() {showPartyColors = false; redraw();});
 
+	//namefilter
+	var nameFilterInput = form.append('input')
+		.attr('placeholder', "Etsi nimellä")
+		.attr('type', 'text');
+	nameFilterInput.on('input', function() {
+			redraw();
+	});
+
 	/***********************************************************************/
 	//Visualization resizing starts
 	function redraw() {
@@ -317,12 +325,23 @@ d3.csv("data.csv", function(d){
 			if (districtSelector.property('selectedIndex') > 0) {
 				currentDistrict = areas[districtSelector.property('selectedIndex')-1];
 			}
+			//name filter
+			var searchvalue = nameFilterInput.property('value').toLowerCase();
+			var searcharray = searchvalue.split(' ');
 
 			//Let the filtering begin
 			candidates
 				.attr('display', function(d) { 
 					if (currentDistrict === "-Koko maa-") return "inline";
 					else if (currentDistrict && d.district !== currentDistrict) return 'none';
+
+					// If does not match search, always filter
+					if (searchvalue) {
+						for (var i = 0; i < searcharray.length; i++) {
+							if (d.name.toLowerCase().indexOf(searcharray[i].trim()) < 0)
+								return 'none';
+						}
+					}
 				})
 		}
 		filterCandidates();
