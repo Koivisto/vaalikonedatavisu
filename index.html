@@ -40,8 +40,6 @@ article{
 	box-shadow: 0px 0px 10px #000;
 }
 
-
-
 /*svg elements styles, ATTENTION! the syntax is different from pure html elements (color=fill etc.)*/
 svg{
 	background-color: #DDD;
@@ -63,7 +61,6 @@ circle {
 @media only screen and (max-width: 999px){
 
 }
-
 </style>
 <!--jQuery initializing-->
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
@@ -82,21 +79,22 @@ circle {
 	<p>Avoimen vaalidatan analysointia ja visualisointia. Alla olevassa visualisoinnissa HS vaalikoneen vastaukset faktorianalyysillä. Ehdokkaasta saa lisätietoja viemällä hiiren päälle.</p>
 </header>
 
-
-	<form id="visualizationForm">
-		<input type="radio" name="color" value="party" id="party" checked>Puolueen värit
-		<input type="radio" name="color" value="segment" id="segment">Segmenttien värit
-	</form>
+<!--Form that contains controls-->
+<form id="visualizationForm">
+	<input type="radio" name="color" value="party" id="party" checked>Puolueen värit
+	<input type="radio" name="color" value="segment" id="segment">Segmenttien värit
+</form>
+<!--Div that contains all explanations-->
 <div id="explanations" style="position: absolute;"></div>
+
+<!--Actual visualization inside svg-element-->
 <div id="visualizationDiv">
 	<svg id="visualizationSvg"></svg>
-
-
 </div>
+
 <!--Visualization logic-->
 <script type="text/javascript" charset="utf-8">
 /*Author: Aarne Leinonen (Juha Törmänen's code at <http://peili.kirkas.info/vis/politicianmap15b/js/politicianmap.js> was an inspiration as well as a guide)*/
-
 
 var width = $(document).width();
 var height = getHeight();
@@ -115,18 +113,16 @@ svg
 	.attr("width", width)
 	.attr("height", height)
 
-
 //Data begins
 d3.csv("data.csv", function(d){
 
-
-	/*UI elements*/
+	/*Initializes UI elements inside the form*/
 	//District option menu
 	var districtSelector = form.append("select");
 	districtSelector.append("option")
 		.attr("value", "all")
 		.text("Valitse alue");
-	// Data parsing what voting districts are present?
+	// Data parsing for voting districts that are present
 	var areadict = {}, areas = [];
 	d.forEach(function(d) {
 		areadict[d.district] = true;
@@ -136,9 +132,10 @@ d3.csv("data.csv", function(d){
 	}
 	areas.push("-Koko maa-");
 	areas.sort();
+	//holds the selected district outside the redraw()
 	var currentDistrict = null;
 
-	//x and y axis selection option menus
+	//X and Y axis selection option menus
 	var axisValues = ["Impivaaralaisuus", "Talousoikeistolaisuus", "Arvoliberaalius", "Vihreys"];
 	var axisXSelector = form.append("select");
 	axisXSelector.append("option")
@@ -155,15 +152,16 @@ d3.csv("data.csv", function(d){
 	d3.select("#segment").on("click", function() {showPartyColors = false; redraw();});
 
 	//namefilter
-	var nameFilterInput = form.append('input')
+	var searchInput = form.append('input')
 		.attr('placeholder', "Etsi nimellä/numerolla")
 		.attr('type', 'text');
-	nameFilterInput.on('input', function() {
+	searchInput.on('input', function() {
 			redraw();
 	});
 
-	/***********************************************************************/
-	//Visualization resizing starts
+/***********************************************************************
+	Visualization resizing starts
+***********************************************************************/
 	function redraw() {
 		//Removing old elements
 		svg.selectAll("circle").remove();
@@ -326,7 +324,7 @@ d3.csv("data.csv", function(d){
 				currentDistrict = areas[districtSelector.property('selectedIndex')-1];
 			}
 			//name filter
-			var searchValue = nameFilterInput.property('value').toLowerCase();
+			var searchValue = searchInput.property('value').toLowerCase();
 			var searchArray = searchValue.split(' ');
 
 			//Let the filtering begin
@@ -425,8 +423,11 @@ d3.csv("data.csv", function(d){
 		});
 
 
-	}//Visualization resizing ends
-	/***********************************************************************/
+	}
+/***********************************************************************
+	Visualization resizing ends
+***********************************************************************/
+
 	d3.select(window).on('resize', redraw); 
 	redraw();
 
