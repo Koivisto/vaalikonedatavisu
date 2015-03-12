@@ -102,6 +102,26 @@ svg
 //Data begins
 d3.csv("HS+MN_data_utf8.csv", function(d){
 
+
+/*UI elements*/
+var districtSelector = d3.select("#visualizationDiv").append('select');
+districtSelector.append('option')
+	.attr('value', 'all')
+	.text("perusjuttui");
+// Data parsing what voting districts are present?
+var areadict = {}, areas = [];
+d.forEach(function(d) {
+	areadict[d.district] = true;
+});
+for (key in areadict) {
+	areas.push(key);
+}
+areas.sort();
+//
+var currentarea = null;
+
+
+/***********************************************************************/
 //Visualization resizing starts
 function redraw() {
 	//Removing old elements
@@ -114,37 +134,6 @@ var height = getHeight();
 svg
 	.attr("width", width)
 	.attr("height", height)
-
-
-
-
-/*UI elements*/
-var area_control = d3.select("#visualizationDiv").append('select');
-area_control.append('option')
-	.attr('value', 'all')
-	.text("perusjuttui");
-// Data parsing â€“Â what voting areas are present?
-var areadict = {}, areas = [];
-d.forEach(function(d) {
-	areadict[d.district] = true;
-});
-for (key in areadict) {
-	areas.push(key);
-}
-areas.sort();
-// UI control logic
-area_control.selectAll('option.local')
-	.data(areas)
-	.enter().append('option')
-		.attr('class', 'local')
-		.attr('value', function(d) { return d; })
-		.text(function(d) { return d; });
-area_control.on('change', function() {
-	alert("vaihtui: "+d.district);
-});
-
-
-
 
 //Selected axis mockup
 var xAxis = "impivaara-akseli";//mockup
@@ -194,7 +183,7 @@ var candidate= null;
 
 /*Main logic is here, when data is used to create DOM elements, and events are decided*/
 /*Connects the data to svg elements, determines the interaction logic*/
-svg.selectAll("circle")
+var candidates = svg.selectAll("circle")
 	.data(d)
 	.enter()
 		.append("circle")
@@ -244,6 +233,23 @@ svg.selectAll("circle")
 				default: return "#FFFFFF";
 			}
 		})
+
+
+function filterCandidates(){
+	if (districtSelector.property('selectedIndex') > 0) {
+		// since index 0 means entire country...
+		currentarea = areas[districtSelector.property('selectedIndex')-1];
+	}
+	alert("täällä ja alue on "+currentarea);
+
+	candidates
+		.attr('display', function(d) { 
+			// If out of current area, always filter
+			if (currentarea && d.area !== currentarea)
+				return 'none';
+		})
+}
+filterCandidates();
 
 /*Creates candidate data object containing element, name, party, url, scorex, scorey*/
 function defineCandidate(d, givenElement){
@@ -300,6 +306,22 @@ function dontDisplayInfo(candidate){
 }
 
 }//Visualization resizing ends
+/***********************************************************************/
+
+// UI control logic
+districtSelector.selectAll('option.local')
+	.data(areas)
+	.enter().append('option')
+		.attr('class', 'local')
+		.attr('value', function(d) { return d; })
+		.text(function(d) { return d; });
+districtSelector.on('change', function(){
+	alert("moi");
+	filterCandidates();
+	
+});
+
+
 
 d3.select(window).on('resize', redraw); 
 redraw();
