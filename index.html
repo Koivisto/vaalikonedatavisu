@@ -121,7 +121,7 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 	areas.sort();
 
 	var currentDistrict = null;
-	var axisValues = ["imp", "oik"];
+	var axisValues = ["Impivaaralaisuus", "Talousoikeistolaisuus", "Arvoliberaalius", "Vihreys"];
 
 	var axisXSelector = d3.select("#visualizationDiv").append('select');
 	axisXSelector.append('option')
@@ -147,13 +147,23 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 		var xAxis = "impivaara-akseli";//mockup
 		var yAxis = "liberaali-akseli";
 
-		var xAxisValue = "imp"
+		var xAxisValue = "Impivaaralaisuus"
 		function changeAxisX(){
 			if (axisXSelector.property('selectedIndex') > 0) {
 				xAxisValue = axisValues[axisXSelector.property('selectedIndex')-1];
 			}
 		}
 		changeAxisX();
+
+		function getXValue(d){
+			return getValueFromStr(d, xAxisValue);
+		}
+		function getValueFromStr(d, str){
+			if(str == "Impivaaralaisuus") return d.imp;
+			if(str == "Talousoikeistolaisuus") return d.oik;
+			if(str == "Arvoliberaalius") return d.lib;
+			if(str == "Vihreys") return d.vih;
+		}
 
 		//Draw axis
 		//horisontal xAxis
@@ -203,7 +213,7 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 			.data(d)
 			.enter()
 				.append("circle")
-				.attr("cx", function(d){return linearWidthScale(d.imp);})
+				.attr("cx", function(d){return linearWidthScale(getXValue(d));})
 				.attr("cy", function(d){return linearHeigthScale(d.lib);})
 				.attr("r", function(d){return linearElementScale(height);})
 				/*It is possible to click candidate, so the info will keep showing*/
@@ -272,7 +282,7 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 							name: d.name, 
 							party: d.party, 
 							url: d.www,
-							scorex: +d.imp, 
+							scorex: +getXValue(d), 
 							scorey: +d.lib};
 			return candidate;
 		}
