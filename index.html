@@ -45,6 +45,8 @@ article{
 /*svg elements styles, ATTENTION! the syntax is different from pure html elements (color=fill etc.)*/
 svg{
 	background-color: #DDD;
+	stop-color:rgb(255,255,0);
+	stop-opacity:1
 }
 text{
 	fill: #FFFFFF;
@@ -85,6 +87,12 @@ circle {
 
 <div id="visualizationDiv">
 	<svg id="visualizationSvg"></svg>
+
+
+	<form id="visualizationForm">
+		<input type="radio" name="color" value="party" id="party" checked>Puolueen värit
+		<input type="radio" name="color" value="segment" id="segment">Segmenttien värit
+	</form>
 </div>
 <!--Visualization logic-->
 <script type="text/javascript" charset="utf-8">
@@ -102,7 +110,7 @@ function getHeight(){
 	else{return $(window).height();}
 };
 
-var div = d3.select("#visualizationDiv");
+var form = d3.select("#visualizationForm");
 var svg = d3.select("#visualizationSvg");
 svg
 	.attr("width", width)
@@ -114,7 +122,7 @@ d3.csv("data.csv", function(d){
 
 	/*UI elements*/
 	//District option menu
-	var districtSelector = div.append("select");
+	var districtSelector = form.append("select");
 	districtSelector.append("option")
 		.attr("value", "all")
 		.text("Valitse alue");
@@ -131,19 +139,23 @@ d3.csv("data.csv", function(d){
 
 	//x and y axis selection option menus
 	var axisValues = ["Impivaaralaisuus", "Talousoikeistolaisuus", "Arvoliberaalius", "Vihreys"];
-	var axisXSelector = div.append("select");
+	var axisXSelector = form.append("select");
 	axisXSelector.append("option")
 		.attr("value", "all")
 		.text("X-akselin sisältö");
-	var axisYSelector = div.append("select");
+	var axisYSelector = form.append("select");
 	axisYSelector.append("option")
 		.attr("value", "all")
 		.text("Y-akselin sisältö");
 
 	//segment party toggle
-	var toggleColorReason = div.append()
-	  d3.select("#togglelegend").on("click", toggleLegend);
-
+	//var toggleColorReason = form.append()
+	//  d3.select("#togglelegend").on("click", toggleLegend);
+	//console.log(d3.select("#party").checked);
+	//console.log(document.getElementById("party").checked);
+	var showPartyColors = true;
+	d3.select("#party").on("click", function() {showPartyColors = true; redraw();});
+	d3.select("#segment").on("click", function() {showPartyColors = false; redraw();});
 
 	/***********************************************************************/
 	//Visualization resizing starts
@@ -270,27 +282,37 @@ d3.csv("data.csv", function(d){
 				.on('touchend', function(d){
 					defineCandidate(d, d3.select(this));
 					if(!isClicked){dontDisplayInfo(candidate)};
-					});
+		});
 		/*Style for candidate elements*/
 		candidates.style("fill", function(d){
-			if()
-
-					switch(d.party){
-						case "Kokoomus": return "blue";
-						case "RKP": return "yellow";
-						case "Perussuomalaiset": return "grey";
-						case "Keskusta": return "green";
-						case "Vihreät": return "#00cc00";
-						case "Vasemmistoliitto": return "#FF0700";
-						case "SKP": return "#55110F";
-						case "Kristillisdemokraatit": return "#9333C0";
-						case "Itsenäisyyspuolue": return "#5596CC";
-						case "Piraattipuolue": return "#000000";
-						case "Muutos 2011": return "#DDDDDD";
-						case "SDP": return "#930C08";
-						default: return "#FFFFFF";
-					}
-				});
+			if(showPartyColors){
+				switch(d.party){
+					case "Kokoomus": return "blue";
+					case "RKP": return "yellow";
+					case "Perussuomalaiset": return "grey";
+					case "Keskusta": return "green";
+					case "Vihreät": return "#00cc00";
+					case "Vasemmistoliitto": return "#FF0700";
+					case "SKP": return "#55110F";
+					case "Kristillisdemokraatit": return "#9333C0";
+					case "Itsenäisyyspuolue": return "#5596CC";
+					case "Piraattipuolue": return "#000000";
+					case "Muutos 2011": return "#DDDDDD";
+					case "SDP": return "#930C08";
+					default: return "#FFFFFF";
+				}
+			}
+			else{
+				switch(d.segment){
+					case "Oikeisto": return "blue";
+					case "Kansalliskonservatiivit": return "grey";
+					case "Viherliberaalit": return "#00cc00";
+					case "Vihervasemmisto": return "#55110F";
+					case "Demarit": return "#930C08";
+					default: return "#FFFFFF";
+				}
+			}
+		});
 
 
 		function filterCandidates(){
