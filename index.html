@@ -107,7 +107,7 @@ d3.csv("HS+MN_data_utf8.csv", function(d){
 	var districtSelector = d3.select("#visualizationDiv").append('select');
 	districtSelector.append('option')
 		.attr('value', 'all')
-		.text("perusjuttui");
+		.text("Valitse alue");
 	// Data parsing what voting districts are present?
 	var areadict = {}, areas = [];
 	d.forEach(function(d) {
