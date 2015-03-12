@@ -112,9 +112,10 @@ d3.csv("data.csv", function(d){
 
 
 	/*UI elements*/
-	var districtSelector = d3.select("#visualizationDiv").append('select');
-	districtSelector.append('option')
-		.attr('value', 'all')
+	//District option menu
+	var districtSelector = div.append("select");
+	districtSelector.append("option")
+		.attr("value", "all")
 		.text("Valitse alue");
 	// Data parsing what voting districts are present?
 	var areadict = {}, areas = [];
@@ -238,8 +239,12 @@ d3.csv("data.csv", function(d){
 				.append("circle")
 				.attr("cx", function(d){return linearWidthScale(getXValue(d));})
 				.attr("cy", function(d){return linearHeigthScale(getYValue(d));})
-				.attr("r", function(d){return linearElementScale(height);})
-				/*It is possible to click candidate, so the info will keep showing*/
+				.attr("r", function(d){return linearElementScale(height);});
+		
+
+		/*Assign actions on candidate elements
+		It is possible to click candidate, so the info will keep showing*/
+		candidates
 				.on('click', function(d){
 					isClicked = !isClicked;
 					defineCandidate(d, d3.select(this));
@@ -264,8 +269,11 @@ d3.csv("data.csv", function(d){
 				.on('touchend', function(d){
 					defineCandidate(d, d3.select(this));
 					if(!isClicked){dontDisplayInfo(candidate)};
-					})
-				.style("fill", function(d){
+					});
+		/*Style for candidate elements*/
+		candidates.style("fill", function(d){
+			if()
+
 					switch(d.party){
 						case "Kokoomus": return "blue";
 						case "RKP": return "yellow";
@@ -281,7 +289,7 @@ d3.csv("data.csv", function(d){
 						case "SDP": return "#930C08";
 						default: return "#FFFFFF";
 					}
-				})
+				});
 
 
 		function filterCandidates(){
