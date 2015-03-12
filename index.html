@@ -115,6 +115,37 @@ svg
 	.attr("width", width)
 	.attr("height", height)
 
+
+
+
+/*UI elements*/
+var area_control = d3.select("#visualizationDiv").append('select');
+area_control.append('option')
+	.attr('value', 'all')
+	.text("perusjuttui");
+// Data parsing â€“Â what voting areas are present?
+var areadict = {}, areas = [];
+d.forEach(function(d) {
+	areadict[d.district] = true;
+});
+for (key in areadict) {
+	areas.push(key);
+}
+areas.sort();
+// UI control logic
+area_control.selectAll('option.local')
+	.data(areas)
+	.enter().append('option')
+		.attr('class', 'local')
+		.attr('value', function(d) { return d; })
+		.text(function(d) { return d; });
+area_control.on('change', function() {
+	alert("vaihtui: "+d.district);
+});
+
+
+
+
 //Selected axis mockup
 var xAxis = "impivaara-akseli";//mockup
 var yAxis = "liberaali-akseli";
