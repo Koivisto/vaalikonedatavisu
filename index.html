@@ -150,10 +150,6 @@ d3.csv("data.csv", function(d){
 		.text("Y-akselin sisältö");
 
 	//segment party toggle
-	//var toggleColorReason = form.append()
-	//  d3.select("#togglelegend").on("click", toggleLegend);
-	//console.log(d3.select("#party").checked);
-	//console.log(document.getElementById("party").checked);
 	var showPartyColors = true;
 	d3.select("#party").on("click", function() {showPartyColors = true; redraw();});
 	d3.select("#segment").on("click", function() {showPartyColors = false; redraw();});
