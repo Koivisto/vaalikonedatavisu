@@ -326,8 +326,8 @@ d3.csv("data.csv", function(d){
 				currentDistrict = areas[districtSelector.property('selectedIndex')-1];
 			}
 			//name filter
-			var searchvalue = nameFilterInput.property('value').toLowerCase();
-			var searcharray = searchvalue.split(' ');
+			var searchValue = nameFilterInput.property('value').toLowerCase();
+			var searchArray = searchValue.split(' ');
 
 			//Let the filtering begin
 			candidates
@@ -335,10 +335,10 @@ d3.csv("data.csv", function(d){
 					if (currentDistrict === "-Koko maa-") return "inline";
 					else if (currentDistrict && d.district !== currentDistrict) return 'none';
 
-					// If does not match search, always filter
-					if (searchvalue) {
-						for (var i = 0; i < searcharray.length; i++) {
-							if (d.name.toLowerCase().indexOf(searcharray[i].trim()) < 0)
+					//if something in the search box
+					if (searchValue) {
+						for (var i = 0; i < searchArray.length; i++) {
+							if (d.name.toLowerCase().indexOf(searchArray[i].trim()) < 0)
 								return 'none';
 						}
 					}
