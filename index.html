@@ -45,8 +45,6 @@ article{
 /*svg elements styles, ATTENTION! the syntax is different from pure html elements (color=fill etc.)*/
 svg{
 	background-color: #DDD;
-	stop-color:rgb(255,255,0);
-	stop-opacity:1
 }
 text{
 	fill: #FFFFFF;
@@ -115,6 +113,7 @@ var svg = d3.select("#visualizationSvg");
 svg
 	.attr("width", width)
 	.attr("height", height)
+
 
 //Data begins
 d3.csv("data.csv", function(d){
