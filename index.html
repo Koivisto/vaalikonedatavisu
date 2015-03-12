@@ -336,6 +336,11 @@ d3.csv("data.csv", function(d){
 			candidate = {element: givenElement, 
 							name: d.name, 
 							party: d.party, 
+							segment: d.segment,
+							id: d.id,
+							district: d.district,
+							age: d.age,
+							education: d.education,
 							url: d.www,
 							scorex: +getXValue(d), 
 							scorey: +getYValue(d)};
@@ -350,9 +355,13 @@ d3.csv("data.csv", function(d){
 				.attr("r", function(d){return linearElementScale(height)*2;})
 
 			//html text for infoBox
-			var infoString = candidate.name+"<br>"+
+			var infoString = candidate.name+", nro: "+ candidate.id+"<br>"+
 				candidate.party+"<br>"+
-				candidate.scorex+" "+candidate.scorey+
+				"segmentissä: \""+candidate.segment+"\"<br>"+
+				candidate.district+"<br>"+
+				candidate.education+"<br>"+
+				candidate.age+" vuotias<br>"+
+				"**debug: x:"+candidate.scorex+" y:"+candidate.scorey+"**"+
 				"<br><a href=\""+candidate.url+"\">"+candidate.url+"</a>";
 
 			//infoBox above candidates
