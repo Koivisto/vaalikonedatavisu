@@ -115,6 +115,15 @@ svg
 d3.csv("data.csv", function(d){
 
 	/*Initializes UI elements inside the form*/
+
+	//name and candidate number filtering
+	var searchInput = form.append('input')
+		.attr('placeholder', "Etsi nimellä/numerolla")
+		.attr('type', 'text');
+	searchInput.on('input', function() {
+			redraw();
+	});
+
 	//Candidate color toggle on party/segment
 	var showPartyColors = true;
 	var partyRadioBtn = form.append("input")
@@ -162,14 +171,6 @@ d3.csv("data.csv", function(d){
 	axisYSelector.append("option")
 		.attr("value", "all")
 		.text("Valitse Y-akseli");
-
-	//name and candidate number filtering
-	var searchInput = form.append('input')
-		.attr('placeholder', "Etsi nimellä/numerolla")
-		.attr('type', 'text');
-	searchInput.on('input', function() {
-			redraw();
-	});
 
 /***********************************************************************
 	Visualization resizing starts
