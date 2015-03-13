@@ -305,14 +305,19 @@ d3.csv("data.csv", function(d){
 				.attr("r", function(parties){return linearElementScale(height);})
 				.attr("class", "ui")
 				.style("fill", function(parties){return getColor(parties)})
-				.on("click", function(parties){toggleSelection(parties, d3.select(this))});
+				.style("opacity", function(parties){return getOpacity(partyVisibility[parties]);})
+				.on("click", function(parties){
+					toggleSelection(parties, d3.select(this));
+					filterCandidates();});
 
 		function toggleSelection(party, element){
 			partyVisibility[party] = !partyVisibility[party];
-			console.log(party+" vaihtui "+partyVisibility[party]);
-			console.log(partyVisibility);
-			if(!partyVisibility[party]) element.style("opacity", 0.1);
-			else element.style("opacity", 1.0);
+			element.style("opacity", function(){return getOpacity(partyVisibility[party]);});
+		}
+
+		function getOpacity(boolean){
+			if(boolean) return 1.0;
+			return 0.3;
 		}
 
 		var isClicked = false;
@@ -381,6 +386,8 @@ d3.csv("data.csv", function(d){
 					//district filter
 					if (currentDistrict === "-Koko maa-") return "inline";
 					else if (currentDistrict && d.district !== currentDistrict) return 'none';
+
+					if(!partyVisibility[d.party]) return "none";
 
 					//if something in the search box then also filter with that
 					if (searchValue) {
