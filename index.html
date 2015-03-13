@@ -287,6 +287,20 @@ d3.csv("data.csv", function(d){
 			.domain([0, MAXHEIGHT])
 			.range([2,10]);
 
+		/*Party selection logic*/
+		var partySelectionGroup = svg.append("g")
+		var tick = 0;
+		function getNextTick(){tick = tick +1;return tick;}
+		var partiesSelection = partySelectionGroup.selectAll("circle")
+			.data(parties)
+			.enter()
+				.append("circle")
+				.attr("cx", function(parties){return width-20;})
+				.attr("cy", function(parties){return +(getNextTick()*20);})
+				.attr("r", function(parties){return linearElementScale(height);})
+				.style("fill", function(parties){return getColor(parties)})
+				.on("click", function(){alert(parties)});//todo logic
+
 		var isClicked = false;
 		var previousCandidate = null;
 		var candidate= null;
