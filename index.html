@@ -305,7 +305,15 @@ d3.csv("data.csv", function(d){
 				.attr("r", function(parties){return linearElementScale(height);})
 				.attr("class", "ui")
 				.style("fill", function(parties){return getColor(parties)})
-				.on("click", function(){alert(parties)});//todo logic
+				.on("click", function(parties){toggleSelection(parties, d3.select(this))});
+
+		function toggleSelection(party, element){
+			partyVisibility[party] = !partyVisibility[party];
+			console.log(party+" vaihtui "+partyVisibility[party]);
+			console.log(partyVisibility);
+			if(!partyVisibility[party]) element.style("opacity", 0.1);
+			else element.style("opacity", 1.0);
+		}
 
 		var isClicked = false;
 		var previousCandidate = null;
