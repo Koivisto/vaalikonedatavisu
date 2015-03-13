@@ -58,6 +58,9 @@ circle {
 	fill: #FFF;
 	opacity: 0.5;
 }
+circle.ui{
+	opacity: 1.0;
+}
 
 @media only screen and (max-width: 999px){
 
@@ -300,6 +303,7 @@ d3.csv("data.csv", function(d){
 				.attr("cx", function(parties){return width-20;})
 				.attr("cy", function(parties){return +(getNextTick()*20);})
 				.attr("r", function(parties){return linearElementScale(height);})
+				.attr("class", "ui")
 				.style("fill", function(parties){return getColor(parties)})
 				.on("click", function(){alert(parties)});//todo logic
 
