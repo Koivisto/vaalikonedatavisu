@@ -80,10 +80,8 @@ circle {
 </header>
 
 <!--Form that contains controls-->
-<form id="visualizationForm">
-	<input type="radio" name="color" value="party" id="party" checked>Värit puolueittain
-	<input type="radio" name="color" value="segment" id="segment">Värit segmenteittäin
-</form>
+<form id="visualizationForm"></form>
+
 <!--Div that contains all explanations-->
 <div id="explanations" style="position: absolute;"></div>
 
@@ -119,8 +117,22 @@ d3.csv("data.csv", function(d){
 	/*Initializes UI elements inside the form*/
 	//Candidate color toggle on party/segment
 	var showPartyColors = true;
-	d3.select("#party").on("click", function() {showPartyColors = true; redraw();});
-	d3.select("#segment").on("click", function() {showPartyColors = false; redraw();});
+	var partyRadioBtn = form.append("input")
+		.attr("type", "radio")
+		.attr("name", "color")
+		.attr("value", "party")
+		.attr("id", "party")
+		.property("checked", true)
+		.on("click", function() {showPartyColors = true; redraw();});
+	form.append("label").html("Värit puolueittain");
+	var segmentRadioBtn = form.append("input")
+		.attr("type", "radio")
+		.attr("name", "color")
+		.attr("value", "segment")
+		.attr("id", "segment")
+		.property("checked", false)
+		.on("click", function() {showPartyColors = false; redraw();});
+	form.append("label").html("Värit segmenteittäin");
 
 	//District option menu
 	var districtSelector = form.append("select");
