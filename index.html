@@ -303,34 +303,33 @@ d3.csv("data.csv", function(d){
 
 		/*Style for candidate elements*/
 		candidates.style("fill", function(d){
-			if(showPartyColors){
-				switch(d.party){
-					case "Kokoomus": return "blue";
-					case "RKP": return "yellow";
-					case "Perussuomalaiset": return "grey";
-					case "Keskusta": return "green";
-					case "Vihreät": return "#00cc00";
-					case "Vasemmistoliitto": return "#FF0700";
-					case "SKP": return "#55110F";
-					case "Kristillisdemokraatit": return "#9333C0";
-					case "Itsenäisyyspuolue": return "#5596CC";
-					case "Piraattipuolue": return "#000000";
-					case "Muutos 2011": return "#DDDDDD";
-					case "SDP": return "#930C08";
-					default: return "#FFFFFF";
-				}
-			}
-			else{
-				switch(d.segment){
-					case "Oikeisto": return "blue";
-					case "Kansalliskonservatiivit": return "grey";
-					case "Viherliberaalit": return "#00cc00";
-					case "Vihervasemmisto": return "#55110F";
-					case "Demarit": return "#930C08";
-					default: return "#FFFFFF";
-				}
-			}
+			if(showPartyColors)	return getColor(d.party);
+			return getColor(d.segment)
 		});
+
+		function getColor(str){
+			switch(str){
+				case "Oikeisto": return "blue";
+				case "Kansalliskonservatiivit": return "grey";
+				case "Viherliberaalit": return "#00cc00";
+				case "Vihervasemmisto": return "#55110F";
+				case "Demarit": return "#930C08";
+				case "Kokoomus": return "blue";
+				case "RKP": return "yellow";
+				case "Perussuomalaiset": return "grey";
+				case "Keskusta": return "green";
+				case "Vihreät": return "#00cc00";
+				case "Vasemmistoliitto": return "#FF0700";
+				case "SKP": return "#55110F";
+				case "Kristillisdemokraatit": return "#9333C0";
+				case "Itsenäisyyspuolue": return "#5596CC";
+				case "Piraattipuolue": return "#000000";
+				case "Muutos 2011": return "#DDDDDD";
+				case "SDP": return "#930C08";
+				case "STP": return "F81010";
+				default: return "#FFFFFF";
+			}
+		}
 
 		/*Sets display to none for filtered candidate elements*/
 		function filterCandidates(){
