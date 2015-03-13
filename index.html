@@ -297,10 +297,11 @@ d3.csv("data.csv", function(d){
 			.domain([0, MAXHEIGHT])
 			.range([2,10]);
 
-		/*Party selection logic*/
+		/*Party selection UI elements and logic*/
 		var partySelectionGroup = svg.append("g")
 		var tick = 0;
 		function getNextTick(){tick = tick +1;return tick;}
+		//circles presenting the parties
 		var partiesSelection = partySelectionGroup.selectAll("circle")
 			.data(parties)
 			.enter()
@@ -315,6 +316,7 @@ d3.csv("data.csv", function(d){
 					toggleSelection(parties, d3.select(this));
 					filterCandidates();});
 		tick = 0;
+		//text labels for circles
 		var partyLabes = partySelectionGroup.selectAll("text")
 			.data(parties)
 			.enter()
@@ -322,7 +324,6 @@ d3.csv("data.csv", function(d){
 				.attr("x", function(parties){return width-35;})
 				.attr("y", function(parties){return +(getNextTick()*20 +5);})
 				.attr("class", "partyLabes")
-				//.style("fill", function(parties){return getColor(parties)})
 				.text(function(d){return d;});
 
 		function toggleSelection(party, element){
