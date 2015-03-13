@@ -111,6 +111,36 @@ svg
 	.attr("width", width)
 	.attr("height", height)
 
+var parties = ["Itsenäisyyspuolue","Keskusta","Kokoomus","Kristillisdemokraatit","Muutos 2011","Perussuomalaiset","Piraattipuolue","RKP","SDP","SKP","STP","Vasemmistoliitto","Vihreät"];
+var axisValues = ["Impivaaralaisuus", "Talousoikeistolaisuus", "Arvoliberaalius", "Vihreys"];
+var segments = ["Oikeisto","Kansalliskonservatiivit","Viherliberaalit","Vihervasemmisto","Demarit"];
+//maps parties and segments to colors
+function getColor(str){
+	switch(str){
+		//segments
+		case "Oikeisto": return "blue";
+		case "Kansalliskonservatiivit": return "grey";
+		case "Viherliberaalit": return "#00cc00";
+		case "Vihervasemmisto": return "#55110F";
+		case "Demarit": return "#930C08";
+		//parties
+		case "Kokoomus": return "blue";
+		case "RKP": return "yellow";
+		case "Perussuomalaiset": return "grey";
+		case "Keskusta": return "green";
+		case "Vihreät": return "#00cc00";
+		case "Vasemmistoliitto": return "#FF0700";
+		case "SKP": return "#55110F";
+		case "Kristillisdemokraatit": return "#9333C0";
+		case "Itsenäisyyspuolue": return "#5596CC";
+		case "Piraattipuolue": return "#000000";
+		case "Muutos 2011": return "#DDDDDD";
+		case "SDP": return "#930C08";
+		case "STP": return "F81010";
+		default: return "#FFFFFF";
+	}
+}
+
 //Data begins
 d3.csv("data.csv", function(d){
 
@@ -162,7 +192,6 @@ d3.csv("data.csv", function(d){
 	var currentDistrict = null;
 
 	//X and Y axis selection option menus
-	var axisValues = ["Impivaaralaisuus", "Talousoikeistolaisuus", "Arvoliberaalius", "Vihreys"];
 	var axisXSelector = form.append("select");
 	axisXSelector.append("option")
 		.attr("value", "all")
@@ -306,30 +335,6 @@ d3.csv("data.csv", function(d){
 			if(showPartyColors)	return getColor(d.party);
 			return getColor(d.segment)
 		});
-
-		function getColor(str){
-			switch(str){
-				case "Oikeisto": return "blue";
-				case "Kansalliskonservatiivit": return "grey";
-				case "Viherliberaalit": return "#00cc00";
-				case "Vihervasemmisto": return "#55110F";
-				case "Demarit": return "#930C08";
-				case "Kokoomus": return "blue";
-				case "RKP": return "yellow";
-				case "Perussuomalaiset": return "grey";
-				case "Keskusta": return "green";
-				case "Vihreät": return "#00cc00";
-				case "Vasemmistoliitto": return "#FF0700";
-				case "SKP": return "#55110F";
-				case "Kristillisdemokraatit": return "#9333C0";
-				case "Itsenäisyyspuolue": return "#5596CC";
-				case "Piraattipuolue": return "#000000";
-				case "Muutos 2011": return "#DDDDDD";
-				case "SDP": return "#930C08";
-				case "STP": return "F81010";
-				default: return "#FFFFFF";
-			}
-		}
 
 		/*Sets display to none for filtered candidate elements*/
 		function filterCandidates(){
