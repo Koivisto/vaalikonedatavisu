@@ -308,7 +308,8 @@ d3.csv("data.csv", function(d){
 
 		/*Main logic is here, when data is used to create DOM elements, and events are decided*/
 		/*Connects the data to svg elements, determines the interaction logic*/
-		var candidates = svg.selectAll("circle")
+		var candidateGroup = svg.append("g")
+		var candidates = candidateGroup.selectAll("circle")
 			.data(d)
 			.enter()
 				.append("circle")
