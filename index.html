@@ -301,7 +301,7 @@ d3.csv("data.csv", function(d){
 		removeInfoDivs();
 
 		width = $("#visualizationDiv").width();
-		var height = getHeight();
+		var height = getHeight() - MARGIN;
 		svg
 			.attr("width", width)
 			.attr("height", height)
