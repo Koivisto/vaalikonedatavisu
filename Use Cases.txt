@@ -31,7 +31,7 @@ Ehdokkaiden sijainti suhteessa toisiinsa joidenkin akselien kautta (Nämä visua
 [x] konservatiivi-liberaali
 [x] vihreys
 [x] Eurooppalaisuus, NATO
-[ ] Ikä (toisaalta vähän väärin rinnastaa ikä ja valinnat, mutta menköön, koska tulee hieno)
+[x] Ikä (toisaalta vähän väärin rinnastaa ikä ja valinnat, mutta menköön, koska tulee hieno lisä)
 
 Muuta visualisoitavaa
 [ ] Sukupuoli
