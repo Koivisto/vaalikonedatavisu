@@ -52,6 +52,13 @@ text{
 	font-size: 40px;
 	text-anchor: end;
 }
+.axisExplanationOpposite{
+	text-anchor: start;
+}
+.middle{
+	text-anchor: middle;
+}
+
 .partyLabes{
 	fill: #000;
 	font-size: 20px;
@@ -124,6 +131,7 @@ svg
 var parties = ["Itsenäisyyspuolue","Keskusta","Kokoomus","Kristillisdemokraatit","Muutos 2011","Perussuomalaiset","Piraattipuolue","RKP","SDP","SKP","STP","Vasemmistoliitto","Vihreät"];
 var partyVisibility = {"Itsenäisyyspuolue" : true,"Keskusta" : true,"Kokoomus" : true,"Kristillisdemokraatit" : true,"Muutos 2011" : true,"Perussuomalaiset" : true,"Piraattipuolue" : true,"RKP" : true,"SDP" : true,"SKP" : true,"STP" : true,"Vasemmistoliitto" : true,"Vihreät" : true};
 var axisValues = ["Impivaaralaisuus", "Talousoikeistolaisuus", "Arvoliberaalius", "Vihreys", "Ikä"];
+var axisValueOpposites = ["Maailmankansalaisuus", "Talousvasemmistolaisuus", "Arvokonservatiivius", "\"Epävihreys\"", ""];
 var segments = ["Oikeisto","Kansalliskonservatiivit","Viherliberaalit","Vihervasemmisto","Demarit"];
 //axis value domain
 var xMax = 3;var yMax = 3;var xMin = -3;var yMin = -3;
@@ -280,6 +288,11 @@ d3.csv("data.csv", function(d){
 			.attr("y", height/2)
 			.attr("class", "axisExplanation")
 			.text(xAxisValue);
+		var text = svg.append("text")
+			.attr("x", 0)
+			.attr("y", height/2)
+			.attr("class", "axisExplanation axisExplanationOpposite")
+			.text(axisValueOpposites[axisValues.indexOf(xAxisValue)]);
 		//vertical yAxis
 		var line = svg.append("line")
 			.attr("x1", width/2)
@@ -291,8 +304,13 @@ d3.csv("data.csv", function(d){
 		var text = svg.append("text")
 			.attr("x", width/2)
 			.attr("y", 30)
-			.attr("class", "axisExplanation")
+			.attr("class", "axisExplanation middle")
 			.text(yAxisValue);
+		var text = svg.append("text")
+			.attr("x", width/2)
+			.attr("y", height)
+			.attr("class", "axisExplanation middle")
+			.text(axisValueOpposites[axisValues.indexOf(yAxisValue)]);
 
 		//scales the data to screen size, these variables are used as functions later on.
 		var linearWidthScale = d3.scale.linear()
