@@ -50,7 +50,9 @@ p{
 	overflow: hidden;
 	padding: 20px 10px 10px 10px;
 }
-
+a.infoBoxLink{
+	color: #BBB;
+}
 .infoBox:hover{
 	opacity: 1;
 }
@@ -607,7 +609,7 @@ d3.csv("data.csv", function(d){
 				"<em>segmentti: \""+candidate.segment+"\"</em><br><br>"+
 				candidate.district+"<br>"+
 				candidate.age+" vuotias, "+candidate.education+"<br>"+
-				"<br><a href=\""+candidate.url+"\">"+candidate.url+"</a>";
+				"<br><a class=\"infoBoxLink\" href=\""+candidate.url+"\">"+candidate.url+"</a>";
 
 			//infoBox above candidates
 			var infoDiv = document.createElement('div');
