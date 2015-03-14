@@ -28,14 +28,15 @@ Kansalainen haluaa tietää meneekö ydinvoima/nato/tasa-arvo/viski/maahanmuutto
 
 
 Ehdokkaiden sijainti suhteessa toisiinsa joidenkin akselien kautta
--oikeisto-vasemmisto
--konservatiivi-liberaali
--vihreys
--Eurooppalaisuus, NATO
+[x] oikeisto-vasemmisto
+[x] konservatiivi-liberaali
+[x] vihreys
+[x] Eurooppalaisuus, NATO
 
 Muuta visualisoitavaa
-Ikä? Sukupuoli?
--Nämä visualisoituna kokonaisuudessaan, puolueittain, alueittain
+[ ] Ikä
+[ ] Sukupuoli
+(Nämä visualisoituna kokonaisuudessaan, puolueittain, alueittain)
 
 Onko vaalialueella merkitystä ehdokkaiden näkemyksiin?
 -Ovatko pääkaupunkiseudulla asuvat keskustalaiset vihreämpiä tai vaikuttaako mielipiteeseen pakkoruotsista rannikolla asuminen?
