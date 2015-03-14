@@ -18,14 +18,24 @@
 	width: device-width;
 }
 body{
-	margin: 0px 0px 0px 0px; /*top right bottom left*/
+	margin: 0px 0px 400px 0px; /*top right bottom left*/
 	max-width: 1800px ;
 	margin-left: auto;
 	margin-right: auto;
 	position: relative;
 }
 article{
-	background: #83a0a5;
+	background: #BBB;
+}
+a{
+	color: #FFF;
+}
+h1{
+	margin: 20px;
+	padding-top: 20px;
+}
+p{
+	margin: 20px;
 }
 #explanations{
 	color:#000;
@@ -33,7 +43,7 @@ article{
 }
 .infoBox{
 	width: 200px;
-	opacity: 0.85;
+	opacity: 1.0;
 	color:#000;
 	background-color: #FFF;
 	box-shadow: 0px 0px 10px #000;
@@ -102,21 +112,30 @@ article{
 .infoBoxCloseLeft{
   left: -5px;
 }
-form{
-	background-color: #DDD;
+#formContainer{
 	padding-top: 10px;
+	background-color: #EEE;/*backgroung_color*/
+	text-align: right;
+}
+form{
+	opacity: 1;
 }
 
 /*svg elements styles, ATTENTION! the syntax is different from pure html elements (color=fill etc.)*/
 svg{
-	background-color: #DDD;
+	background-color: #EEE;/*backgroung_color*/
 	padding-bottom: 10px;
 }
 text{
 	fill: #FFFFFF;
 }
+.axisLine{
+	stroke: #BBB;/*ui_grey*/
+	opacity: 1.0;
+}
 .axisExplanation{
-	fill: #000;
+	fill: #BBB;/*ui_grey*/
+	opacity: 1.0;
 	font-size: 40px;
 	text-anchor: end;
 }
@@ -128,15 +147,16 @@ text{
 }
 
 .partyLabes{
-	fill: #000;
+	fill: #BBB;/*ui_grey*/
+	opacity: 1.0;
 	font-size: 20px;
 	text-anchor: end;
 }
 circle {
 	stroke: #000;
-	stroke-width: 1;
+	opacity: 1.0;
+	stroke-width: 0.75;
 	fill: #FFF;
-	opacity: 0.5;
 }
 circle.ui{
 	opacity: 1.0;
@@ -171,8 +191,9 @@ circle.segments{
 </header>
 
 <!--Form that contains controls-->
-<form id="visualizationForm"></form>
-
+<div id="formContainer">
+	<form id="visualizationForm"></form>
+</div>
 <!--Div that contains all explanations-->
 <div id="explanations" style="position: absolute;"></div>
 
@@ -190,6 +211,7 @@ var height = getHeight();
 var MAXHEIGHT = 1000;
 var MAXWIDTH = 1800;
 var MARGIN = 100;
+var ALLDISTRICTS = "- Koko maa -"
 
 /*Decides proper height for the visualization, that is window height or 1000px*/
 function getHeight(){
@@ -250,6 +272,34 @@ d3.csv("data.csv", function(d){
 			redraw();
 	});
 
+	//District option menu
+	var districtSelector = form.append("select");
+	districtSelector.append("option")
+		.attr("value", "all")
+		.text("Valitse alue");
+	// Data parsing for voting districts that are present
+	var areadict = {}, areas = [];
+	d.forEach(function(d) {
+		areadict[d.district] = true;
+	});
+	for (key in areadict) {
+		areas.push(key);
+	}
+	areas.push(ALLDISTRICTS);
+	areas.sort();
+	//holds the selected district outside the redraw()
+	var currentDistrict = null;
+
+	//X and Y axis selection option menus
+	var axisXSelector = form.append("select");
+	axisXSelector.append("option")
+		.attr("value", "all")
+		.text("Valitse X-akseli");
+	var axisYSelector = form.append("select");
+	axisYSelector.append("option")
+		.attr("value", "all")
+		.text("Valitse Y-akseli");
+
 	//Candidate color toggle on party/segment
 	var showPartyColors = true;
 	var partyRadioBtn = form.append("input")
@@ -268,34 +318,6 @@ d3.csv("data.csv", function(d){
 		.property("checked", false)
 		.on("click", function() {showPartyColors = false; redraw();});
 	form.append("label").html("Värit segmenteittäin");
-
-	//District option menu
-	var districtSelector = form.append("select");
-	districtSelector.append("option")
-		.attr("value", "all")
-		.text("Valitse alue");
-	// Data parsing for voting districts that are present
-	var areadict = {}, areas = [];
-	d.forEach(function(d) {
-		areadict[d.district] = true;
-	});
-	for (key in areadict) {
-		areas.push(key);
-	}
-	areas.push("-Koko maa-");
-	areas.sort();
-	//holds the selected district outside the redraw()
-	var currentDistrict = null;
-
-	//X and Y axis selection option menus
-	var axisXSelector = form.append("select");
-	axisXSelector.append("option")
-		.attr("value", "all")
-		.text("Valitse X-akseli");
-	var axisYSelector = form.append("select");
-	axisYSelector.append("option")
-		.attr("value", "all")
-		.text("Valitse Y-akseli");
 
 /***********************************************************************
 	Visualization resizing starts
@@ -356,6 +378,7 @@ d3.csv("data.csv", function(d){
 			.attr("y1", height/2)
 			.attr("x2", width)
 			.attr("y2", height/2)
+			.attr("class", "axisLine")
 			.attr("stroke-width", 2)
 			.attr("stroke", "black");
 		var text = svg.append("text")
@@ -374,6 +397,7 @@ d3.csv("data.csv", function(d){
 			.attr("y1", 0)
 			.attr("x2", width/2)
 			.attr("y2", height)
+			.attr("class", "axisLine")
 			.attr("stroke-width", 2)
 			.attr("stroke", "black");
 		var text = svg.append("text")
@@ -525,7 +549,7 @@ d3.csv("data.csv", function(d){
 			candidates
 				.attr('display', function(d) { 
 					//district filter
-					if (currentDistrict === "-Koko maa-") return "inline";
+					if (currentDistrict === ALLDISTRICTS) return "inline";
 					else if (currentDistrict && d.district !== currentDistrict) return 'none';
 
 					if(!partyVisibility[d.party] || !partyVisibility[d.segment]) return "none";
