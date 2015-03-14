@@ -122,7 +122,7 @@ svg
 
 var parties = ["Itsenäisyyspuolue","Keskusta","Kokoomus","Kristillisdemokraatit","Muutos 2011","Perussuomalaiset","Piraattipuolue","RKP","SDP","SKP","STP","Vasemmistoliitto","Vihreät"];
 var partyVisibility = {"Itsenäisyyspuolue" : true,"Keskusta" : true,"Kokoomus" : true,"Kristillisdemokraatit" : true,"Muutos 2011" : true,"Perussuomalaiset" : true,"Piraattipuolue" : true,"RKP" : true,"SDP" : true,"SKP" : true,"STP" : true,"Vasemmistoliitto" : true,"Vihreät" : true};
-var axisValues = ["Impivaaralaisuus", "Talousoikeistolaisuus", "Arvoliberaalius", "Vihreys"];
+var axisValues = ["Impivaaralaisuus", "Talousoikeistolaisuus", "Arvoliberaalius", "Vihreys", "Ikä"];
 var segments = ["Oikeisto","Kansalliskonservatiivit","Viherliberaalit","Vihervasemmisto","Demarit"];
 //maps parties and segments to colors
 function getColor(str){
@@ -255,6 +255,7 @@ d3.csv("data.csv", function(d){
 				case "Talousoikeistolaisuus": return d.oik;
 				case "Arvoliberaalius": return d.lib;
 				case "Vihreys": return d.vih;
+				case "Ikä": return d.age;
 				default: return 0;}
 		}
 
@@ -288,10 +289,10 @@ d3.csv("data.csv", function(d){
 
 		//scales the data to screen size, these variables are used as functions later on.
 		var linearWidthScale = d3.scale.linear()
-			.domain([-3,3])//these might vary
+			.domain([-3,100])//these might vary
 			.range([0,width]);
 		var linearHeigthScale = d3.scale.linear()
-			.domain([3,-3])
+			.domain([100,-3])
 			.range([0,height]);
 		var linearElementScale = d3.scale.linear()
 			.domain([0, MAXHEIGHT])
