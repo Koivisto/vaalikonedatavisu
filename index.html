@@ -536,11 +536,10 @@ d3.csv("data.csv", function(d){
 
 			//html text for infoBox
 			var infoString = "<strong>"+candidate.name+"</strong>, nro: "+ candidate.id+"<br>"+
-				candidate.party+"<br><br>"+
-				"segmentissä: \""+candidate.segment+"\"<br>"+
+				candidate.party+"<br>"+
+				"<em>segmentti: \""+candidate.segment+"\"</em><br><br>"+
 				candidate.district+"<br>"+
-				candidate.education+"<br>"+
-				candidate.age+" vuotias<br>"+
+				candidate.age+" vuotias, "+candidate.education+"<br>"+
 				"<br><a href=\""+candidate.url+"\">"+candidate.url+"</a>";
 
 			//infoBox above candidates
