@@ -124,6 +124,8 @@ var parties = ["Itsenäisyyspuolue","Keskusta","Kokoomus","Kristillisdemokraatit
 var partyVisibility = {"Itsenäisyyspuolue" : true,"Keskusta" : true,"Kokoomus" : true,"Kristillisdemokraatit" : true,"Muutos 2011" : true,"Perussuomalaiset" : true,"Piraattipuolue" : true,"RKP" : true,"SDP" : true,"SKP" : true,"STP" : true,"Vasemmistoliitto" : true,"Vihreät" : true};
 var axisValues = ["Impivaaralaisuus", "Talousoikeistolaisuus", "Arvoliberaalius", "Vihreys", "Ikä"];
 var segments = ["Oikeisto","Kansalliskonservatiivit","Viherliberaalit","Vihervasemmisto","Demarit"];
+//axis value domain
+var xMax = 3;var yMax = 3;var xMin = -3;var yMin = -3;
 //maps parties and segments to colors
 function getColor(str){
 	switch(str){
@@ -233,12 +235,16 @@ d3.csv("data.csv", function(d){
 			if (axisXSelector.property('selectedIndex') > 0) {
 				xAxisValue = axisValues[axisXSelector.property('selectedIndex')-1];
 			}
+			xMax = d3.max(d, function(d) { return +getValueFromStr(d, xAxisValue); });
+			xMin = d3.min(d, function(d) { return +getValueFromStr(d, xAxisValue); });
 		}
 		changeAxisX();//redraw is called when axis are changed
 		function changeAxisY(){
 			if (axisYSelector.property('selectedIndex') > 0) {
 				yAxisValue = axisValues[axisYSelector.property('selectedIndex')-1];
 			}
+			yMax = d3.max(d, function(d) { return +getValueFromStr(d, yAxisValue); });
+			yMin = d3.min(d, function(d) { return +getValueFromStr(d, yAxisValue); });
 		}
 		changeAxisY();//redraw is called when axis are changed
 
@@ -289,10 +295,10 @@ d3.csv("data.csv", function(d){
 
 		//scales the data to screen size, these variables are used as functions later on.
 		var linearWidthScale = d3.scale.linear()
-			.domain([-3,100])//these might vary
+			.domain([xMin,xMax])
 			.range([0,width]);
 		var linearHeigthScale = d3.scale.linear()
-			.domain([100,-3])
+			.domain([yMax,yMin])
 			.range([0,height]);
 		var linearElementScale = d3.scale.linear()
 			.domain([0, MAXHEIGHT])
