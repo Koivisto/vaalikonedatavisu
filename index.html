@@ -33,16 +33,25 @@ article{
 }
 .infoBox{
 	width: 200px;
-	opacity: 1.65;
+	opacity: 0.85;
 	color:#000;
 	background-color: #FFF;
-	transform: translate(-0%, -100%);
-	-webkit-transform: translate(-0%, -100%);
-	-ms-transform: translate(-0%, -100%);
 	box-shadow: 0px 0px 10px #000;
 	overflow: hidden;
 	padding: 10px 10px 10px 10px;
+}
 
+.infoBox:hover{
+	opacity: 1;
+}
+
+.toRight{
+	/*positioning*/
+	transform: translate(-0%, -100%);
+	-webkit-transform: translate(-0%, -100%);
+	-ms-transform: translate(-0%, -100%);
+	
+	/*corners*/
 	-webkit-border-top-left-radius: 20px;
 	-moz-border-radius-topleft: 20px;
 	border-top-left-radius: 20px;
@@ -51,9 +60,25 @@ article{
 	-moz-border-radius-bottomright: 100px 120px;
 	border-bottom-right-radius: 100px 120px;
 }
-.infoBox:hover{
-	opacity: 1;
+
+.toLeft{
+	/*positioning*/
+	-moz-transform: translate(-100%, -100%);
+	-webkit-transform: translate(-100%, -100%);
+	-o-transform: translate(-100%, -100%);
+	-ms-transform: translate(-100%, -100%);
+	transform: translate(-100%, -100%);
+
+	/*corners*/
+	-webkit-border-top-right-radius: 20px;
+	-moz-border-radius-topright: 20px;
+	border-top-right-radius: 20px;
+	
+	-webkit-border-bottom-left-radius: 50px 60px;
+	-moz-border-radius-bottomleft: 50px 60px;
+	border-bottom-left-radius: 50px 60px;
 }
+
 .infoBoxClose{
   -webkit-border-radius: 60px;
   -moz-border-radius: 60px;
@@ -73,6 +98,9 @@ article{
 .infoBoxClose:hover {
   background: #8f8f8f;
   text-decoration: none;
+}
+.infoBoxCloseLeft{
+  left: -5px;
 }
 
 
@@ -517,17 +545,21 @@ d3.csv("data.csv", function(d){
 
 			//infoBox above candidates
 			var infoDiv = document.createElement('div');
+			//infobox closing button
+			var closeButton = document.createElement("BUTTON");
 			document.getElementById('explanations').appendChild(infoDiv);
-			infoDiv.className = "infoBox";
+			//if too far to right border, then uses different class
+			if(parseInt(candidate.element.attr("cx") + svg.offsetLeft) > (width-200)){
+				infoDiv.className = "infoBox toLeft";
+				closeButton.className = "infoBoxClose infoBoxCloseLeft";}
+			else{
+				infoDiv.className = "infoBox toRight";
+				closeButton.className = "infoBoxClose";}
 			infoDiv.id = candidate.name;
 			infoDiv.innerHTML = infoString;
 			infoDiv.style.position = "absolute";
 			infoDiv.style.left = parseInt(candidate.element.attr("cx") + svg.offsetLeft) + "px";
 			infoDiv.style.top = parseInt(candidate.element.attr("cy") + svg.offsetTop) +-10+"px";
-
-			//infobox closing button
-			var closeButton = document.createElement("BUTTON");
-			closeButton.className = "infoBoxClose";
 			closeButton.appendChild(document.createTextNode("X"));
 			closeButton.addEventListener("click",function(d){dontDisplayInfo(candidate);});
 			infoDiv.appendChild(closeButton);
