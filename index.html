@@ -107,6 +107,7 @@ var width = $(document).width();
 var height = getHeight();
 var MAXHEIGHT = 1000;
 var MAXWIDTH = 1800;
+var MARGIN = 100;
 
 /*Decides proper height for the visualization, that is window height or 1000px*/
 function getHeight(){
@@ -296,10 +297,10 @@ d3.csv("data.csv", function(d){
 		//scales the data to screen size, these variables are used as functions later on.
 		var linearWidthScale = d3.scale.linear()
 			.domain([xMin,xMax])
-			.range([0,width]);
+			.range([MARGIN,width-MARGIN]);
 		var linearHeigthScale = d3.scale.linear()
 			.domain([yMax,yMin])
-			.range([0,height]);
+			.range([MARGIN,height-MARGIN]);
 		var linearElementScale = d3.scale.linear()
 			.domain([0, MAXHEIGHT])
 			.range([2,10]);
