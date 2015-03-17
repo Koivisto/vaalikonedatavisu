@@ -1,0 +1,78 @@
+* {
+
+	box-sizing:border-box;
+	font-family:'Open Sans', sans-serif;
+}
+
+
+h1{
+	font-family:'Montserrat', sans-serif;
+	margin:0;
+	padding-left:3%;
+	border-left:5px solid white;
+}
+h3{
+	margin:2% 0 0 0;
+}
+header{
+	color:white;
+	padding:2% 0;
+	background-color:#006F6F;
+}
+a{font-weight:700;}
+a{
+	color:#006F6F;
+}
+header a{
+	color: #C8FFFF;
+}
+
+a:hover{
+	opacity:0.65;
+}
+
+
+header div{
+	width:50%;
+	display:block;
+	margin:0 auto 0 auto;
+
+}
+
+
+#titleBox{
+	color:#006F6F;
+}
+
+footer{
+	border-left:5px solid #006F6F;
+	width:70%;
+	margin:10% auto 10% auto;
+	bottom:0;
+	padding:2%;
+}
+
+#formContainer{
+	width:90%;
+	display:block;
+	margin:3% auto 4% auto;
+
+}
+
+#formContainer form *{
+	margin:5px;
+}
+
+
+/* Media queries. These probably aren't very reliable at the moment, since they don't take in account the device pixel ratio, but they probably can be fixed */
+@media (max-width:500px){
+	header div{
+		width:95%;
+	}
+}  
+
+@media (min-width:500px) and (max-width:900px){
+	header div{
+		width:80%;
+	}
+}  

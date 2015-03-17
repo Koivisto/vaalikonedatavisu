@@ -1,0 +1,141 @@
+@-ms-viewport{
+	width: device-width;
+}
+
+a{
+	color: #FFF;
+}
+
+#explanations{
+	color:#000;
+	background-color: #FFF;
+}
+.infoBox{
+	width: 220px;
+	opacity: 1.0;
+	color:#000;
+	background-color: #FFF;
+	box-shadow: 0px 0px 10px #000;
+	overflow: hidden;
+	padding: 20px 10px 10px 10px;
+}
+a.infoBoxLink{
+	color: #BBB;
+}
+.infoBox:hover{
+	opacity: 1;
+}
+
+.toRight{
+	/*positioning*/
+	transform: translate(-0%, -100%);
+	-webkit-transform: translate(-0%, -100%);
+	-ms-transform: translate(-0%, -100%);
+
+	/*corners*/
+	-webkit-border-top-left-radius: 30px;
+	-moz-border-radius-topleft: 30px;
+	border-top-left-radius: 30px;
+	
+	-webkit-border-bottom-right-radius: 100px 120px;
+	-moz-border-radius-bottomright: 100px 120px;
+	border-bottom-right-radius: 100px 120px;
+}
+
+.toLeft{
+	/*positioning*/
+	-moz-transform: translate(-100%, -100%);
+	-webkit-transform: translate(-100%, -100%);
+	-o-transform: translate(-100%, -100%);
+	-ms-transform: translate(-100%, -100%);
+	transform: translate(-100%, -100%);
+
+	/*corners*/
+	-webkit-border-top-right-radius: 45px;
+	-moz-border-radius-topright: 45px;
+	border-top-right-radius: 45px;
+	
+	-webkit-border-bottom-left-radius: 50px 60px;
+	-moz-border-radius-bottomleft: 50px 60px;
+	border-bottom-left-radius: 50px 60px;
+}
+
+.infoBoxClose{
+	-webkit-border-radius: 60px;
+	-moz-border-radius: 60px;
+	border-radius: 60px;
+	height: 30px;
+	width: 30px;
+	color: #ffffff;
+	font-size: 10px;
+	background: #000000;
+	padding: 10px 10px 10px 10px;
+	border: 0px;
+	text-decoration: none;
+	position: absolute;
+	left: 195px;
+	top: -5px;
+}
+.infoBoxClose:hover {
+	background: #8f8f8f;
+	text-decoration: none;
+}
+.infoBoxCloseLeft{
+	left: -5px;
+}
+#formContainer{
+	padding-top: 10px;
+	background-color: #EEE;/*backgroung_color*/
+	text-align: right;
+}
+form{
+	opacity: 1;
+}
+
+/*svg elements styles, ATTENTION! the syntax is different from pure html elements (color=fill etc.)*/
+svg{
+	background-color: #fff;/*backgroung_color*/
+	padding-bottom: 10px;
+}
+text{
+	fill: #FFFFFF;
+}
+.axisLine{
+	stroke: #BBB;/*ui_grey*/
+	opacity: 1.0;
+}
+.axisExplanation{
+	fill: #BBB;/*ui_grey*/
+	opacity: 1.0;
+	font-size: 40px;
+	text-anchor: end;
+}
+.axisExplanationOpposite{
+	text-anchor: start;
+}
+.middle{
+	text-anchor: middle;
+}
+
+.partyLabes{
+	fill: #BBB;/*ui_grey*/
+	opacity: 1.0;
+	font-size: 20px;
+	text-anchor: end;
+}
+circle {
+	stroke: #000;
+	opacity: 1.0;
+	stroke-width: 0.75;
+	fill: #FFF;
+}
+circle.ui{
+	opacity: 1.0;
+}
+circle.segments{
+	opacity: 1.0;
+}
+
+@media only screen and (max-width: 999px){
+
+}
