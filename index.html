@@ -47,38 +47,14 @@ ga('send', 'pageview');
 
 		</div>
 	</header>
-<!--this small script is for legend toggle-->
-<script type="text/javascript">
-	var isVisible = true;
-	function toggleLegendVisibility(){
-		if(isVisible){
-			$("#legendControls").hide(200);
-			$("#legendSvg").hide(200);
-			$("#legendToggle").html("Näytä selite");
-		}
-		else{
-			$("#legendControls").show(200);
-			$("#legendSvg").show(200);
-			$("#legendToggle").html("Piilota selite");
-		}
-		isVisible = !isVisible
-	}
-	function minimizeLegend(){
-		if(!isVisible) isVisible = !isVisible;
-		toggleLegendVisibility();
-	}
-	function showLegend(){
-		if(isVisible) isVisible = !isVisible;
-		toggleLegendVisibility();
-	}
-</script>
 
 	<!--Form that contains controls-->
 	<div id="formContainer">
 		<form id="visualizationForm"></form>
 	</div>
 
-
+	<!--this small script is for legend toggle-->
+	<script src="js/legendHelper.js" type="text/javascript" charset="utf-8"></script>
 	<!--Div that contains legends for colors, and controls to toggle them-->
 	<div id="legendContainer" class="">
 		<div id="legendToggle" onclick="toggleLegendVisibility()" class="legendClose">Piilota selite</div>
