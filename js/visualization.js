@@ -194,42 +194,42 @@ d3.csv("data.csv", function(d){
 		//Draw axis
 		//horisontal xAxis
 		var line = svg.append("line")
-		.attr("x1", 0)
-		.attr("y1", height/2)
-		.attr("x2", width)
-		.attr("y2", height/2)
-		.attr("class", "axisLine")
-		.attr("stroke-width", 2)
-		.attr("stroke", "black");
+			.attr("x1", 0)
+			.attr("y1", height/2)
+			.attr("x2", width)
+			.attr("y2", height/2)
+			.attr("class", "axisLine")
+			.attr("stroke-width", 2)
+			.attr("stroke", "black");
 		var text = svg.append("text")
-		.attr("x", width)
-		.attr("y", height/2)
-		.attr("class", "axisExplanation")
-		.text(xAxisValue);
+			.attr("x", width)
+			.attr("y", height/2)
+			.attr("class", "axisExplanation")
+			.text(xAxisValue);
 		var text = svg.append("text")
-		.attr("x", 0)
-		.attr("y", height/2)
-		.attr("class", "axisExplanation axisExplanationOpposite")
-		.text(axisValueOpposites[axisValues.indexOf(xAxisValue)]);
+			.attr("x", 0)
+			.attr("y", height/2)
+			.attr("class", "axisExplanation axisExplanationOpposite")
+			.text(axisValueOpposites[axisValues.indexOf(xAxisValue)]);
 		//vertical yAxis
 		var line = svg.append("line")
-		.attr("x1", width/2)
-		.attr("y1", 0)
-		.attr("x2", width/2)
-		.attr("y2", height)
-		.attr("class", "axisLine")
-		.attr("stroke-width", 2)
-		.attr("stroke", "black");
+			.attr("x1", width/2)
+			.attr("y1", 0)
+			.attr("x2", width/2)
+			.attr("y2", height)
+			.attr("class", "axisLine")
+			.attr("stroke-width", 2)
+			.attr("stroke", "black");
 		var text = svg.append("text")
-		.attr("x", width/2)
-		.attr("y", 30)
-		.attr("class", "axisExplanation middle")
-		.text(yAxisValue);
+			.attr("x", width/2)
+			.attr("y", 30)
+			.attr("class", "axisExplanation middle")
+			.text(yAxisValue);
 		var text = svg.append("text")
-		.attr("x", width/2)
-		.attr("y", height)
-		.attr("class", "axisExplanation middle")
-		.text(axisValueOpposites[axisValues.indexOf(yAxisValue)]);
+			.attr("x", width/2)
+			.attr("y", height)
+			.attr("class", "axisExplanation middle")
+			.text(axisValueOpposites[axisValues.indexOf(yAxisValue)]);
 
 		//scales the data to screen size, these variables are used as functions later on.
 		var linearWidthScale = d3.scale.linear()
