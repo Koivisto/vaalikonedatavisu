@@ -7,6 +7,8 @@ Thanks: Juha Törmänen's code at http://peili.kirkas.info/vis/politicianmap15b/
 var MAXHEIGHT = 1000;
 var MAXWIDTH = 1800; //#visualizationDiv has attribute max-width: 1800px; in css also
 var MARGIN = 100;
+var LEGENDWIDHT = 200;
+var MOBILEBREAKPOINT = 600;
 var ALLDISTRICTS = "- Koko maa -"
 
 /*Decides proper size for the visualization*/
@@ -15,12 +17,12 @@ function getHeight(){
 	return $(window).height();
 };
 function getWidth(){
-	if( $("#visualizationDiv").width() > MAXWIDTH ){ return MAXWIDTH;}
-	return $("#visualizationDiv").width();
+	if( $("#visualizationDiv").width() > MAXWIDTH ){ return MAXWIDTH-LEGENDWIDHT+50;}
+	return $("#visualizationDiv").width()-LEGENDWIDHT+50;
 }
 function adjustElementsToScreenSize(){
-	if ( getWidth() < 600 || getHeight() < 600){ 
-		MARGIN = 20;
+	if ( getWidth() < MOBILEBREAKPOINT+50 || getHeight() < MOBILEBREAKPOINT){ 
+		MARGIN = 120;
 	}
 	else{
 		MARGIN = 100;
@@ -115,28 +117,28 @@ d3.csv("data.csv", function(d){
 	.text("Valitse Y-akseli");
 
 	//Candidate color toggle on party/segment
-	var legendSvg = d3.select("#legendSvg");
-	legendSvg.attr("width", 500).attr("height", 500);
 	var legendContainer = d3.select("#legendContainer");
+	var legendControls = legendContainer.select("#legendControls");
 	var showPartyColors = true;
-
-	var partyRadioBtn = legendContainer.append("input")
+	var partyRadioBtn = legendControls.append("input")
 		.attr("type", "radio")
 		.attr("name", "color")
 		.attr("value", "party")
 		.attr("id", "party")
 		.property("checked", true)
 		.on("click", function() {showPartyColors = true; redraw();});
-
-	legendContainer.append("label").html("Värit puolueittain");
-	var segmentRadioBtn = legendContainer.append("input")
+	legendControls.append("label").html(" Värit puolueittain<br>");
+	var segmentRadioBtn = legendControls.append("input")
 		.attr("type", "radio")
 		.attr("name", "color")
 		.attr("value", "segment")
 		.attr("id", "segment")
 		.property("checked", false)
 		.on("click", function() {showPartyColors = false; redraw();});
-	legendContainer.append("label").html("Värit segmenteittäin");
+	legendControls.append("label").html(" Värit segmenteittäin");
+	//init svg
+	var legendSvg = d3.select("#legendSvg");
+	legendSvg.attr("width", LEGENDWIDHT).attr("height", 400);
 
 /***********************************************************************
 	Visualization resizing starts
@@ -251,7 +253,7 @@ d3.csv("data.csv", function(d){
 		.data(parties)
 		.enter()
 			.append("circle")
-			.attr("cx", 450)
+			.attr("cx", LEGENDWIDHT-13)
 			.attr("cy", function(parties){return +(getNextTick()*20);})
 			.attr("r", 10)
 			.attr("class", "parties")
@@ -262,12 +264,12 @@ d3.csv("data.csv", function(d){
 				filterCandidates();
 				redraw();
 			});
-		getNextTick();//skip one
+		getNextTick();//skip one line
 		var segmentsSelection = legendSvg.selectAll("circle.segments")
 		.data(segments)
 		.enter()
 			.append("circle")
-			.attr("cx", 450)
+			.attr("cx", LEGENDWIDHT-13)
 			.attr("cy", function(segments){return +(getNextTick()*20);})
 			.attr("r", 10)
 			.attr("class", "segments")
@@ -285,16 +287,16 @@ d3.csv("data.csv", function(d){
 		.data(parties)
 		.enter()
 			.append("text")
-			.attr("x", 430)
+			.attr("x", LEGENDWIDHT-26)
 			.attr("y", function(parties){return +(getNextTick()*20 +5);})
 			.attr("class", "partyLabes")
 			.text(function(d){return d;});
-		getNextTick();
+		getNextTick();//skip one line
 		var partyLabes = legendSvg.selectAll("text.segments")
 		.data(segments)
 		.enter()
 			.append("text")
-			.attr("x", 430)
+			.attr("x", LEGENDWIDHT-26)
 			.attr("y", function(segments){return +(getNextTick()*20 +5);})
 			.attr("class", "partyLabes segments")
 			.text(function(d){return d;});
