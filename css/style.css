@@ -48,6 +48,7 @@ header div{
 	max-width: 2000px;
 	display:block;
 	margin:0 auto 0 auto;
+
 }
 
 #titleBox{
@@ -68,6 +69,7 @@ footer{
 	background-color: #FFF;
 }
 .infoBox{
+	position: absolute;
 	width: 220px;
 	opacity: 1.0;
 	color:#000;
@@ -152,19 +154,19 @@ a.infoBoxLink{
 
 /*Color legend styles*/
 #legendContainer{
+	display: inline;
+	position: relative;
+	float:right;
+	margin-right: 10px;
+	margin-left: 0px;
+	/*width: 200px;*/
+
+	padding: 10px 5px 10px 5px;
+	background-color: rgba(255,255,255,0.3);/*background-color: #FFF; w/ alpha*/
 	text-align: left;
 	color:#000;
 	box-shadow: 0px 0px 10px #000;
 	overflow: hidden;
-
-	position: relative;
-	float:right;
-	margin-right: 3px;
-	margin-left: -240px;
-	/*width: 200px;*/
-	padding: 10px 5px 10px 5px;
-	background-color: rgba(255,255,255,0.3);/*background-color: #FFF; w/ alpha*/
-
 	/*corners*/
 	-webkit-border-top-right-radius: 45px;
 	-moz-border-radius-topright: 45px;
@@ -174,30 +176,36 @@ a.infoBoxLink{
 	border-bottom-left-radius: 100px 120px;
 }
 #legendSvg{
-	background-color: rgba(255,255,255,0.3);/*background-color: #FFF; w/ alpha*/
+	background-color: rgba(255,255,255,0.0);/*background-color: #FFF; w/ alpha*/
 }
 #legendControls{
 
 }
-
-
-
+.legendClose{
+	font-size: inherit;
+	background: #000000;
+	padding: 10px 10px 10px 10px;
+	margin: -10px -10px 10px -10px;
+	color: #FFF;
+}
 
 /* Media queries. These probably aren't very reliable at the moment, since they don't take in account the device pixel ratio, but they probably can be fixed */
-@media (max-width:600px){
+@media (max-width:720px){
 	header div{
 		width:95%;
 	}
 	#legendContainer{
-		position: static;
-		float:left;
+		float:none;
+		display: block;
 		margin-right: 5px;
 		margin-left: 5px;
 		margin-bottom: 5px;
+		text-align: center;
 	}
+
 }  
 
-@media (min-width:600px) and (max-width:900px){
+@media (min-width:720px) and (max-width:900px){
 	header div{
 		width:80%;
 	}
