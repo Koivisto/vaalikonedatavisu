@@ -317,41 +317,41 @@ d3.csv("data.csv", function(d){
 		/*Connects the data to svg elements, determines the interaction logic*/
 		var candidateGroup = svg.append("g")
 		var candidates = candidateGroup.selectAll("circle")
-		.data(d)
-		.enter()
-		.append("circle")
-		.attr("cx", function(d){return linearWidthScale(getXValue(d));})
-		.attr("cy", function(d){return linearHeigthScale(getYValue(d));})
-		.attr("r", function(d){return linearElementScale(height);});
+			.data(d)
+			.enter()
+				.append("circle")
+				.attr("cx", function(d){return linearWidthScale(getXValue(d));})
+				.attr("cy", function(d){return linearHeigthScale(getYValue(d));})
+				.attr("r", function(d){return linearElementScale(height);});
 		
 		/*Assign actions on candidate elements
 		It is possible to click candidate, so the info will keep showing*/
 		candidates
-		.on('click', function(d){
-			isClicked = !isClicked;
-			defineCandidate(d, d3.select(this));
-			displayInfo(candidate);
-			previousCandidate = candidate;
-		})
-		.on('mouseenter', function(d){
-			defineCandidate(d, d3.select(this));
-			if(previousCandidate != null && isClicked){
-				dontDisplayInfo(previousCandidate);
-						isClicked = !isClicked;}//prepares for new a click
-						displayInfo(candidate);
-					})
-		.on('mouseleave', function(d){
-			defineCandidate(d, d3.select(this));
-			if(!isClicked){dontDisplayInfo(candidate);};
-		})
-		.on('touchstart', function(d){
-			defineCandidate(d, d3.select(this));
-			displayInfo(candidate);
-		})
-		.on('touchend', function(d){
-			defineCandidate(d, d3.select(this));
-			if(!isClicked){dontDisplayInfo(candidate)};
-		});
+			.on('click', function(d){
+				isClicked = !isClicked;
+				defineCandidate(d, d3.select(this));
+				displayInfo(candidate);
+				previousCandidate = candidate;
+			})
+			.on('mouseenter', function(d){
+				defineCandidate(d, d3.select(this));
+				if(previousCandidate != null && isClicked){
+					dontDisplayInfo(previousCandidate);
+							isClicked = !isClicked;}//prepares for new a click
+							displayInfo(candidate);
+						})
+			.on('mouseleave', function(d){
+				defineCandidate(d, d3.select(this));
+				if(!isClicked){dontDisplayInfo(candidate);};
+			})
+			.on('touchstart', function(d){
+				defineCandidate(d, d3.select(this));
+				displayInfo(candidate);
+			})
+			.on('touchend', function(d){
+				defineCandidate(d, d3.select(this));
+				if(!isClicked){dontDisplayInfo(candidate)};
+			});
 
 		/*Style for candidate elements*/
 		candidates.style("fill", function(d){
@@ -468,11 +468,11 @@ d3.csv("data.csv", function(d){
 
 				/*UI control for district (needs to be inside resizing)*/
 				districtSelector.selectAll("option.local")
-				.data(areas)
-				.enter().append("option")
-				.attr("class", "local")
-				.attr("value", function(d) { return d; })
-				.text(function(d) { return d; });
+					.data(areas)
+					.enter().append("option")
+						.attr("class", "local")
+						.attr("value", function(d) { return d; })
+						.text(function(d) { return d; });
 				districtSelector.on("change", function(){
 					filterCandidates();
 				});
@@ -486,17 +486,17 @@ d3.csv("data.csv", function(d){
 
 	/*UI control for axis*/
 	axisXSelector.selectAll("option.local")
-	.data(axisValues)
-	.enter().append("option")
-	.attr("class", "local")
-	.attr("value", function(d) { return d; })
-	.text(function(d) { return d; });
+		.data(axisValues)
+		.enter().append("option")
+			.attr("class", "local")
+			.attr("value", function(d) { return d; })
+			.text(function(d) { return d; });
 	axisYSelector.selectAll("option.local")
-	.data(axisValues)
-	.enter().append("option")
-	.attr("class", "local")
-	.attr("value", function(d) { return d; })
-	.text(function(d) { return d; });
+		.data(axisValues)
+		.enter().append("option")
+			.attr("class", "local")
+			.attr("value", function(d) { return d; })
+			.text(function(d) { return d; });
 	axisXSelector.on("change", function(){redraw();});
 	axisYSelector.on("change", function(){redraw();});
 
