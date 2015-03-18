@@ -82,11 +82,7 @@ a.infoBoxLink{
 }
 #formContainer{
 	padding-top: 10px;
-	background-color: #EEE;/*backgroung_color*/
 	text-align: right;
-}
-form{
-	opacity: 1;
 }
 
 /*svg elements styles, ATTENTION! the syntax is different from pure html elements (color=fill etc.)*/
@@ -130,8 +126,4 @@ circle.ui{
 }
 circle.segments{
 	opacity: 1.0;
-}
-
-@media only screen and (max-width: 999px){
-
 }

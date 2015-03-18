@@ -69,10 +69,11 @@ footer{
 
 }
 
+/*Form styles*/
 #formContainer form *{
 	margin:5px;
+	text-align: right;
 }
-
 
 /* Media queries. These probably aren't very reliable at the moment, since they don't take in account the device pixel ratio, but they probably can be fixed */
 @media (max-width:500px){
