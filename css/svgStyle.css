@@ -1,96 +1,9 @@
-
-a{
-	color: #FFF;
-}
-
-#explanations{
-	color:#000;
-	background-color: #FFF;
-}
-.infoBox{
-	width: 220px;
-	opacity: 1.0;
-	color:#000;
-	background-color: #FFF;
-	box-shadow: 0px 0px 10px #000;
-	overflow: hidden;
-	padding: 20px 10px 10px 10px;
-}
-a.infoBoxLink{
-	color: #BBB;
-}
-.infoBox:hover{
-	opacity: 1;
-}
-
-.toRight{
-	/*positioning*/
-	transform: translate(-0%, -100%);
-	-webkit-transform: translate(-0%, -100%);
-	-ms-transform: translate(-0%, -100%);
-
-	/*corners*/
-	-webkit-border-top-left-radius: 30px;
-	-moz-border-radius-topleft: 30px;
-	border-top-left-radius: 30px;
-	
-	-webkit-border-bottom-right-radius: 100px 120px;
-	-moz-border-radius-bottomright: 100px 120px;
-	border-bottom-right-radius: 100px 120px;
-}
-
-.toLeft{
-	/*positioning*/
-	-moz-transform: translate(-100%, -100%);
-	-webkit-transform: translate(-100%, -100%);
-	-o-transform: translate(-100%, -100%);
-	-ms-transform: translate(-100%, -100%);
-	transform: translate(-100%, -100%);
-
-	/*corners*/
-	-webkit-border-top-right-radius: 45px;
-	-moz-border-radius-topright: 45px;
-	border-top-right-radius: 45px;
-	
-	-webkit-border-bottom-left-radius: 50px 60px;
-	-moz-border-radius-bottomleft: 50px 60px;
-	border-bottom-left-radius: 50px 60px;
-}
-
-.infoBoxClose{
-	-webkit-border-radius: 60px;
-	-moz-border-radius: 60px;
-	border-radius: 60px;
-	height: 30px;
-	width: 30px;
-	color: #ffffff;
-	font-size: 10px;
-	background: #000000;
-	padding: 10px 10px 10px 10px;
-	border: 0px;
-	text-decoration: none;
-	position: absolute;
-	left: 195px;
-	top: -5px;
-}
-.infoBoxClose:hover {
-	background: #8f8f8f;
-	text-decoration: none;
-}
-.infoBoxCloseLeft{
-	left: -5px;
-}
-#formContainer{
-	padding-top: 10px;
-	text-align: right;
-}
-
-/*svg elements styles, ATTENTION! the syntax is different from pure html elements (color=fill etc.)*/
+/*SVG elements styles, ATTENTION! the syntax is different from pure html elements (color=fill etc.)*/
 svg{
 	background-color: #fff;/*backgroung_color*/
 }
 text{
-	fill: #FFFFFF;
+	fill: #000;
 }
 .axisLine{
 	stroke: #BBB;/*ui_grey*/
@@ -126,4 +39,80 @@ circle.ui{
 }
 circle.segments{
 	opacity: 1.0;
+}
+
+/*CSS for information boxes on candidates (visible when mouse over svg elements)*/
+#explanations{
+	color:#000;
+	background-color: #FFF;
+}
+.infoBox{
+	width: 220px;
+	opacity: 1.0;
+	color:#000;
+	background-color: #FFF;
+	box-shadow: 0px 0px 10px #000;
+	overflow: hidden;
+	padding: 20px 10px 10px 10px;
+}
+a.infoBoxLink{
+	color: #BBB;
+}
+.infoBox:hover{
+	opacity: 1;
+}
+.toRight{
+	/*positioning*/
+	transform: translate(-0%, -100%);
+	-webkit-transform: translate(-0%, -100%);
+	-ms-transform: translate(-0%, -100%);
+
+	/*corners*/
+	-webkit-border-top-left-radius: 30px;
+	-moz-border-radius-topleft: 30px;
+	border-top-left-radius: 30px;
+	
+	-webkit-border-bottom-right-radius: 100px 120px;
+	-moz-border-radius-bottomright: 100px 120px;
+	border-bottom-right-radius: 100px 120px;
+}
+.toLeft{
+	/*positioning*/
+	-moz-transform: translate(-100%, -100%);
+	-webkit-transform: translate(-100%, -100%);
+	-o-transform: translate(-100%, -100%);
+	-ms-transform: translate(-100%, -100%);
+	transform: translate(-100%, -100%);
+
+	/*corners*/
+	-webkit-border-top-right-radius: 45px;
+	-moz-border-radius-topright: 45px;
+	border-top-right-radius: 45px;
+	
+	-webkit-border-bottom-left-radius: 50px 60px;
+	-moz-border-radius-bottomleft: 50px 60px;
+	border-bottom-left-radius: 50px 60px;
+}
+.infoBoxClose{
+	-webkit-border-radius: 60px;
+	-moz-border-radius: 60px;
+	border-radius: 60px;
+	height: 30px;
+	width: 30px;
+	color: #ffffff;
+	font-size: 10px;
+	background: #000000;
+	padding: 10px 10px 10px 10px;
+	border: 0px;
+	text-decoration: none;
+	position: absolute;
+	left: 195px;
+	top: -5px;
+}
+.infoBoxClose:hover {
+	background: #8f8f8f;
+	text-decoration: none;
+}
+.infoBoxCloseLeft{
+	left: -5px;
 }
