@@ -481,7 +481,7 @@ d3.csv("data.csv", function(d){
 				.transition()
 				.duration(300)
 				.attr("r", function(d){return linearElementScale(height);})
-			var infoDiv= document.getElementById(candidate.name);
+			var infoDiv = document.getElementById(candidate.name);
 			infoDiv.parentNode.removeChild(infoDiv);
 		}
 
