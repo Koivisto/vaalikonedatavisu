@@ -47,24 +47,53 @@ ga('send', 'pageview');
 
 		</div>
 	</header>
+<!--this small script is for legend toggle-->
+<script type="text/javascript">
+	var isVisible = true;
+	function toggleLegendVisibility(){
+		if(isVisible){
+			$("#legendControls").hide(200);
+			$("#legendSvg").hide(200);
+			$("#legendToggle").html("Näytä selite");
+		}
+		else{
+			$("#legendControls").show(200);
+			$("#legendSvg").show(200);
+			$("#legendToggle").html("Piilota selite");
+		}
+		isVisible = !isVisible
+	}
+	function minimizeLegend(){
+		if(!isVisible) isVisible = !isVisible;
+		toggleLegendVisibility();
+	}
+	function showLegend(){
+		if(isVisible) isVisible = !isVisible;
+		toggleLegendVisibility();
+	}
+</script>
 
 	<!--Form that contains controls-->
 	<div id="formContainer">
 		<form id="visualizationForm"></form>
 	</div>
 
-	<!--Div that contains all explanations-->
-	<div id="explanations" style="position: absolute;"></div>
 
+	<!--Div that contains legends for colors, and controls to toggle them-->
+	<div id="legendContainer" class="">
+		<div id="legendToggle" onclick="toggleLegendVisibility()" class="legendClose">Piilota selite</div>
+		<div id="legendControls"></div>
+		<svg id="legendSvg"></svg>
+	</div>
+
+	
+	<!--Div that contains all explanations-->
+	<div id="explanations" style="position: absolute;"><p>moi</p></div>
 	<!--Actual visualization inside svg-element-->
 	<div id="visualizationDiv">
-		<!--Div that contains legends for colors, and controls to toggle them-->
-		<div id="legendContainer" class="">
-			<div id="legendControls"></div><br>
-			<svg id="legendSvg"></svg>
-		</div>
 		<svg id="visualizationSvg"></svg>
 	</div>
+	
 	<!--Visualization logic-->
 	<script src="js/visualization.js" type="text/javascript" charset="utf-8"></script>
 
