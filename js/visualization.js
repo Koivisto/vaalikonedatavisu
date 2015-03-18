@@ -10,6 +10,7 @@ var MARGIN = 100;
 var LEGENDWIDHT = 200;
 var MOBILEBREAKPOINT = 700;
 var ALLDISTRICTS = "- Koko maa -"
+var narrowerDimension = MAXHEIGHT;
 
 /*Decides proper size for the visualization*/
 function getHeight(){
@@ -35,6 +36,9 @@ function adjustVisualizationToScreenSize(){
 	else{
 		MARGIN = 100;
 	}
+
+	if(getWidth() < getHeight()){narrowerDimension = getWidth();}
+	else{narrowerDimension = getHeight()}
 }
 adjustVisualizationToScreenSize();
 
@@ -348,7 +352,7 @@ d3.csv("data.csv", function(d){
 				.append("circle")
 				.attr("cx", function(d){return linearWidthScale(getXValue(d));})
 				.attr("cy", function(d){return linearHeigthScale(getYValue(d));})
-				.attr("r", function(d){return linearElementScale(height);});
+				.attr("r", function(d){return linearElementScale(narrowerDimension);});
 		
 		/*Assign actions on candidate elements
 		It is possible to click candidate, so the info will keep showing*/
@@ -441,7 +445,7 @@ d3.csv("data.csv", function(d){
 			candidate.element
 			.transition()
 			.duration(300)
-			.attr("r", function(d){return linearElementScale(height)*2;})
+			.attr("r", function(d){return linearElementScale(narrowerDimension)*2;})
 
 			//html text for infoBox
 			var infoString = "<strong>"+candidate.name+"</strong>, nro: "+ candidate.id+"<br>"+
@@ -480,7 +484,7 @@ d3.csv("data.csv", function(d){
 			candidate.element
 				.transition()
 				.duration(300)
-				.attr("r", function(d){return linearElementScale(height);})
+				.attr("r", function(d){return linearElementScale(narrowerDimension);})
 			var infoDiv = document.getElementById(candidate.name);
 			infoDiv.parentNode.removeChild(infoDiv);
 		}
