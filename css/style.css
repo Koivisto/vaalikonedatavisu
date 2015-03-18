@@ -39,6 +39,11 @@ header div{
 
 }
 
+#visualizationDiv{
+	max-width: 1800px;
+	display:block;
+	margin:0 auto 0 auto;
+}
 
 #titleBox{
 	color:#006F6F;
