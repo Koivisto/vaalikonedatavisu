@@ -1,6 +1,6 @@
 /*SVG elements styles, ATTENTION! the syntax is different from pure html elements (color=fill etc.)*/
 svg{
-	background-color: #fff;/*backgroung_color*/
+	background-color: rgba(255,255,255,0.0);/*background-color: #FFF; w/ alpha*/
 }
 text{
 	fill: #000;
@@ -39,4 +39,10 @@ circle.ui{
 }
 circle.segments{
 	opacity: 1.0;
+}
+
+@media (max-width:800px){
+	.axisExplanation{
+		font-size: 20px;
+	}
 }
