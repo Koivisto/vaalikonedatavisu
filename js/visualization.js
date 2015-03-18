@@ -5,7 +5,7 @@ Thanks: Juha Törmänen's code at http://peili.kirkas.info/vis/politicianmap15b/
 */
 
 var MAXHEIGHT = 1000;
-var MAXWIDTH = 2000; //#visualizationDiv has attribute max-width: 2000px; in css also
+var MAXWIDTH = 2000; //#visualizationDiv has attribute max-width: 2000px; in css
 var MARGIN = 100;
 var LEGENDWIDHT = 200;
 var MOBILEBREAKPOINT = 700;
@@ -16,6 +16,7 @@ function getHeight(){
 	if( $(window).height() > MAXHEIGHT ){return MAXHEIGHT;}
 	return $(window).height();
 };
+/*Returns width for main svg element*/
 function getWidth(){
 	if( $("#visualizationDiv").width() > MAXWIDTH ){ 
 		return MAXWIDTH - LEGENDWIDHT-20;}
@@ -24,9 +25,9 @@ function getWidth(){
 			return $("#visualizationDiv").width()
 		}
 		return $("#visualizationDiv").width() -LEGENDWIDHT-20;
-
 	}	
 }
+/*Adjusts the datapoint marginal*/
 function adjustVisualizationToScreenSize(){
 	if ( $("#visualizationDiv").width() < MOBILEBREAKPOINT+LEGENDWIDHT+20 || getHeight() < MOBILEBREAKPOINT+LEGENDWIDHT+20){ 
 		MARGIN = 20;
@@ -82,24 +83,24 @@ function getColor(str){
 	}
 }
 
-//Data begins
+/************************************************************************/
+/*Data begins*/
 d3.csv("data.csv", function(d){
 
 	/*Initializes UI elements inside the form*/
-
 	//name and candidate number filtering
-	var searchInput = form.append('input')
-	.attr('placeholder', "Etsi nimellä/numerolla")
-	.attr('type', 'text');
-	searchInput.on('input', function() {
+	var searchInput = form.append("input")
+		.attr("placeholder", "Etsi nimellä/numerolla")
+		.attr("type", "text");
+	searchInput.on("input", function() {
 		redraw();
 	});
 
 	//District option menu
 	var districtSelector = form.append("select");
 	districtSelector.append("option")
-	.attr("value", "all")
-	.text("Valitse alue");
+		.attr("value", "all")
+		.text("Valitse alue");
 	// Data parsing for voting districts that are present
 	var areadict = {}, areas = [];
 	d.forEach(function(d) {
@@ -116,13 +117,14 @@ d3.csv("data.csv", function(d){
 	//X and Y axis selection option menus
 	var axisXSelector = form.append("select");
 	axisXSelector.append("option")
-	.attr("value", "all")
-	.text("Valitse X-akseli");
+		.attr("value", "all")
+		.text("Valitse X-akseli");
 	var axisYSelector = form.append("select");
 	axisYSelector.append("option")
-	.attr("value", "all")
-	.text("Valitse Y-akseli");
+		.attr("value", "all")
+		.text("Valitse Y-akseli");
 
+	/*Initializes Legend UI elements*/
 	//Candidate color toggle on party/segment
 	var legendContainer = d3.select("#legendContainer");
 	var legendControls = legendContainer.select("#legendControls");
@@ -143,13 +145,13 @@ d3.csv("data.csv", function(d){
 		.property("checked", false)
 		.on("click", function() {showPartyColors = false; redraw();});
 	legendControls.append("label").html(" Värit segmenteittäin");
-	//init svg
+	//init legendSvg
 	var legendSvg = d3.select("#legendSvg");
-	legendSvg.attr("width", LEGENDWIDHT).attr("height", 400);
+	legendSvg.attr("width", LEGENDWIDHT).attr("height", 400);//height has currently a "magic number"
 
 /***********************************************************************
 	Visualization resizing starts
-	***********************************************************************/
+***********************************************************************/
 	function redraw() {
 		//Removing old elements
 		svg.selectAll("circle").remove();
@@ -157,33 +159,35 @@ d3.csv("data.csv", function(d){
 		svg.selectAll("line").remove();
 		removeInfoDivs();
 
+		/*Reset key values*/
 		adjustVisualizationToScreenSize();
-		width = getWidth(); //$("#visualizationDiv").width();
-		var height = getHeight(); //- MARGIN;
+		width = getWidth();
+		var height = getHeight();
 		svg
 		.attr("width", width)
 		.attr("height", height)
 
-		//Axis selection
+		/*Axis*/
+		//Init axis selection
 		var xAxisValue = axisValues[0], yAxisValue = axisValues[2];
 		function changeAxisX(){
-			if (axisXSelector.property('selectedIndex') > 0) {
+			if (axisXSelector.property('selectedIndex') > 0) {//if something is selected in menu
 				xAxisValue = axisValues[axisXSelector.property('selectedIndex')-1];
 			}
 			xMax = d3.max(d, function(d) { return +getValueFromStr(d, xAxisValue); });
 			xMin = d3.min(d, function(d) { return +getValueFromStr(d, xAxisValue); });
 		}
-		changeAxisX();//redraw is called when axis are changed
+		changeAxisX();
 		function changeAxisY(){
-			if (axisYSelector.property('selectedIndex') > 0) {
+			if (axisYSelector.property('selectedIndex') > 0) {//if something is selected in menu
 				yAxisValue = axisValues[axisYSelector.property('selectedIndex')-1];
 			}
 			yMax = d3.max(d, function(d) { return +getValueFromStr(d, yAxisValue); });
 			yMin = d3.min(d, function(d) { return +getValueFromStr(d, yAxisValue); });
 		}
-		changeAxisY();//redraw is called when axis are changed
+		changeAxisY();
 
-		//Lazy enum for axis labels
+		//Lazy enum for axis labels to data
 		function getXValue(d){
 			return getValueFromStr(d, xAxisValue);
 		}
@@ -239,17 +243,6 @@ d3.csv("data.csv", function(d){
 			.attr("y", height)
 			.attr("class", "axisExplanation middle")
 			.text(axisValueOpposites[axisValues.indexOf(yAxisValue)]);
-
-		//scales the data to screen size, these variables are used as functions later on.
-		var linearWidthScale = d3.scale.linear()
-		.domain([xMin,xMax])
-		.range([MARGIN,width-MARGIN]);
-		var linearHeigthScale = d3.scale.linear()
-		.domain([yMax,yMin])
-		.range([MARGIN,height-MARGIN]);
-		var linearElementScale = d3.scale.linear()
-		.domain([0, MAXHEIGHT])
-		.range([2,10]);
 
 		/*Party selection UI elements in legendContainer and logic*/
 		//helping function por positioning
@@ -335,6 +328,17 @@ d3.csv("data.csv", function(d){
 		var previousCandidate = null;
 		var candidate= null;
 
+		//scales the data to screen size, these variables are used as functions when.
+		var linearWidthScale = d3.scale.linear()
+			.domain([xMin,xMax])
+			.range([MARGIN,width-MARGIN]);
+		var linearHeigthScale = d3.scale.linear()
+			.domain([yMax,yMin])
+			.range([MARGIN,height-MARGIN]);
+		var linearElementScale = d3.scale.linear()
+			.domain([0, MAXHEIGHT])
+			.range([2,10]);
+
 		/*Main logic is here, when data is used to create DOM elements, and events are decided*/
 		/*Connects the data to svg elements, determines the interaction logic*/
 		var candidateGroup = svg.append("g")
@@ -349,51 +353,51 @@ d3.csv("data.csv", function(d){
 		/*Assign actions on candidate elements
 		It is possible to click candidate, so the info will keep showing*/
 		candidates
-			.on('click', function(d){
+			.on("click", function(d){
 				isClicked = !isClicked;
 				defineCandidate(d, d3.select(this));
 				displayInfo(candidate);
 				previousCandidate = candidate;
 			})
-			.on('mouseenter', function(d){
+			.on("mouseenter", function(d){
 				defineCandidate(d, d3.select(this));
 				if(previousCandidate != null && isClicked){
 					dontDisplayInfo(previousCandidate);
 							isClicked = !isClicked;}//prepares for new a click
 							displayInfo(candidate);
 						})
-			.on('mouseleave', function(d){
+			.on("mouseleave", function(d){
 				defineCandidate(d, d3.select(this));
 				if(!isClicked){dontDisplayInfo(candidate);};
 			})
-			.on('touchstart', function(d){
+			.on("touchstart", function(d){
 				defineCandidate(d, d3.select(this));
 				displayInfo(candidate);
 			})
-			.on('touchend', function(d){
+			.on("touchend", function(d){
 				defineCandidate(d, d3.select(this));
 				if(!isClicked){dontDisplayInfo(candidate)};
 			});
 
-		/*Style for candidate elements*/
+		/*Color for candidate elements based on data*/
 		candidates.style("fill", function(d){
 			if(showPartyColors)	return getColor(d.party);
 			return getColor(d.segment)
 		});
 
-		/*Sets display to none for filtered candidate elements*/
+		/*Sets css "display" to "none" for filtered candidate elements*/
 		function filterCandidates(){
 			//updates district filter
-			if (districtSelector.property('selectedIndex') > 0) {
-				currentDistrict = areas[districtSelector.property('selectedIndex')-1];
+			if (districtSelector.property("selectedIndex") > 0) {
+				currentDistrict = areas[districtSelector.property("selectedIndex")-1];
 			}
 			//updates name and candidate number filter
-			var searchValue = searchInput.property('value').toLowerCase();
-			var searchArray = searchValue.split(' ');
+			var searchValue = searchInput.property("value").toLowerCase();
+			var searchArray = searchValue.split(" ");
 
 			//Let the filtering begin!
 			candidates
-			.attr('display', function(d) { 
+			.attr("display", function(d) { 
 					//district filter
 					if (currentDistrict === ALLDISTRICTS) return "inline";
 					else if (currentDistrict && d.district !== currentDistrict) return 'none';
@@ -430,78 +434,79 @@ d3.csv("data.csv", function(d){
 				xCoordinate: +getXValue(d), 
 				yCoordinate: +getYValue(d)};
 				return candidate;
-			}
+		}
 
-			/*highlights svg element, creates infoBox div with candidate information*/
-			function displayInfo(candidate){
-				candidate.element
-				.transition()
-				.duration(300)
-				.attr("r", function(d){return linearElementScale(height)*2;})
+		/*highlights svg element, creates infoBox div with candidate information*/
+		function displayInfo(candidate){
+			candidate.element
+			.transition()
+			.duration(300)
+			.attr("r", function(d){return linearElementScale(height)*2;})
 
 			//html text for infoBox
 			var infoString = "<strong>"+candidate.name+"</strong>, nro: "+ candidate.id+"<br>"+
-			candidate.party+"<br>"+
-			"<em>segmentti: \""+candidate.segment+"\"</em><br><br>"+
-			candidate.district+"<br>"+
-			candidate.age+" vuotias, "+candidate.education+"<br>"+
-			"<br><a class=\"infoBoxLink\" href=\""+candidate.url+"\">"+candidate.url+"</a>";
+				candidate.party+"<br>"+
+				"<em>segmentti: \""+candidate.segment+"\"</em><br><br>"+
+				candidate.district+"<br>"+
+				candidate.age+" vuotias, "+candidate.education+"<br>"+
+				"<br><a class=\"infoBoxLink\" href=\""+candidate.url+"\">"+candidate.url+"</a>";
 
-			//infoBox above candidates
-			var infoDiv = document.createElement('div');
+			//infoBox for candidate information
+			var infoDiv = document.createElement("div");
 			//infobox closing button
 			var closeButton = document.createElement("BUTTON");
-			document.getElementById('explanations').appendChild(infoDiv);
+			document.getElementById("explanations").appendChild(infoDiv);
 			//if too far to right border, then uses different class
-			if(parseInt(candidate.element.attr("cx") + svg.offsetLeft) > (width-200)){
+			if(parseInt(candidate.element.attr("cx") + svg.offsetLeft) > (width-220)){
 				infoDiv.className = "infoBox toLeft";
-				closeButton.className = "infoBoxClose infoBoxCloseLeft";}
-				else{
-					infoDiv.className = "infoBox toRight";
-					closeButton.className = "infoBoxClose";}
-					infoDiv.id = candidate.name;
-					infoDiv.innerHTML = infoString;
-					//TODO fix over MAXWIDTH delocation due centralization
-					infoDiv.style.left = parseInt(candidate.element.attr("cx") + svg.offsetLeft) + "px";
-					infoDiv.style.top = parseInt(candidate.element.attr("cy") + svg.offsetTop) +-10+"px";
-					closeButton.appendChild(document.createTextNode("X"));
-					closeButton.addEventListener("click",function(d){dontDisplayInfo(candidate);});
-					infoDiv.appendChild(closeButton);
-				}
-
-				/*restores the svg element size, deletes the infoBox div*/
-				function dontDisplayInfo(candidate){
-					candidate.element
-					.transition()
-					.duration(300)
-					.attr("r", function(d){return linearElementScale(height);})
-
-					var infoDiv= document.getElementById(candidate.name);
-					infoDiv.parentNode.removeChild(infoDiv);
-				}
-
-				/*removes all info boxes present*/
-				function removeInfoDivs(){
-					var explanationsDiv = document.getElementById("explanations");
-					while (explanationsDiv.hasChildNodes()) {
-						explanationsDiv.removeChild(explanationsDiv.lastChild);
-					}
-				}
-
-				/*UI control for district (needs to be inside resizing)*/
-				districtSelector.selectAll("option.local")
-					.data(areas)
-					.enter().append("option")
-						.attr("class", "local")
-						.attr("value", function(d) { return d; })
-						.text(function(d) { return d; });
-				districtSelector.on("change", function(){
-					filterCandidates();
-				});
+				closeButton.className = "infoBoxClose infoBoxCloseLeft";
 			}
+			else{
+				infoDiv.className = "infoBox toRight";
+				closeButton.className = "infoBoxClose";
+			}
+			infoDiv.id = candidate.name;
+			infoDiv.innerHTML = infoString;
+			//TODO: fix over MAXWIDTH delocation due centralization, hotfix was 2000px maxwidth
+			infoDiv.style.left = parseInt(candidate.element.attr("cx") + svg.offsetLeft) + "px";
+			infoDiv.style.top = parseInt(candidate.element.attr("cy") + svg.offsetTop) +-10+"px";
+			closeButton.appendChild(document.createTextNode("X"));
+			closeButton.addEventListener("click",function(d){dontDisplayInfo(candidate);});
+			infoDiv.appendChild(closeButton);
+		}
+
+		/*restores the svg element size, deletes the infoBox div*/
+		function dontDisplayInfo(candidate){
+			candidate.element
+				.transition()
+				.duration(300)
+				.attr("r", function(d){return linearElementScale(height);})
+			var infoDiv= document.getElementById(candidate.name);
+			infoDiv.parentNode.removeChild(infoDiv);
+		}
+
+		/*removes all info boxes present*/
+		function removeInfoDivs(){
+			var explanationsDiv = document.getElementById("explanations");
+			while (explanationsDiv.hasChildNodes()) {
+				explanationsDiv.removeChild(explanationsDiv.lastChild);
+			}
+		}
+
+		/*UI control for district (needs to be inside resizing)*/
+		districtSelector.selectAll("option.local")
+			.data(areas)
+			.enter().append("option")
+				.attr("class", "local")
+				.attr("value", function(d) { return d; })
+				.text(function(d) { return d; });
+		districtSelector.on("change", function(){
+			filterCandidates();
+		});
+	}
 /***********************************************************************
 	Visualization resizing ends
-	***********************************************************************/
+***********************************************************************/
 
 	d3.select(window).on("resize", redraw); 
 	redraw();
@@ -522,4 +527,5 @@ d3.csv("data.csv", function(d){
 	axisXSelector.on("change", function(){redraw();});
 	axisYSelector.on("change", function(){redraw();});
 
-});//Data ends
+});/*Data ends*/
+/***********************************************************************/
