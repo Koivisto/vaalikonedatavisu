@@ -4,24 +4,36 @@ Thanks: Juha Törmänen's code at http://peili.kirkas.info/vis/politicianmap15b/
 		was an inspiration as well as a guide)
 */
 
-var width = $(document).width();
-var height = getHeight();
 var MAXHEIGHT = 1000;
 var MAXWIDTH = 1800;
 var MARGIN = 100;
 var ALLDISTRICTS = "- Koko maa -"
 
-/*Decides proper height for the visualization, that is window height or 1000px*/
+/*Decides proper size for the visualization*/
 function getHeight(){
 	if( $(window).height() > MAXHEIGHT ){return MAXHEIGHT;}
-	else{return $(window).height();}
+	return $(window).height();
 };
+function getWidth(){
+	if( $("#visualizationDiv").width() > MAXWIDTH ){ return MAXWIDTH;}
+	return $("#visualizationDiv").width();
+}
+function adjustElementsToScreenSize(){
+	if ( getWidth() < 600 || getHeight() < 600){ 
+		MARGIN = 20;
+	}
+	else{
+		MARGIN = 100;
+	}
+}
+adjustElementsToScreenSize();
+
 //init root elements for visualization
 var form = d3.select("#visualizationForm");
 var svg = d3.select("#visualizationSvg");
 svg
-.attr("width", width)
-.attr("height", height)
+.attr("width", getWidth())
+.attr("height", getHeight());
 //init some data that is used in logic and visualization
 var parties = ["Itsenäisyyspuolue","Keskusta","Kokoomus","Kristillisdemokraatit","Muutos 2011","Perussuomalaiset",
 				"Piraattipuolue","RKP","SDP","SKP","STP","Vasemmistoliitto","Vihreät"];
@@ -131,8 +143,9 @@ d3.csv("data.csv", function(d){
 		svg.selectAll("line").remove();
 		removeInfoDivs();
 
-		width = $("#visualizationDiv").width();
-		var height = getHeight() - MARGIN;
+		adjustElementsToScreenSize();
+		width = getWidth(); //$("#visualizationDiv").width();
+		var height = getHeight(); //- MARGIN;
 		svg
 		.attr("width", width)
 		.attr("height", height)
