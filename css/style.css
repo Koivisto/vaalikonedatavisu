@@ -183,10 +183,11 @@ a.infoBoxLink{
 }
 .legendClose{
 	font-size: inherit;
-	background: #000000;
+	background: #006F6F;
 	padding: 10px 10px 10px 10px;
 	margin: -10px -10px 10px -10px;
-	color: #FFF;
+	color: #C8FFFF;
+	font-weight:700;
 }
 
 /* Media queries. These probably aren't very reliable at the moment, since they don't take in account the device pixel ratio, but they probably can be fixed */
