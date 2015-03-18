@@ -8,7 +8,7 @@ var MAXHEIGHT = 1000;
 var MAXWIDTH = 2000; //#visualizationDiv has attribute max-width: 2000px; in css also
 var MARGIN = 100;
 var LEGENDWIDHT = 200;
-var MOBILEBREAKPOINT = 600;
+var MOBILEBREAKPOINT = 700;
 var ALLDISTRICTS = "- Koko maa -"
 
 /*Decides proper size for the visualization*/
@@ -17,18 +17,25 @@ function getHeight(){
 	return $(window).height();
 };
 function getWidth(){
-	if( $("#visualizationDiv").width() > MAXWIDTH ){ return MAXWIDTH-LEGENDWIDHT+50;}
-	return $("#visualizationDiv").width()-LEGENDWIDHT+50;
+	if( $("#visualizationDiv").width() > MAXWIDTH ){ 
+		return MAXWIDTH - LEGENDWIDHT-20;}
+	else{
+		if ($("#visualizationDiv").width() < MOBILEBREAKPOINT ){
+			return $("#visualizationDiv").width()
+		}
+		return $("#visualizationDiv").width() -LEGENDWIDHT-20;
+
+	}	
 }
-function adjustElementsToScreenSize(){
-	if ( getWidth() < MOBILEBREAKPOINT+50 || getHeight() < MOBILEBREAKPOINT){ 
-		MARGIN = 120;
+function adjustVisualizationToScreenSize(){
+	if ( $("#visualizationDiv").width() < MOBILEBREAKPOINT+LEGENDWIDHT+20 || getHeight() < MOBILEBREAKPOINT+LEGENDWIDHT+20){ 
+		MARGIN = 20;
 	}
 	else{
 		MARGIN = 100;
 	}
 }
-adjustElementsToScreenSize();
+adjustVisualizationToScreenSize();
 
 //init root elements for visualization
 var form = d3.select("#visualizationForm");
@@ -150,7 +157,7 @@ d3.csv("data.csv", function(d){
 		svg.selectAll("line").remove();
 		removeInfoDivs();
 
-		adjustElementsToScreenSize();
+		adjustVisualizationToScreenSize();
 		width = getWidth(); //$("#visualizationDiv").width();
 		var height = getHeight(); //- MARGIN;
 		svg
@@ -454,7 +461,6 @@ d3.csv("data.csv", function(d){
 					closeButton.className = "infoBoxClose";}
 					infoDiv.id = candidate.name;
 					infoDiv.innerHTML = infoString;
-					infoDiv.style.position = "absolute";
 					//TODO fix over MAXWIDTH delocation due centralization
 					infoDiv.style.left = parseInt(candidate.element.attr("cx") + svg.offsetLeft) + "px";
 					infoDiv.style.top = parseInt(candidate.element.attr("cy") + svg.offsetTop) +-10+"px";
