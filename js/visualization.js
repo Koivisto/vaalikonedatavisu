@@ -121,21 +121,21 @@ d3.csv("data.csv", function(d){
 	var showPartyColors = true;
 
 	var partyRadioBtn = legendContainer.append("input")
-	.attr("type", "radio")
-	.attr("name", "color")
-	.attr("value", "party")
-	.attr("id", "party")
-	.property("checked", true)
-	.on("click", function() {showPartyColors = true; redraw();});
+		.attr("type", "radio")
+		.attr("name", "color")
+		.attr("value", "party")
+		.attr("id", "party")
+		.property("checked", true)
+		.on("click", function() {showPartyColors = true; redraw();});
 
 	legendContainer.append("label").html("Värit puolueittain");
 	var segmentRadioBtn = legendContainer.append("input")
-	.attr("type", "radio")
-	.attr("name", "color")
-	.attr("value", "segment")
-	.attr("id", "segment")
-	.property("checked", false)
-	.on("click", function() {showPartyColors = false; redraw();});
+		.attr("type", "radio")
+		.attr("name", "color")
+		.attr("value", "segment")
+		.attr("id", "segment")
+		.property("checked", false)
+		.on("click", function() {showPartyColors = false; redraw();});
 	legendContainer.append("label").html("Värit segmenteittäin");
 
 /***********************************************************************
