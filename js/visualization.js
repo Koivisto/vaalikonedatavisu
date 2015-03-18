@@ -5,7 +5,7 @@ Thanks: Juha Törmänen's code at http://peili.kirkas.info/vis/politicianmap15b/
 */
 
 var MAXHEIGHT = 1000;
-var MAXWIDTH = 1800; //#visualizationDiv has attribute max-width: 1800px; in css also
+var MAXWIDTH = 2000; //#visualizationDiv has attribute max-width: 2000px; in css also
 var MARGIN = 100;
 var LEGENDWIDHT = 200;
 var MOBILEBREAKPOINT = 600;
