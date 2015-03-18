@@ -440,6 +440,7 @@ d3.csv("data.csv", function(d){
 					infoDiv.id = candidate.name;
 					infoDiv.innerHTML = infoString;
 					infoDiv.style.position = "absolute";
+					//TODO fix over MAXWIDTH delocation due centralization
 					infoDiv.style.left = parseInt(candidate.element.attr("cx") + svg.offsetLeft) + "px";
 					infoDiv.style.top = parseInt(candidate.element.attr("cy") + svg.offsetTop) +-10+"px";
 					closeButton.appendChild(document.createTextNode("X"));
