@@ -1,30 +1,38 @@
-	/*Author: Aarne Leinonen (Juha Törmänen's code at <http://peili.kirkas.info/vis/politicianmap15b/js/politicianmap.js> was an inspiration as well as a guide)*/
+/*
+Author: Aarne Leinonen 
+Thanks: Juha Törmänen's code at http://peili.kirkas.info/vis/politicianmap15b/js/politicianmap.js
+		was an inspiration as well as a guide)
+*/
 
-	var width = $(document).width();
-	var height = getHeight();
-	var MAXHEIGHT = 1000;
-	var MAXWIDTH = 1800;
-	var MARGIN = 100;
-	var ALLDISTRICTS = "- Koko maa -"
+var width = $(document).width();
+var height = getHeight();
+var MAXHEIGHT = 1000;
+var MAXWIDTH = 1800;
+var MARGIN = 100;
+var ALLDISTRICTS = "- Koko maa -"
 
-	/*Decides proper height for the visualization, that is window height or 1000px*/
-	function getHeight(){
-		if( $(window).height() > MAXHEIGHT ){return MAXHEIGHT;}
-		else{return $(window).height();}
-	};
-
-	var form = d3.select("#visualizationForm");
-	var svg = d3.select("#visualizationSvg");
-	svg
-	.attr("width", width)
-	.attr("height", height)
-
-	var parties = ["Itsenäisyyspuolue","Keskusta","Kokoomus","Kristillisdemokraatit","Muutos 2011","Perussuomalaiset","Piraattipuolue","RKP","SDP","SKP","STP","Vasemmistoliitto","Vihreät"];
-	var partyVisibility = {"Itsenäisyyspuolue" : true,"Keskusta" : true,"Kokoomus" : true,"Kristillisdemokraatit" : true,"Muutos 2011" : true,"Perussuomalaiset" : true,"Piraattipuolue" : true,"RKP" : true,"SDP" : true,"SKP" : true,"STP" : true,"Vasemmistoliitto" : true,"Vihreät" : true,"Oikeisto": true,"Kansalliskonservatiivit": true,"Viherliberaalit": true,"Vihervasemmisto": true,"Demarit": true};
-	var axisValues = ["Impivaaralaisuus", "Talousoikeistolaisuus", "Arvoliberaalius", "Vihreys", "Ikä"];
-	var axisValueOpposites = ["Maailmankansalaisuus", "Talousvasemmistolaisuus", "Arvokonservatiivius", "\"Epävihreys\"", ""];
-	var segments = ["Oikeisto","Kansalliskonservatiivit","Viherliberaalit","Vihervasemmisto","Demarit"];
-//axis value domain
+/*Decides proper height for the visualization, that is window height or 1000px*/
+function getHeight(){
+	if( $(window).height() > MAXHEIGHT ){return MAXHEIGHT;}
+	else{return $(window).height();}
+};
+//init root elements for visualization
+var form = d3.select("#visualizationForm");
+var svg = d3.select("#visualizationSvg");
+svg
+.attr("width", width)
+.attr("height", height)
+//init some data that is used in logic and visualization
+var parties = ["Itsenäisyyspuolue","Keskusta","Kokoomus","Kristillisdemokraatit","Muutos 2011","Perussuomalaiset",
+				"Piraattipuolue","RKP","SDP","SKP","STP","Vasemmistoliitto","Vihreät"];
+var partyVisibility = {"Itsenäisyyspuolue" : true,"Keskusta" : true,"Kokoomus" : true,"Kristillisdemokraatit" : true,
+					"Muutos 2011" : true,"Perussuomalaiset" : true,"Piraattipuolue" : true,"RKP" : true,"SDP" : true,
+					"SKP" : true,"STP" : true,"Vasemmistoliitto" : true,"Vihreät" : true,"Oikeisto": true,
+					"Kansalliskonservatiivit": true,"Viherliberaalit": true,"Vihervasemmisto": true,"Demarit": true};
+var axisValues = ["Impivaaralaisuus", "Talousoikeistolaisuus", "Arvoliberaalius", "Vihreys", "Ikä"];
+var axisValueOpposites = ["Maailmankansalaisuus", "Talousvasemmistolaisuus","Arvokonservatiivius", "\"Epävihreys\"",""];
+var segments = ["Oikeisto","Kansalliskonservatiivit","Viherliberaalit","Vihervasemmisto","Demarit"];
+//init axis value domain 
 var xMax = 3;var yMax = 3;var xMin = -3;var yMin = -3;
 //maps parties and segments to colors <http://fi.wikipedia.org/wiki/Luokka:Politiikkamallineet>
 function getColor(str){
