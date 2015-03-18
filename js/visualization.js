@@ -291,7 +291,20 @@ d3.csv("data.csv", function(d){
 			.attr("y", function(parties){return +(getNextTick()*20 +5);})
 			.attr("class", "partyLabes")
 			.text(function(d){return d;});
-		getNextTick();//skip one line
+		//Draws separator line, but only once and when something to separate
+		var separatorYposition = getNextTick();
+		if (separatorYposition > 1) {
+			separatorYposition = separatorYposition*20;
+			legendSvg.append("line")
+				.attr("x1", 0)
+				.attr("y1", separatorYposition)
+				.attr("x2", LEGENDWIDHT)
+				.attr("y2", separatorYposition)
+				.attr("class", "axisLine")
+				.attr("stroke-width", 2)
+				.attr("stroke", "black");
+		};
+		//getNextTick();//skip one line
 		var partyLabes = legendSvg.selectAll("text.segments")
 		.data(segments)
 		.enter()
