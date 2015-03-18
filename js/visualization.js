@@ -5,7 +5,7 @@ Thanks: Juha Törmänen's code at http://peili.kirkas.info/vis/politicianmap15b/
 */
 
 var MAXHEIGHT = 1000;
-var MAXWIDTH = 1800;
+var MAXWIDTH = 1800; //#visualizationDiv has attribute max-width: 1800px; in css also
 var MARGIN = 100;
 var ALLDISTRICTS = "- Koko maa -"
 
@@ -115,23 +115,28 @@ d3.csv("data.csv", function(d){
 	.text("Valitse Y-akseli");
 
 	//Candidate color toggle on party/segment
+	var legendSvg = d3.select("#legendSvg");
+	legendSvg.attr("width", 500).attr("height", 500);
+	var legendContainer = d3.select("#legendContainer");
 	var showPartyColors = true;
-	var partyRadioBtn = form.append("input")
+
+	var partyRadioBtn = legendContainer.append("input")
 	.attr("type", "radio")
 	.attr("name", "color")
 	.attr("value", "party")
 	.attr("id", "party")
 	.property("checked", true)
 	.on("click", function() {showPartyColors = true; redraw();});
-	form.append("label").html("Värit puolueittain");
-	var segmentRadioBtn = form.append("input")
+
+	legendContainer.append("label").html("Värit puolueittain");
+	var segmentRadioBtn = legendContainer.append("input")
 	.attr("type", "radio")
 	.attr("name", "color")
 	.attr("value", "segment")
 	.attr("id", "segment")
 	.property("checked", false)
 	.on("click", function() {showPartyColors = false; redraw();});
-	form.append("label").html("Värit segmenteittäin");
+	legendContainer.append("label").html("Värit segmenteittäin");
 
 /***********************************************************************
 	Visualization resizing starts
@@ -237,58 +242,62 @@ d3.csv("data.csv", function(d){
 		.domain([0, MAXHEIGHT])
 		.range([2,10]);
 
-		/*Party selection UI elements and logic*/
-		var partySelectionGroup = svg.append("g")
+		/*Party selection UI elements in legendContainer and logic*/
+		//helping function por positioning
 		var tick = 0;
 		function getNextTick(){tick = tick +1;return tick;}
 		//circles presenting the parties
-		var partiesSelection = partySelectionGroup.selectAll("circle.ui")
+		var partiesSelection = legendSvg.selectAll("circle.parties")
 		.data(parties)
 		.enter()
-		.append("circle")
-		.attr("cx", function(parties){return width-20;})
-		.attr("cy", function(parties){return +(getNextTick()*20);})
-		.attr("r", function(parties){return linearElementScale(height);})
-		.attr("class", "ui")
-		.style("fill", function(parties){return getColor(parties)})
-		.style("opacity", function(parties){return getOpacity(partyVisibility[parties]);})
-		.on("click", function(parties){
-			toggleSelection(parties, d3.select(this));
-			filterCandidates();});
-		getNextTick();
-		var segmentsSelection = partySelectionGroup.selectAll("circle.segments")
+			.append("circle")
+			.attr("cx", 450)
+			.attr("cy", function(parties){return +(getNextTick()*20);})
+			.attr("r", 10)
+			.attr("class", "parties")
+			.style("fill", function(parties){return getColor(parties)})
+			.style("opacity", function(parties){return getOpacity(partyVisibility[parties]);})
+			.on("click", function(parties){
+				toggleSelection(parties, d3.select(this));
+				filterCandidates();
+				redraw();
+			});
+		getNextTick();//skip one
+		var segmentsSelection = legendSvg.selectAll("circle.segments")
 		.data(segments)
 		.enter()
-		.append("circle")
-		.attr("cx", function(segments){return width-20;})
-		.attr("cy", function(segments){return +(getNextTick()*20);})
-		.attr("r", function(segments){return linearElementScale(height);})
-		.attr("class", "segments")
-		.style("fill", function(segments){return getColor(segments)})
-		.style("opacity", function(segments){return getOpacity(partyVisibility[segments]);})
-		.on("click", function(segments){
-			toggleSelection(segments, d3.select(this));
-			filterCandidates();});
+			.append("circle")
+			.attr("cx", 450)
+			.attr("cy", function(segments){return +(getNextTick()*20);})
+			.attr("r", 10)
+			.attr("class", "segments")
+			.style("fill", function(segments){return getColor(segments)})
+			.style("opacity", function(segments){return getOpacity(partyVisibility[segments]);})
+			.on("click", function(segments){
+				toggleSelection(segments, d3.select(this));
+				filterCandidates();
+				redraw();
+			});
 		segments
 		tick = 0;
 		//text labels for circles
-		var partyLabes = partySelectionGroup.selectAll("text")
+		var partyLabes = legendSvg.selectAll("text")
 		.data(parties)
 		.enter()
-		.append("text")
-		.attr("x", function(parties){return width-35;})
-		.attr("y", function(parties){return +(getNextTick()*20 +5);})
-		.attr("class", "partyLabes")
-		.text(function(d){return d;});
+			.append("text")
+			.attr("x", 430)
+			.attr("y", function(parties){return +(getNextTick()*20 +5);})
+			.attr("class", "partyLabes")
+			.text(function(d){return d;});
 		getNextTick();
-		var partyLabes = partySelectionGroup.selectAll("text.segments")
+		var partyLabes = legendSvg.selectAll("text.segments")
 		.data(segments)
 		.enter()
-		.append("text")
-		.attr("x", function(segments){return width-35;})
-		.attr("y", function(segments){return +(getNextTick()*20 +5);})
-		.attr("class", "partyLabes segments")
-		.text(function(d){return d;});
+			.append("text")
+			.attr("x", 430)
+			.attr("y", function(segments){return +(getNextTick()*20 +5);})
+			.attr("class", "partyLabes segments")
+			.text(function(d){return d;});
 
 		function toggleSelection(party, element){
 			partyVisibility[party] = !partyVisibility[party];

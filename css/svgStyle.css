@@ -2,6 +2,9 @@
 svg{
 	background-color: #fff;/*backgroung_color*/
 }
+#legendSvg{
+	background-color: rgba(0,0,0,0.3);
+}
 text{
 	fill: #000;
 }

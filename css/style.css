@@ -62,6 +62,7 @@ footer{
 	padding:2%;
 }
 
+/*Form styles*/
 #formContainer{
 	width:90%;
 	display:block;
@@ -69,9 +70,15 @@ footer{
 	text-align: right;
 }
 
-/*Form styles*/
 #formContainer form *{
 	margin:5px;
+}
+
+/*Color legend styles*/
+#legendContainer{
+	position: absolute;
+	float: right;
+	background-color: rgba(0,0,0,0.3);
 }
 
 /* Media queries. These probably aren't very reliable at the moment, since they don't take in account the device pixel ratio, but they probably can be fixed */
