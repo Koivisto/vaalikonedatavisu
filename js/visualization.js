@@ -190,7 +190,7 @@ d3.csv("data.csv", function(d){
 		.attr("value", "party")
 		.attr("id", "party")
 		.property("checked", true)
-		.on("click", function() {showPartyColors = true; redraw();});
+		.on("click", function() {showPartyColors = true; setCandidateColor();});
 	legendControls.append("label").html(" Värit puolueittain<br>");
 	var segmentRadioBtn = legendControls.append("input")
 		.attr("type", "radio")
@@ -198,7 +198,7 @@ d3.csv("data.csv", function(d){
 		.attr("value", "segment")
 		.attr("id", "segment")
 		.property("checked", false)
-		.on("click", function() {showPartyColors = false; redraw();});
+		.on("click", function() {showPartyColors = false; setCandidateColor();});
 	legendControls.append("label").html(" Värit segmenteittäin");
 
 
@@ -409,8 +409,8 @@ d3.csv("data.csv", function(d){
 			.append("circle")
 			.attr("cx", getWidth()/2)//function(d){return linearWidthScale(getXValue(d));})
 			.attr("cy", getHeight()/2)//function(d){return linearHeigthScale(getYValue(d));})
-			.attr("r", function(d){return linearElementScale(narrowerDimension);});
-
+			.attr("r", function(d){return linearElementScale(narrowerDimension);})
+			.style("fill", function(d){return getColor(d.party);});
 
 	/*Creates candidate data object containing element, name, party, segment, 
 	id (candidate number), district, age, education, url, xCoordinate, yCoordinate*/
@@ -458,11 +458,16 @@ d3.csv("data.csv", function(d){
 			if(!isClicked){dontDisplayInfo(candidate)};
 		});
 
-	/*Color for candidate elements based on data*/
-	candidates.style("fill", function(d){
-		if(showPartyColors)	return getColor(d.party);
-		return getColor(d.segment)
-	});
+	/*Sets color for candidate elements based on data and choises*/
+	function setCandidateColor(){
+		candidates
+		.transition()
+		.duration(500)
+		.style("fill", function(d){
+			if(showPartyColors)	return getColor(d.party);
+			return getColor(d.segment)
+		});
+	}
 
 	/*Sets css "display" to "none" for filtered candidate elements*/
 	function filterCandidates(){
