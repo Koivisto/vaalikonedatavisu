@@ -222,11 +222,13 @@ d3.csv("data.csv", function(d){
 			.attr("x", width)
 			.attr("y", height/2)
 			.attr("class", "axisExplanation")
+			.attr("transform", "rotate(90 "+width+" "+height/2+") translate(0, 35)")
 			.text(xAxisValue);
 		var text = svg.append("text")
 			.attr("x", 0)
 			.attr("y", height/2)
-			.attr("class", "axisExplanation axisExplanationOpposite")
+			.attr("class", "axisExplanation")
+			.attr("transform", "rotate(270 "+0+" "+height/2+") translate(0, 35)")
 			.text(axisValueOpposites[axisValues.indexOf(xAxisValue)]);
 		//vertical yAxis
 		var line = svg.append("line")
@@ -240,12 +242,14 @@ d3.csv("data.csv", function(d){
 		var text = svg.append("text")
 			.attr("x", width/2)
 			.attr("y", 30)
-			.attr("class", "axisExplanation middle")
+			.attr("class", "axisExplanation")
+			.attr("transform", "translate(0, 5)")
 			.text(yAxisValue);
 		var text = svg.append("text")
 			.attr("x", width/2)
 			.attr("y", height)
-			.attr("class", "axisExplanation middle")
+			.attr("transform", "translate(0, -5)")
+			.attr("class", "axisExplanation")
 			.text(axisValueOpposites[axisValues.indexOf(yAxisValue)]);
 
 		/*Party selection UI elements in legendContainer and logic*/
