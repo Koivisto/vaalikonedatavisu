@@ -61,6 +61,19 @@ var axisValueOpposites = ["Maailmankansalaisuus", "Talousvasemmistolaisuus","Arv
 var segments = ["Oikeisto","Kansalliskonservatiivit","Viherliberaalit","Vihervasemmisto","Demarit"];
 //init axis value domain 
 var xMax = 3;var yMax = 300;var xMin = -3;var yMin = -3;
+
+
+		//scales the data to screen size, these variables are used as functions when.
+		var linearWidthScale = d3.scale.linear()
+			.domain([ xMin   , xMax ])
+			.range( [ MARGIN , getWidth()-MARGIN ]);
+		var linearHeigthScale = d3.scale.linear()
+			.domain([ yMax   , yMin ])
+			.range( [ MARGIN , getHeight()-MARGIN ]);
+		var linearElementScale = d3.scale.linear()
+			.domain([ 0 , MAXHEIGHT ])
+			.range( [ 2 , 10 ]);
+
 		//Init axis selection
 		var xAxisValue = axisValues[0], yAxisValue = axisValues[2];
 //maps parties and segments to colors <http://fi.wikipedia.org/wiki/Luokka:Politiikkamallineet>
@@ -188,9 +201,9 @@ d3.csv("data.csv", function(d){
 			.data(d)
 			.enter()
 				.append("circle")
-				.attr("cx", 100)//function(d){return linearWidthScale(getXValue(d));})
-				.attr("cy", 100)//function(d){return linearHeigthScale(getYValue(d));})
-				.attr("r", function(d){return 10;});//linearElementScale(narrowerDimension);});
+				.attr("cx", getWidth()/2)//function(d){return linearWidthScale(getXValue(d));})
+				.attr("cy", getHeight()/2)//function(d){return linearHeigthScale(getYValue(d));})
+				.attr("r", function(d){return linearElementScale(narrowerDimension);});
 
 		/*Axis*/
 		function changeAxisX(){
@@ -538,20 +551,15 @@ d3.csv("data.csv", function(d){
 
 
 		//scales the data to screen size, these variables are used as functions when.
-		var linearWidthScale = d3.scale.linear()
-			.domain([ xMin   , xMax ])
-			.range( [ MARGIN , getWidth()-MARGIN ]);
-		var linearHeigthScale = d3.scale.linear()
-			.domain([ yMax   , yMin ])
-			.range( [ MARGIN , getHeight()-MARGIN ]);
-		var linearElementScale = d3.scale.linear()
-			.domain([ 0 , MAXHEIGHT ])
-			.range( [ 2 , 10 ]);
+		linearWidthScale.domain([ xMin   , xMax ]).range( [ MARGIN , getWidth()-MARGIN ]);
+		linearHeigthScale.domain([ yMax   , yMin ]).range( [ MARGIN , getHeight()-MARGIN ]);
+		linearElementScale.domain([ 0 , MAXHEIGHT ]).range( [ 2 , 10 ]);
 
 		candidates.transition()
 			.duration(1000)
 			.attr("cx", function(d){return linearWidthScale(+getXValue(d));})
 			.attr("cy", function(d){return linearHeigthScale(+getYValue(d));})
+			.attr("r", function(d){return linearElementScale(narrowerDimension);});
 	}
 /***********************************************************************
 	Visualization resizing ends
