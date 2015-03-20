@@ -30,7 +30,8 @@ function getWidth(){
 }
 /*Adjusts the datapoint marginal*/
 function adjustVisualizationToScreenSize(){
-	if ( $("#visualizationDiv").width() < MOBILEBREAKPOINT+LEGENDWIDHT+20 || getHeight() < MOBILEBREAKPOINT+LEGENDWIDHT+20){ 
+	if ( $("#visualizationDiv").width() < MOBILEBREAKPOINT+LEGENDWIDHT+20 
+		|| getHeight() < MOBILEBREAKPOINT+LEGENDWIDHT+20){ 
 		MARGIN = 20;
 	}
 	else{
@@ -152,25 +153,8 @@ d3.csv("data.csv", function(d){
 	//init legendSvg
 	var legendSvg = d3.select("#legendSvg");
 	legendSvg.attr("width", LEGENDWIDHT).attr("height", 400);//height has currently a "magic number"
-
-/***********************************************************************
-	Visualization resizing starts
-***********************************************************************/
-	function redraw() {
-		//Removing old elements
-		svg.selectAll("circle").remove();
-		svg.selectAll("text").remove();
-		svg.selectAll("line").remove();
-		removeInfoDivs();
-
-		/*Reset key values*/
-		adjustVisualizationToScreenSize();
-		width = getWidth();
-		var height = getHeight();
-		svg
-		.attr("width", width)
-		.attr("height", height)
-
+/*******************************************************************************/
+/*******************************************************************************/
 		/*Axis*/
 		//Init axis selection
 		var xAxisValue = axisValues[0], yAxisValue = axisValues[2];
@@ -181,7 +165,6 @@ d3.csv("data.csv", function(d){
 			xMax = d3.max(d, function(d) { return +getValueFromStr(d, xAxisValue); });
 			xMin = d3.min(d, function(d) { return +getValueFromStr(d, xAxisValue); });
 		}
-		changeAxisX();
 		function changeAxisY(){
 			if (axisYSelector.property('selectedIndex') > 0) {//if something is selected in menu
 				yAxisValue = axisValues[axisYSelector.property('selectedIndex')-1];
@@ -189,7 +172,6 @@ d3.csv("data.csv", function(d){
 			yMax = d3.max(d, function(d) { return +getValueFromStr(d, yAxisValue); });
 			yMin = d3.min(d, function(d) { return +getValueFromStr(d, yAxisValue); });
 		}
-		changeAxisY();
 
 		//Lazy enum for axis labels to data
 		function getXValue(d){
@@ -205,10 +187,12 @@ d3.csv("data.csv", function(d){
 				case "Arvoliberaalius": return d.lib;
 				case "Vihreys": return d.vih;
 				case "Ikä": return d.age;
-				default: return 0;}
+				default: return 0;
 			}
+		}
 
 		//Draw axis
+	function drawAxis(){
 		//horisontal xAxis
 		var line = svg.append("line")
 			.attr("x1", 0)
@@ -251,6 +235,7 @@ d3.csv("data.csv", function(d){
 			.attr("transform", "translate(0, -5)")
 			.attr("class", "axisExplanation")
 			.text(axisValueOpposites[axisValues.indexOf(yAxisValue)]);
+	}
 
 		/*Party selection UI elements in legendContainer and logic*/
 		//helping function por positioning
@@ -347,86 +332,6 @@ d3.csv("data.csv", function(d){
 			.domain([0, MAXHEIGHT])
 			.range([2,10]);
 
-		/*Main logic is here, when data is used to create DOM elements, and events are decided*/
-		/*Connects the data to svg elements, determines the interaction logic*/
-		var candidateGroup = svg.append("g")
-		var candidates = candidateGroup.selectAll("circle")
-			.data(d)
-			.enter()
-				.append("circle")
-				.attr("cx", function(d){return linearWidthScale(getXValue(d));})
-				.attr("cy", function(d){return linearHeigthScale(getYValue(d));})
-				.attr("r", function(d){return linearElementScale(narrowerDimension);});
-		
-		/*Assign actions on candidate elements
-		It is possible to click candidate, so the info will keep showing*/
-		candidates
-			.on("click", function(d){
-				isClicked = !isClicked;
-				defineCandidate(d, d3.select(this));
-				displayInfo(candidate);
-				previousCandidate = candidate;
-			})
-			.on("mouseenter", function(d){
-				defineCandidate(d, d3.select(this));
-				if(previousCandidate != null && isClicked){
-					dontDisplayInfo(previousCandidate);
-							isClicked = !isClicked;}//prepares for new a click
-							displayInfo(candidate);
-						})
-			.on("mouseleave", function(d){
-				defineCandidate(d, d3.select(this));
-				if(!isClicked){dontDisplayInfo(candidate);};
-			})
-			.on("touchstart", function(d){
-				defineCandidate(d, d3.select(this));
-				displayInfo(candidate);
-			})
-			.on("touchend", function(d){
-				defineCandidate(d, d3.select(this));
-				if(!isClicked){dontDisplayInfo(candidate)};
-			});
-
-		/*Color for candidate elements based on data*/
-		candidates.style("fill", function(d){
-			if(showPartyColors)	return getColor(d.party);
-			return getColor(d.segment)
-		});
-
-		/*Sets css "display" to "none" for filtered candidate elements*/
-		function filterCandidates(){
-			//updates district filter
-			if (districtSelector.property("selectedIndex") > 0) {
-				currentDistrict = areas[districtSelector.property("selectedIndex")-1];
-			}
-			//updates name and candidate number filter
-			var searchValue = searchInput.property("value").toLowerCase();
-			var searchArray = searchValue.split(" ");
-
-			//Let the filtering begin!
-			candidates
-			.attr("display", function(d) { 
-					//district filter
-					if (currentDistrict === ALLDISTRICTS) return "inline";
-					else if (currentDistrict && d.district !== currentDistrict) return 'none';
-
-					if(!partyVisibility[d.party] || !partyVisibility[d.segment]) return "none";
-
-					//if something in the search box then also filter with that
-					if (searchValue) {
-						for (var i = 0; i < searchArray.length; i++) {
-							//name as default
-							if (d.name.toLowerCase().indexOf(searchArray[i].trim()) < 0){
-								//candidate voting number as secondary quess for input
-								if (d.id.toLowerCase().indexOf(searchArray[i].trim()) < 0){
-									return "none";	}
-								} 
-							}
-						}
-					})
-		}
-		filterCandidates();
-
 		/*Creates candidate data object containing element, name, party, segment, 
 		id (candidate number), district, age, education, url, xCoordinate, yCoordinate*/
 		function defineCandidate(d, givenElement){
@@ -500,6 +405,114 @@ d3.csv("data.csv", function(d){
 				explanationsDiv.removeChild(explanationsDiv.lastChild);
 			}
 		}
+	
+/***********************************************************************
+	Visualization resizing starts
+***********************************************************************/
+	function resize() {
+		//Removing old elements
+		svg.selectAll("circle").remove();
+		svg.selectAll("text").remove();
+		svg.selectAll("line").remove();
+		removeInfoDivs();
+
+		/*Reset key values*/
+		adjustVisualizationToScreenSize();
+		width = getWidth();
+		var height = getHeight();
+		svg
+		.attr("width", width)
+		.attr("height", height)
+	}
+
+	function redraw() {
+		changeAxisX();
+		changeAxisY();
+		drawAxis();
+
+		/*Main logic is here, when data is used to create DOM elements, and events are decided*/
+		/*Connects the data to svg elements, determines the interaction logic*/
+		var candidateGroup = svg.append("g")
+		var candidates = candidateGroup.selectAll("circle")
+			.data(d)
+			.enter()
+				.append("circle")
+				.attr("cx", function(d){return linearWidthScale(getXValue(d));})
+				.attr("cy", function(d){return linearHeigthScale(getYValue(d));})
+				.attr("r", function(d){return linearElementScale(narrowerDimension);});
+		candidates.transition()
+			.duration(10000)
+			.attr("r", 100);
+
+
+		/*Assign actions on candidate elements
+		It is possible to click candidate, so the info will keep showing*/
+		candidates
+			.on("click", function(d){
+				isClicked = !isClicked;
+				defineCandidate(d, d3.select(this));
+				displayInfo(candidate);
+				previousCandidate = candidate;
+			})
+			.on("mouseenter", function(d){
+				defineCandidate(d, d3.select(this));
+				if(previousCandidate != null && isClicked){
+					dontDisplayInfo(previousCandidate);
+							isClicked = !isClicked;}//prepares for new a click
+							displayInfo(candidate);
+						})
+			.on("mouseleave", function(d){
+				defineCandidate(d, d3.select(this));
+				if(!isClicked){dontDisplayInfo(candidate);};
+			})
+			.on("touchstart", function(d){
+				defineCandidate(d, d3.select(this));
+				displayInfo(candidate);
+			})
+			.on("touchend", function(d){
+				defineCandidate(d, d3.select(this));
+				if(!isClicked){dontDisplayInfo(candidate)};
+			});
+
+		/*Color for candidate elements based on data*/
+		candidates.style("fill", function(d){
+			if(showPartyColors)	return getColor(d.party);
+			return getColor(d.segment)
+		});
+
+		/*Sets css "display" to "none" for filtered candidate elements*/
+		function filterCandidates(){
+			//updates district filter
+			if (districtSelector.property("selectedIndex") > 0) {
+				currentDistrict = areas[districtSelector.property("selectedIndex")-1];
+			}
+			//updates name and candidate number filter
+			var searchValue = searchInput.property("value").toLowerCase();
+			var searchArray = searchValue.split(" ");
+
+			//Let the filtering begin!
+			candidates
+			.attr("display", function(d) { 
+					//district filter
+					if (currentDistrict === ALLDISTRICTS) return "inline";
+					else if (currentDistrict && d.district !== currentDistrict) return 'none';
+
+					if(!partyVisibility[d.party] || !partyVisibility[d.segment]) return "none";
+
+					//if something in the search box then also filter with that
+					if (searchValue) {
+						for (var i = 0; i < searchArray.length; i++) {
+							//name as default
+							if (d.name.toLowerCase().indexOf(searchArray[i].trim()) < 0){
+								//candidate voting number as secondary quess for input
+								if (d.id.toLowerCase().indexOf(searchArray[i].trim()) < 0){
+									return "none";	}
+								} 
+							}
+						}
+					})
+		}
+		filterCandidates();
 
 		/*UI control for district (needs to be inside resizing)*/
 		districtSelector.selectAll("option.local")
@@ -516,8 +529,8 @@ d3.csv("data.csv", function(d){
 	Visualization resizing ends
 ***********************************************************************/
 
-	d3.select(window).on("resize", redraw); 
-	redraw();
+	d3.select(window).on("resize", resize); 
+	resize();
 
 	/*UI control for axis*/
 	axisXSelector.selectAll("option.local")
