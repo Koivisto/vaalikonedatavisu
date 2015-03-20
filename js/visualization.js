@@ -447,15 +447,17 @@ d3.csv("data.csv", function(d){
 			var searchValue = searchInput.property("value").toLowerCase();
 			var searchArray = searchValue.split(" ");
 
-			//Let the filtering begin!
-			candidates.transition()
-			.duration(1000)
-			.attr("r", function(d) { 
-					//district filter
-					if (currentDistrict === ALLDISTRICTS) return 10;
-					else if (currentDistrict && d.district !== currentDistrict) return 0;
+			function isNotFiltered(d){
+			}
 
-					if(!partyVisibility[d.party] || !partyVisibility[d.segment]) return 0;
+			//Let the filtering begin!
+			candidates
+				.attr("display", function(d) {
+					//district filter
+					if (currentDistrict === ALLDISTRICTS) return "inline";
+					else if (currentDistrict && d.district !== currentDistrict) return "none";
+
+					if(!partyVisibility[d.party] || !partyVisibility[d.segment]) return "none";
 
 					//if something in the search box then also filter with that
 					if (searchValue) {
@@ -464,13 +466,12 @@ d3.csv("data.csv", function(d){
 							if (d.name.toLowerCase().indexOf(searchArray[i].trim()) < 0){
 								//candidate voting number as secondary quess for input
 								if (d.id.toLowerCase().indexOf(searchArray[i].trim()) < 0){
-									return 0;
+									return "none";
 								}
 							} 
 						}
 					}
-					return 10;
-					})
+				})
 		}
 
 		/*Assign actions on candidate elements
@@ -560,10 +561,11 @@ d3.csv("data.csv", function(d){
 		linearElementScale.domain([ 0 , MAXHEIGHT ]).range( [ 2 , 10 ]);
 
 		candidates.transition()
-			.duration(1000)
+			.duration(750)
 			.attr("cx", function(d){return linearWidthScale(+getXValue(d));})
 			.attr("cy", function(d){return linearHeigthScale(+getYValue(d));})
 			.attr("r", function(d){return linearElementScale(narrowerDimension);});
+		filterCandidates();
 	}
 /***********************************************************************
 	Visualization resizing ends
