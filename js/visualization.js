@@ -159,6 +159,7 @@ d3.csv("data.csv", function(d){
 		/*Main logic is here, when data is used to create DOM elements, and events are decided*/
 		/*Connects the data to svg elements, determines the interaction logic*/
 		var candidateGroup = svg.append("g")
+		candidateGroup.attr("class", "candidateGroup")
 		var candidates = candidateGroup.selectAll("circle")
 			.data(d)
 			.enter()
@@ -205,10 +206,12 @@ d3.csv("data.csv", function(d){
 
 		//Draw axis
 	function drawAxis(){
+		var axisGroup = svg.append("g")
+		axisGroup.attr("class", "axisGroup");
 		var width = getWidth();
 		var height = getHeight();
 		//horisontal xAxis
-		var line = svg.append("line")
+		var line = axisGroup.append("line")
 			.attr("x1", 0)
 			.attr("y1", height/2)
 			.attr("x2", width)
@@ -216,20 +219,20 @@ d3.csv("data.csv", function(d){
 			.attr("class", "axisLine")
 			.attr("stroke-width", 2)
 			.attr("stroke", "black");
-		var text = svg.append("text")
+		var text = axisGroup.append("text")
 			.attr("x", width)
 			.attr("y", height/2)
 			.attr("class", "axisExplanation")
 			.attr("transform", "rotate(90 "+width+" "+height/2+") translate(0, 35)")
 			.text(xAxisValue);
-		var text = svg.append("text")
+		var text = axisGroup.append("text")
 			.attr("x", 0)
 			.attr("y", height/2)
 			.attr("class", "axisExplanation")
 			.attr("transform", "rotate(270 "+0+" "+height/2+") translate(0, 35)")
 			.text(axisValueOpposites[axisValues.indexOf(xAxisValue)]);
 		//vertical yAxis
-		var line = svg.append("line")
+		var line = axisGroup.append("line")
 			.attr("x1", width/2)
 			.attr("y1", 0)
 			.attr("x2", width/2)
@@ -237,13 +240,13 @@ d3.csv("data.csv", function(d){
 			.attr("class", "axisLine")
 			.attr("stroke-width", 2)
 			.attr("stroke", "black");
-		var text = svg.append("text")
+		var text = axisGroup.append("text")
 			.attr("x", width/2)
 			.attr("y", 30)
 			.attr("class", "axisExplanation")
 			.attr("transform", "translate(0, 5)")
 			.text(yAxisValue);
-		var text = svg.append("text")
+		var text = axisGroup.append("text")
 			.attr("x", width/2)
 			.attr("y", height)
 			.attr("transform", "translate(0, -5)")
