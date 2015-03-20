@@ -113,7 +113,8 @@ d3.csv("data.csv", function(d){
 		.attr("placeholder", "Etsi nimellä/numerolla")
 		.attr("type", "text");
 	searchInput.on("input", function() {
-		redraw();
+		filterCandidates();
+		//redraw();
 	});
 
 	//District option menu
@@ -299,7 +300,7 @@ d3.csv("data.csv", function(d){
 			.on("click", function(parties){
 				toggleSelection(parties, d3.select(this));
 				filterCandidates();
-				redraw();
+				//redraw();
 			});
 		getNextTick();//skip one line
 		var segmentsSelection = legendSvg.selectAll("circle.segments")
@@ -315,7 +316,7 @@ d3.csv("data.csv", function(d){
 			.on("click", function(segments){
 				toggleSelection(segments, d3.select(this));
 				filterCandidates();
-				redraw();
+				//redraw();
 			});
 		segments
 		tick = 0;
@@ -447,13 +448,14 @@ d3.csv("data.csv", function(d){
 			var searchArray = searchValue.split(" ");
 
 			//Let the filtering begin!
-			candidates
-			.attr("display", function(d) { 
+			candidates.transition()
+			.duration(1000)
+			.attr("r", function(d) { 
 					//district filter
-					if (currentDistrict === ALLDISTRICTS) return "inline";
-					else if (currentDistrict && d.district !== currentDistrict) return 'none';
+					if (currentDistrict === ALLDISTRICTS) return 10;
+					else if (currentDistrict && d.district !== currentDistrict) return 0;
 
-					if(!partyVisibility[d.party] || !partyVisibility[d.segment]) return "none";
+					if(!partyVisibility[d.party] || !partyVisibility[d.segment]) return 0;
 
 					//if something in the search box then also filter with that
 					if (searchValue) {
@@ -462,10 +464,12 @@ d3.csv("data.csv", function(d){
 							if (d.name.toLowerCase().indexOf(searchArray[i].trim()) < 0){
 								//candidate voting number as secondary quess for input
 								if (d.id.toLowerCase().indexOf(searchArray[i].trim()) < 0){
-									return "none";	}
-								} 
-							}
+									return 0;
+								}
+							} 
 						}
+					}
+					return 10;
 					})
 		}
 
