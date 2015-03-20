@@ -24,6 +24,9 @@ Markku Niemivirran 2014 eurovaali YLE: http://www.helsinki.fi/~niemivir/Eurovaal
 Työvälineisiin ja visualisointiin liittyen
 D3js vaikuttaa (edelleen hyvältä) datan visualisointiin: http://d3js.org/
 Paras tutoriali D3js liittyen: https://www.dashingd3js.com/table-of-contents
+D3js wiki kaikkeen tutorial: https://github.com/mbostock/d3/wiki/Tutorials 
+Transitions: http://bost.ocks.org/mike/transition/
+Hyvä paperi aiheesta: http://vis.berkeley.edu/papers/animated_transitions/
 Paras tutoriali SVG liittyen: http://tutorials.jenkov.com/svg/svg-viewport-view-box.html
 Responsiivinen visualisointi: https://blog.safaribooksonline.com/2014/02/17/building-responsible-visualizations-d3-js/
 *D3js tiedostot vaatisi HTTP kautta pyöräytyksen, mutta Firefox kiertää sen.
