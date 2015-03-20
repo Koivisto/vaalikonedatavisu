@@ -60,8 +60,8 @@ function getColor(str){
 
 /*Decides proper size for the visualization*/
 function getHeight(){
-	if( $(window).height() > MAXHEIGHT ) return MAXHEIGHT;
-	return $(window).height();
+	if( $(window).height() > MAXHEIGHT +100 ) return MAXHEIGHT;
+	return $(window).height() - 100;
 };
 
 /*Returns width for main svg element*/

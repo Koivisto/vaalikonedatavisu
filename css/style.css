@@ -164,6 +164,7 @@ a.infoBoxLink{
 	padding: 10px 5px 10px 5px;
 	text-align: left;
 	color:#000;
+	background-color:#FFF;
 	box-shadow: 0px 0px 10px #000;
 	overflow: hidden;
 	/*corners*/
@@ -185,6 +186,7 @@ a.infoBoxLink{
 	margin: -10px -10px 10px -10px;
 	color: #C8FFFF;
 	font-weight:700;
+	text-align: center;
 }
 
 /* Media queries. These probably aren't very reliable at the moment, since they don't take in account the device pixel ratio, but they probably can be fixed */
