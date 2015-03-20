@@ -1,7 +1,6 @@
 /*
 Author: Aarne Leinonen 
-Thanks: Juha Törmänen's code at http://peili.kirkas.info/vis/politicianmap15b/js/politicianmap.js
-		was an inspiration as well as a guide)
+Code can be found at https://github.com/Koivisto/vaalikonedatavisu
 */
 
 var MAXHEIGHT = 1000;
@@ -61,21 +60,19 @@ var axisValueOpposites = ["Maailmankansalaisuus", "Talousvasemmistolaisuus","Arv
 var segments = ["Oikeisto","Kansalliskonservatiivit","Viherliberaalit","Vihervasemmisto","Demarit"];
 //init axis value domain 
 var xMax = 3;var yMax = 300;var xMin = -3;var yMin = -3;
+//scales the data to screen size, these variables are used as functions when.
+var linearWidthScale = d3.scale.linear()
+	.domain([ xMin   , xMax ])
+	.range( [ MARGIN , getWidth()-MARGIN ]);
+var linearHeigthScale = d3.scale.linear()
+	.domain([ yMax   , yMin ])
+	.range( [ MARGIN , getHeight()-MARGIN ]);
+var linearElementScale = d3.scale.linear()
+	.domain([ 0 , MAXHEIGHT ])
+	.range( [ 2 , 10 ]);
+//Init axis selection
+var xAxisValue = axisValues[0], yAxisValue = axisValues[2];
 
-
-		//scales the data to screen size, these variables are used as functions when.
-		var linearWidthScale = d3.scale.linear()
-			.domain([ xMin   , xMax ])
-			.range( [ MARGIN , getWidth()-MARGIN ]);
-		var linearHeigthScale = d3.scale.linear()
-			.domain([ yMax   , yMin ])
-			.range( [ MARGIN , getHeight()-MARGIN ]);
-		var linearElementScale = d3.scale.linear()
-			.domain([ 0 , MAXHEIGHT ])
-			.range( [ 2 , 10 ]);
-
-		//Init axis selection
-		var xAxisValue = axisValues[0], yAxisValue = axisValues[2];
 //maps parties and segments to colors <http://fi.wikipedia.org/wiki/Luokka:Politiikkamallineet>
 function getColor(str){
 	switch(str){
@@ -106,6 +103,10 @@ function getColor(str){
 /************************************************************************/
 /*Data begins*/
 d3.csv("data.csv", function(d){
+
+	var isClicked = false;
+	var previousCandidate = null;
+	var candidate= null;
 
 	/*Initializes UI elements inside the form*/
 	//name and candidate number filtering
@@ -169,70 +170,64 @@ d3.csv("data.csv", function(d){
 	//init legendSvg
 	var legendSvg = d3.select("#legendSvg");
 	legendSvg.attr("width", LEGENDWIDHT).attr("height", 400);//height has currently a "magic number"
-/*******************************************************************************/
-/*******************************************************************************/
 
-		var isClicked = false;
-		var previousCandidate = null;
-		var candidate= null;
 
-		//Lazy enum for axis labels to data
-		function getXValue(d){
-			return getValueFromStr(d, xAxisValue);
+	//Lazy enum for axis labels to data
+	function getXValue(d){
+		return getValueFromStr(d, xAxisValue);
+	}
+	function getYValue(d){
+		return getValueFromStr(d, yAxisValue);
+	}
+	function getValueFromStr(d, str){
+		switch(str){
+			case "Impivaaralaisuus": return d.imp;
+			case "Talousoikeistolaisuus": return d.oik;
+			case "Arvoliberaalius": return d.lib;
+			case "Vihreys": return d.vih;
+			case "Ikä": return d.age;
+			default: return 0;
 		}
-		function getYValue(d){
-			return getValueFromStr(d, yAxisValue);
-		}
-		function getValueFromStr(d, str){
-			switch(str){
-				case "Impivaaralaisuus": return d.imp;
-				case "Talousoikeistolaisuus": return d.oik;
-				case "Arvoliberaalius": return d.lib;
-				case "Vihreys": return d.vih;
-				case "Ikä": return d.age;
-				default: return 0;
-			}
-		}
+	}
 			
-		/*Main logic is here, when data is used to create DOM elements, and events are decided*/
-		/*Connects the data to svg elements, determines the interaction logic*/
-		var candidateGroup = svg.append("g")
-		candidateGroup.attr("class", "candidateGroup")
-		var candidates = candidateGroup.selectAll("circle")
-			.data(d)
-			.enter()
-				.append("circle")
-				.attr("cx", getWidth()/2)//function(d){return linearWidthScale(getXValue(d));})
-				.attr("cy", getHeight()/2)//function(d){return linearHeigthScale(getYValue(d));})
-				.attr("r", function(d){return linearElementScale(narrowerDimension);});
+	/*Connects the data to svg elements, determines the interaction logic, create DOM elements*/
+	var candidateGroup = svg.append("g")
+	candidateGroup.attr("class", "candidateGroup")
+	var candidates = candidateGroup.selectAll("circle")
+		.data(d)
+		.enter()
+			.append("circle")
+			.attr("cx", getWidth()/2)//function(d){return linearWidthScale(getXValue(d));})
+			.attr("cy", getHeight()/2)//function(d){return linearHeigthScale(getYValue(d));})
+			.attr("r", function(d){return linearElementScale(narrowerDimension);});
 
-		/*Axis*/
-		function changeAxisX(){
-			if (axisXSelector.property('selectedIndex') > 0) {//if something is selected in menu
-				xAxisValue = axisValues[axisXSelector.property('selectedIndex')-1];
-			}
+	/*Axis*/
+	function changeAxisX(){
+		if (axisXSelector.property('selectedIndex') > 0) {//if something is selected in menu
+			xAxisValue = axisValues[axisXSelector.property('selectedIndex')-1];
 		}
-		function changeAxisY(){
-			if (axisYSelector.property('selectedIndex') > 0) {//if something is selected in menu
-				yAxisValue = axisValues[axisYSelector.property('selectedIndex')-1];
-			}
+	}
+	function changeAxisY(){
+		if (axisYSelector.property('selectedIndex') > 0) {//if something is selected in menu
+			yAxisValue = axisValues[axisYSelector.property('selectedIndex')-1];
 		}
-		function updateMaxMinForAxis(){
-			xMax = d3.max(d, function(d) { return +getValueFromStr(d, xAxisValue); });
-			xMin = d3.min(d, function(d) { return +getValueFromStr(d, xAxisValue); });
-			
-			yMax = d3.max(d, function(d) { return +getValueFromStr(d, yAxisValue); });
-			yMin = d3.min(d, function(d) { return +getValueFromStr(d, yAxisValue); });
-			//console.log(" x "+ xMax+" y "+ yMax+" x "+ xMin+" y "+ yMin+ "mikä koordinaatti"+ linearHeigthScale(yMax));
-		}
-		function updateAxis(){
-			changeAxisX();
-			changeAxisY();
-			updateMaxMinForAxis();
-		}
+	}
+	function updateMaxMinForAxis(){
+		xMax = d3.max(d, function(d) { return +getValueFromStr(d, xAxisValue); });
+		xMin = d3.min(d, function(d) { return +getValueFromStr(d, xAxisValue); });
+		
+		yMax = d3.max(d, function(d) { return +getValueFromStr(d, yAxisValue); });
+		yMin = d3.min(d, function(d) { return +getValueFromStr(d, yAxisValue); });
+		//console.log(" x "+ xMax+" y "+ yMax+" x "+ xMin+" y "+ yMin+ "mikä koordinaatti"+ linearHeigthScale(yMax));
+	}
+	function updateAxis(){
+		changeAxisX();
+		changeAxisY();
+		updateMaxMinForAxis();
+	}
 
 
-		//Draw axis
+	/*Draws axis*/
 	function drawAxis(){
 		var axisGroup = svg.append("g")
 		axisGroup.attr("class", "axisGroup");
@@ -282,244 +277,244 @@ d3.csv("data.csv", function(d){
 			.text(axisValueOpposites[axisValues.indexOf(yAxisValue)]);
 	}
 
-		/*Party selection UI elements in legendContainer and logic*/
-		//helping function por positioning
-		var tick = 0;
-		function getNextTick(){tick = tick +1;return tick;}
-		//circles presenting the parties
-		var partiesSelection = legendSvg.selectAll("circle.parties")
-		.data(parties)
-		.enter()
-			.append("circle")
-			.attr("cx", LEGENDWIDHT-13)
-			.attr("cy", function(parties){return +(getNextTick()*20);})
-			.attr("r", 10)
-			.attr("class", "parties")
-			.style("fill", function(parties){return getColor(parties)})
-			.style("opacity", function(parties){return getOpacity(partyVisibility[parties]);})
-			.on("click", function(parties){
-				toggleSelection(parties, d3.select(this));
-				filterCandidates();
-				//redraw();
-			});
-		getNextTick();//skip one line
-		var segmentsSelection = legendSvg.selectAll("circle.segments")
-		.data(segments)
-		.enter()
-			.append("circle")
-			.attr("cx", LEGENDWIDHT-13)
-			.attr("cy", function(segments){return +(getNextTick()*20);})
-			.attr("r", 10)
-			.attr("class", "segments")
-			.style("fill", function(segments){return getColor(segments)})
-			.style("opacity", function(segments){return getOpacity(partyVisibility[segments]);})
-			.on("click", function(segments){
-				toggleSelection(segments, d3.select(this));
-				filterCandidates();
-				//redraw();
-			});
-		segments
-		tick = 0;
-		//text labels for circles
-		var partyLabes = legendSvg.selectAll("text")
-		.data(parties)
-		.enter()
-			.append("text")
-			.attr("x", LEGENDWIDHT-26)
-			.attr("y", function(parties){return +(getNextTick()*20 +5);})
-			.attr("class", "partyLabes")
-			.text(function(d){return d;});
-		//Draws separator line, but only once and when something to separate
-		var separatorYposition = getNextTick();
-		if (separatorYposition > 1) {
-			separatorYposition = separatorYposition*20;
-			legendSvg.append("line")
-				.attr("x1", 0)
-				.attr("y1", separatorYposition)
-				.attr("x2", LEGENDWIDHT)
-				.attr("y2", separatorYposition)
-				.attr("class", "axisLine")
-				.attr("stroke-width", 2)
-				.attr("stroke", "black");
-		};
-		//getNextTick();//skip one line
-		var partyLabes = legendSvg.selectAll("text.segments")
-		.data(segments)
-		.enter()
-			.append("text")
-			.attr("x", LEGENDWIDHT-26)
-			.attr("y", function(segments){return +(getNextTick()*20 +5);})
-			.attr("class", "partyLabes segments")
-			.text(function(d){return d;});
+	/*Party selection UI elements in legendContainer and logic*/
+	//helping function por positioning
+	var tick = 0;
+	function getNextTick(){tick = tick +1;return tick;}
+	//circles presenting the parties
+	var partiesSelection = legendSvg.selectAll("circle.parties")
+	.data(parties)
+	.enter()
+		.append("circle")
+		.attr("cx", LEGENDWIDHT-13)
+		.attr("cy", function(parties){return +(getNextTick()*20);})
+		.attr("r", 10)
+		.attr("class", "parties")
+		.style("fill", function(parties){return getColor(parties)})
+		.style("opacity", function(parties){return getOpacity(partyVisibility[parties]);})
+		.on("click", function(parties){
+			toggleSelection(parties, d3.select(this));
+			filterCandidates();
+			//redraw();
+		});
+	getNextTick();//skip one line
+	var segmentsSelection = legendSvg.selectAll("circle.segments")
+	.data(segments)
+	.enter()
+		.append("circle")
+		.attr("cx", LEGENDWIDHT-13)
+		.attr("cy", function(segments){return +(getNextTick()*20);})
+		.attr("r", 10)
+		.attr("class", "segments")
+		.style("fill", function(segments){return getColor(segments)})
+		.style("opacity", function(segments){return getOpacity(partyVisibility[segments]);})
+		.on("click", function(segments){
+			toggleSelection(segments, d3.select(this));
+			filterCandidates();
+			//redraw();
+		});
+	segments
+	tick = 0;
+	//text labels for circles
+	var partyLabes = legendSvg.selectAll("text")
+	.data(parties)
+	.enter()
+		.append("text")
+		.attr("x", LEGENDWIDHT-26)
+		.attr("y", function(parties){return +(getNextTick()*20 +5);})
+		.attr("class", "partyLabes")
+		.text(function(d){return d;});
+	//Draws separator line, but only once and when something to separate
+	var separatorYposition = getNextTick();
+	if (separatorYposition > 1) {
+		separatorYposition = separatorYposition*20;
+		legendSvg.append("line")
+			.attr("x1", 0)
+			.attr("y1", separatorYposition)
+			.attr("x2", LEGENDWIDHT)
+			.attr("y2", separatorYposition)
+			.attr("class", "axisLine")
+			.attr("stroke-width", 2)
+			.attr("stroke", "black");
+	};
+	//getNextTick();//skip one line
+	var partyLabes = legendSvg.selectAll("text.segments")
+	.data(segments)
+	.enter()
+		.append("text")
+		.attr("x", LEGENDWIDHT-26)
+		.attr("y", function(segments){return +(getNextTick()*20 +5);})
+		.attr("class", "partyLabes segments")
+		.text(function(d){return d;});
 
-		function toggleSelection(party, element){
-			partyVisibility[party] = !partyVisibility[party];
-			element.style("opacity", function(){return getOpacity(partyVisibility[party]);});
+	function toggleSelection(party, element){
+		partyVisibility[party] = !partyVisibility[party];
+		element.style("opacity", function(){return getOpacity(partyVisibility[party]);});
+	}
+
+	function getOpacity(boolean){
+		if(boolean) return 1.0;
+		return 0.3;
+	}
+
+
+	/*Creates candidate data object containing element, name, party, segment, 
+	id (candidate number), district, age, education, url, xCoordinate, yCoordinate*/
+	function defineCandidate(d, givenElement){
+		candidate = {element: givenElement, 
+			name: d.name, 
+			party: d.party, 
+			segment: d.segment,
+			id: d.id,
+			district: d.district,
+			age: d.age,
+			education: d.education,
+			url: d.www,
+			xCoordinate: +getXValue(d), 
+			yCoordinate: +getYValue(d)};
+			return candidate;
+	}
+
+	/*highlights svg element, creates infoBox div with candidate information*/
+	function displayInfo(candidate){
+		candidate.element
+		.transition()
+		.duration(300)
+		.attr("r", function(d){return linearElementScale(narrowerDimension)*2;})
+
+		//html text for infoBox
+		var infoString = "<strong>"+candidate.name+"</strong>, nro: "+ candidate.id+"<br>"+
+			candidate.party+"<br>"+
+			"<em>segmentti: \""+candidate.segment+"\"</em><br><br>"+
+			candidate.district+"<br>"+
+			candidate.age+" vuotias, "+candidate.education+"<br>"+
+			"<br><a class=\"infoBoxLink\" href=\""+candidate.url+"\">"+candidate.url+"</a>";
+
+		//infoBox for candidate information
+		var infoDiv = document.createElement("div");
+		//infobox closing button
+		var closeButton = document.createElement("BUTTON");
+		document.getElementById("explanations").appendChild(infoDiv);
+		//if too far to right border, then uses different class
+		if(parseInt(candidate.element.attr("cx") + svg.offsetLeft) > (width-220)){
+			infoDiv.className = "infoBox toLeft";
+			closeButton.className = "infoBoxClose infoBoxCloseLeft";
 		}
-
-		function getOpacity(boolean){
-			if(boolean) return 1.0;
-			return 0.3;
+		else{
+			infoDiv.className = "infoBox toRight";
+			closeButton.className = "infoBoxClose";
 		}
+		infoDiv.id = candidate.name;
+		infoDiv.innerHTML = infoString;
+		//TODO: fix over MAXWIDTH delocation due centralization, hotfix was 2000px maxwidth
+		infoDiv.style.left = parseInt(candidate.element.attr("cx") + svg.offsetLeft) + "px";
+		infoDiv.style.top = parseInt(candidate.element.attr("cy") + svg.offsetTop) +-10+"px";
+		closeButton.appendChild(document.createTextNode("X"));
+		closeButton.addEventListener("click",function(d){dontDisplayInfo(candidate);});
+		infoDiv.appendChild(closeButton);
+	}
 
-
-		/*Creates candidate data object containing element, name, party, segment, 
-		id (candidate number), district, age, education, url, xCoordinate, yCoordinate*/
-		function defineCandidate(d, givenElement){
-			candidate = {element: givenElement, 
-				name: d.name, 
-				party: d.party, 
-				segment: d.segment,
-				id: d.id,
-				district: d.district,
-				age: d.age,
-				education: d.education,
-				url: d.www,
-				xCoordinate: +getXValue(d), 
-				yCoordinate: +getYValue(d)};
-				return candidate;
-		}
-
-		/*highlights svg element, creates infoBox div with candidate information*/
-		function displayInfo(candidate){
-			candidate.element
+	/*restores the svg element size, deletes the infoBox div*/
+	function dontDisplayInfo(candidate){
+		candidate.element
 			.transition()
 			.duration(300)
-			.attr("r", function(d){return linearElementScale(narrowerDimension)*2;})
+			.attr("r", function(d){return linearElementScale(narrowerDimension);})
+		var infoDiv = document.getElementById(candidate.name);
+		infoDiv.parentNode.removeChild(infoDiv);
+	}
 
-			//html text for infoBox
-			var infoString = "<strong>"+candidate.name+"</strong>, nro: "+ candidate.id+"<br>"+
-				candidate.party+"<br>"+
-				"<em>segmentti: \""+candidate.segment+"\"</em><br><br>"+
-				candidate.district+"<br>"+
-				candidate.age+" vuotias, "+candidate.education+"<br>"+
-				"<br><a class=\"infoBoxLink\" href=\""+candidate.url+"\">"+candidate.url+"</a>";
+	/*removes all info boxes present*/
+	function removeInfoDivs(){
+		var explanationsDiv = document.getElementById("explanations");
+		while (explanationsDiv.hasChildNodes()) {
+			explanationsDiv.removeChild(explanationsDiv.lastChild);
+		}
+	}
 
-			//infoBox for candidate information
-			var infoDiv = document.createElement("div");
-			//infobox closing button
-			var closeButton = document.createElement("BUTTON");
-			document.getElementById("explanations").appendChild(infoDiv);
-			//if too far to right border, then uses different class
-			if(parseInt(candidate.element.attr("cx") + svg.offsetLeft) > (width-220)){
-				infoDiv.className = "infoBox toLeft";
-				closeButton.className = "infoBoxClose infoBoxCloseLeft";
-			}
-			else{
-				infoDiv.className = "infoBox toRight";
-				closeButton.className = "infoBoxClose";
-			}
-			infoDiv.id = candidate.name;
-			infoDiv.innerHTML = infoString;
-			//TODO: fix over MAXWIDTH delocation due centralization, hotfix was 2000px maxwidth
-			infoDiv.style.left = parseInt(candidate.element.attr("cx") + svg.offsetLeft) + "px";
-			infoDiv.style.top = parseInt(candidate.element.attr("cy") + svg.offsetTop) +-10+"px";
-			closeButton.appendChild(document.createTextNode("X"));
-			closeButton.addEventListener("click",function(d){dontDisplayInfo(candidate);});
-			infoDiv.appendChild(closeButton);
+	/*Sets css "display" to "none" for filtered candidate elements*/
+	function filterCandidates(){
+		//updates district filter
+		if (districtSelector.property("selectedIndex") > 0) {
+			currentDistrict = areas[districtSelector.property("selectedIndex")-1];
+		}
+		//updates name and candidate number filter
+		var searchValue = searchInput.property("value").toLowerCase();
+		var searchArray = searchValue.split(" ");
+
+		function isNotFiltered(d){
 		}
 
-		/*restores the svg element size, deletes the infoBox div*/
-		function dontDisplayInfo(candidate){
-			candidate.element
-				.transition()
-				.duration(300)
-				.attr("r", function(d){return linearElementScale(narrowerDimension);})
-			var infoDiv = document.getElementById(candidate.name);
-			infoDiv.parentNode.removeChild(infoDiv);
-		}
-
-		/*removes all info boxes present*/
-		function removeInfoDivs(){
-			var explanationsDiv = document.getElementById("explanations");
-			while (explanationsDiv.hasChildNodes()) {
-				explanationsDiv.removeChild(explanationsDiv.lastChild);
-			}
-		}
-
-		/*Sets css "display" to "none" for filtered candidate elements*/
-		function filterCandidates(){
-			//updates district filter
-			if (districtSelector.property("selectedIndex") > 0) {
-				currentDistrict = areas[districtSelector.property("selectedIndex")-1];
-			}
-			//updates name and candidate number filter
-			var searchValue = searchInput.property("value").toLowerCase();
-			var searchArray = searchValue.split(" ");
-
-			function isNotFiltered(d){
-			}
-
-			//Let the filtering begin!
-			candidates
-				.attr("display", function(d) {
-					//district filter
-					if (currentDistrict === ALLDISTRICTS) return "inline";
-					else if (currentDistrict && d.district !== currentDistrict) return "none";
-
-					if(!partyVisibility[d.party] || !partyVisibility[d.segment]) return "none";
-
-					//if something in the search box then also filter with that
-					if (searchValue) {
-						for (var i = 0; i < searchArray.length; i++) {
-							//name as default
-							if (d.name.toLowerCase().indexOf(searchArray[i].trim()) < 0){
-								//candidate voting number as secondary quess for input
-								if (d.id.toLowerCase().indexOf(searchArray[i].trim()) < 0){
-									return "none";
-								}
-							} 
-						}
-					}
-				})
-		}
-
-		/*Assign actions on candidate elements
-		It is possible to click candidate, so the info will keep showing*/
+		//Let the filtering begin!
 		candidates
-			.on("click", function(d){
-				isClicked = !isClicked;
-				defineCandidate(d, d3.select(this));
-				displayInfo(candidate);
-				previousCandidate = candidate;
-			})
-			.on("mouseenter", function(d){
-				defineCandidate(d, d3.select(this));
-				if(previousCandidate != null && isClicked){
-					dontDisplayInfo(previousCandidate);
-							isClicked = !isClicked;}//prepares for new a click
-							displayInfo(candidate);
-						})
-			.on("mouseleave", function(d){
-				defineCandidate(d, d3.select(this));
-				if(!isClicked){dontDisplayInfo(candidate);};
-			})
-			.on("touchstart", function(d){
-				defineCandidate(d, d3.select(this));
-				displayInfo(candidate);
-			})
-			.on("touchend", function(d){
-				defineCandidate(d, d3.select(this));
-				if(!isClicked){dontDisplayInfo(candidate)};
-			});
+			.attr("display", function(d) {
+				//district filter
+				if (currentDistrict === ALLDISTRICTS) return "inline";
+				else if (currentDistrict && d.district !== currentDistrict) return "none";
 
-		/*Color for candidate elements based on data*/
-		candidates.style("fill", function(d){
-			if(showPartyColors)	return getColor(d.party);
-			return getColor(d.segment)
+				if(!partyVisibility[d.party] || !partyVisibility[d.segment]) return "none";
+
+				//if something in the search box then also filter with that
+				if (searchValue) {
+					for (var i = 0; i < searchArray.length; i++) {
+						//name as default
+						if (d.name.toLowerCase().indexOf(searchArray[i].trim()) < 0){
+							//candidate voting number as secondary quess for input
+							if (d.id.toLowerCase().indexOf(searchArray[i].trim()) < 0){
+								return "none";
+							}
+						} 
+					}
+				}
+			})
+	}
+
+	/*Assign actions on candidate elements
+	It is possible to click candidate, so the info will keep showing*/
+	candidates
+		.on("click", function(d){
+			isClicked = !isClicked;
+			defineCandidate(d, d3.select(this));
+			displayInfo(candidate);
+			previousCandidate = candidate;
+		})
+		.on("mouseenter", function(d){
+			defineCandidate(d, d3.select(this));
+			if(previousCandidate != null && isClicked){
+				dontDisplayInfo(previousCandidate);
+						isClicked = !isClicked;}//prepares for new a click
+						displayInfo(candidate);
+					})
+		.on("mouseleave", function(d){
+			defineCandidate(d, d3.select(this));
+			if(!isClicked){dontDisplayInfo(candidate);};
+		})
+		.on("touchstart", function(d){
+			defineCandidate(d, d3.select(this));
+			displayInfo(candidate);
+		})
+		.on("touchend", function(d){
+			defineCandidate(d, d3.select(this));
+			if(!isClicked){dontDisplayInfo(candidate)};
 		});
+
+	/*Color for candidate elements based on data*/
+	candidates.style("fill", function(d){
+		if(showPartyColors)	return getColor(d.party);
+		return getColor(d.segment)
+	});
+	filterCandidates();
+
+	/*UI control for district (needs to be inside resizing)*/
+	districtSelector.selectAll("option.local")
+		.data(areas)
+		.enter().append("option")
+			.attr("class", "local")
+			.attr("value", function(d) { return d; })
+			.text(function(d) { return d; });
+	districtSelector.on("change", function(){
 		filterCandidates();
-
-		/*UI control for district (needs to be inside resizing)*/
-		districtSelector.selectAll("option.local")
-			.data(areas)
-			.enter().append("option")
-				.attr("class", "local")
-				.attr("value", function(d) { return d; })
-				.text(function(d) { return d; });
-		districtSelector.on("change", function(){
-			filterCandidates();
-		});
+	});
 	
 /***********************************************************************
 	Visualization resizing starts
@@ -533,7 +528,6 @@ d3.csv("data.csv", function(d){
 	}
 	
 	function resize() {
-		console.log("rezized");
 		/*Reset key values*/
 		width = getWidth();
 		var height = getHeight();
@@ -543,22 +537,18 @@ d3.csv("data.csv", function(d){
 
 		removeInfoDivs();
 		adjustVisualizationToScreenSize();
-
 		redrawAxis();
 		redraw();
 	}
 
 	function redraw() {
 		adjustVisualizationToScreenSize();
-
-		console.log("redrawn");
 		redrawAxis();
 
-
-		//scales the data to screen size, these variables are used as functions when.
-		linearWidthScale.domain([ xMin   , xMax ]).range( [ MARGIN , getWidth()-MARGIN ]);
-		linearHeigthScale.domain([ yMax   , yMin ]).range( [ MARGIN , getHeight()-MARGIN ]);
-		linearElementScale.domain([ 0 , MAXHEIGHT ]).range( [ 2 , 10 ]);
+		//Updates static arrays
+		linearWidthScale.domain([ xMin , xMax ]).range([ MARGIN , getWidth()-MARGIN ]);
+		linearHeigthScale.domain([ yMax , yMin ]).range([ MARGIN , getHeight()-MARGIN ]);
+		linearElementScale.domain([ 0 , MAXHEIGHT ]).range([ 2 , 10 ]);
 
 		candidates.transition()
 			.duration(750)
@@ -567,13 +557,13 @@ d3.csv("data.csv", function(d){
 			.attr("r", function(d){return linearElementScale(narrowerDimension);});
 		filterCandidates();
 	}
-/***********************************************************************
-	Visualization resizing ends
-***********************************************************************/
 
 	d3.select(window).on("resize", resize); 
 	resize();
 	redraw();
+/***********************************************************************
+	Visualization resizing ends
+***********************************************************************/
 
 	/*UI control for axis*/
 	axisXSelector.selectAll("option.local")
