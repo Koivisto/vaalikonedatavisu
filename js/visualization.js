@@ -60,7 +60,9 @@ var axisValues = ["Impivaaralaisuus", "Talousoikeistolaisuus", "Arvoliberaalius"
 var axisValueOpposites = ["Maailmankansalaisuus", "Talousvasemmistolaisuus","Arvokonservatiivius", "\"Epävihreys\"",""];
 var segments = ["Oikeisto","Kansalliskonservatiivit","Viherliberaalit","Vihervasemmisto","Demarit"];
 //init axis value domain 
-var xMax = 3;var yMax = 3;var xMin = -3;var yMin = -3;
+var xMax = 3;var yMax = 300;var xMin = -3;var yMin = -3;
+		//Init axis selection
+		var xAxisValue = axisValues[0], yAxisValue = axisValues[2];
 //maps parties and segments to colors <http://fi.wikipedia.org/wiki/Luokka:Politiikkamallineet>
 function getColor(str){
 	switch(str){
@@ -156,35 +158,9 @@ d3.csv("data.csv", function(d){
 /*******************************************************************************/
 /*******************************************************************************/
 
-		/*Main logic is here, when data is used to create DOM elements, and events are decided*/
-		/*Connects the data to svg elements, determines the interaction logic*/
-		var candidateGroup = svg.append("g")
-		candidateGroup.attr("class", "candidateGroup")
-		var candidates = candidateGroup.selectAll("circle")
-			.data(d)
-			.enter()
-				.append("circle")
-				.attr("cx", function(d){return linearWidthScale(getXValue(d));})
-				.attr("cy", function(d){return linearHeigthScale(getYValue(d));})
-				.attr("r", function(d){return linearElementScale(narrowerDimension);});
-				
-		/*Axis*/
-		//Init axis selection
-		var xAxisValue = axisValues[0], yAxisValue = axisValues[2];
-		function changeAxisX(){
-			if (axisXSelector.property('selectedIndex') > 0) {//if something is selected in menu
-				xAxisValue = axisValues[axisXSelector.property('selectedIndex')-1];
-			}
-			xMax = d3.max(d, function(d) { return +getValueFromStr(d, xAxisValue); });
-			xMin = d3.min(d, function(d) { return +getValueFromStr(d, xAxisValue); });
-		}
-		function changeAxisY(){
-			if (axisYSelector.property('selectedIndex') > 0) {//if something is selected in menu
-				yAxisValue = axisValues[axisYSelector.property('selectedIndex')-1];
-			}
-			yMax = d3.max(d, function(d) { return +getValueFromStr(d, yAxisValue); });
-			yMin = d3.min(d, function(d) { return +getValueFromStr(d, yAxisValue); });
-		}
+		var isClicked = false;
+		var previousCandidate = null;
+		var candidate= null;
 
 		//Lazy enum for axis labels to data
 		function getXValue(d){
@@ -203,6 +179,44 @@ d3.csv("data.csv", function(d){
 				default: return 0;
 			}
 		}
+			
+		/*Main logic is here, when data is used to create DOM elements, and events are decided*/
+		/*Connects the data to svg elements, determines the interaction logic*/
+		var candidateGroup = svg.append("g")
+		candidateGroup.attr("class", "candidateGroup")
+		var candidates = candidateGroup.selectAll("circle")
+			.data(d)
+			.enter()
+				.append("circle")
+				.attr("cx", 100)//function(d){return linearWidthScale(getXValue(d));})
+				.attr("cy", 100)//function(d){return linearHeigthScale(getYValue(d));})
+				.attr("r", function(d){return 10;});//linearElementScale(narrowerDimension);});
+
+		/*Axis*/
+		function changeAxisX(){
+			if (axisXSelector.property('selectedIndex') > 0) {//if something is selected in menu
+				xAxisValue = axisValues[axisXSelector.property('selectedIndex')-1];
+			}
+		}
+		function changeAxisY(){
+			if (axisYSelector.property('selectedIndex') > 0) {//if something is selected in menu
+				yAxisValue = axisValues[axisYSelector.property('selectedIndex')-1];
+			}
+		}
+		function updateMaxMinForAxis(){
+			xMax = d3.max(d, function(d) { return +getValueFromStr(d, xAxisValue); });
+			xMin = d3.min(d, function(d) { return +getValueFromStr(d, xAxisValue); });
+			
+			yMax = d3.max(d, function(d) { return +getValueFromStr(d, yAxisValue); });
+			yMin = d3.min(d, function(d) { return +getValueFromStr(d, yAxisValue); });
+			//console.log(" x "+ xMax+" y "+ yMax+" x "+ xMin+" y "+ yMin+ "mikä koordinaatti"+ linearHeigthScale(yMax));
+		}
+		function updateAxis(){
+			changeAxisX();
+			changeAxisY();
+			updateMaxMinForAxis();
+		}
+
 
 		//Draw axis
 	function drawAxis(){
@@ -334,20 +348,6 @@ d3.csv("data.csv", function(d){
 			return 0.3;
 		}
 
-		var isClicked = false;
-		var previousCandidate = null;
-		var candidate= null;
-
-		//scales the data to screen size, these variables are used as functions when.
-		var linearWidthScale = d3.scale.linear()
-			.domain([xMin,xMax])
-			.range([MARGIN,getWidth-MARGIN]);
-		var linearHeigthScale = d3.scale.linear()
-			.domain([yMax,yMin])
-			.range([MARGIN,getHeight-MARGIN]);
-		var linearElementScale = d3.scale.linear()
-			.domain([0, MAXHEIGHT])
-			.range([2,10]);
 
 		/*Creates candidate data object containing element, name, party, segment, 
 		id (candidate number), district, age, education, url, xCoordinate, yCoordinate*/
@@ -455,38 +455,6 @@ d3.csv("data.csv", function(d){
 						}
 					})
 		}
-	
-/***********************************************************************
-	Visualization resizing starts
-***********************************************************************/
-	function resize() {
-		//Removing old elements
-		svg.selectAll("circle").remove();
-		svg.selectAll("text").remove();
-		svg.selectAll("line").remove();
-		removeInfoDivs();
-
-		/*Reset key values*/
-		adjustVisualizationToScreenSize();
-		width = getWidth();
-		var height = getHeight();
-		svg
-		.attr("width", width)
-		.attr("height", height)
-	}
-
-	function redraw() {
-		changeAxisX();
-		changeAxisY();
-		drawAxis();
-
-		candidates.transition()
-			.duration(10000)
-			.attr("cx", function(d){return linearWidthScale(getXValue(d));})
-			.attr("cy", function(d){return linearHeigthScale(getYValue(d));})
-			//.attr("r", function(d){return linearElementScale(narrowerDimension);});
-			.attr("r", 100);
-
 
 		/*Assign actions on candidate elements
 		It is possible to click candidate, so the info will keep showing*/
@@ -534,6 +502,56 @@ d3.csv("data.csv", function(d){
 		districtSelector.on("change", function(){
 			filterCandidates();
 		});
+	
+/***********************************************************************
+	Visualization resizing starts
+***********************************************************************/
+	function redrawAxis(){
+		updateAxis();
+		//TODO transition.text("uus nimi")
+		svg.selectAll("text").remove();
+		svg.selectAll("line").remove();
+		drawAxis();
+	}
+	
+	function resize() {
+		console.log("rezized");
+		/*Reset key values*/
+		width = getWidth();
+		var height = getHeight();
+		svg
+		.attr("width", width)
+		.attr("height", height);
+
+		removeInfoDivs();
+		adjustVisualizationToScreenSize();
+
+		redrawAxis();
+		redraw();
+	}
+
+	function redraw() {
+		adjustVisualizationToScreenSize();
+
+		console.log("redrawn");
+		redrawAxis();
+
+
+		//scales the data to screen size, these variables are used as functions when.
+		var linearWidthScale = d3.scale.linear()
+			.domain([ xMin   , xMax ])
+			.range( [ MARGIN , getWidth()-MARGIN ]);
+		var linearHeigthScale = d3.scale.linear()
+			.domain([ yMax   , yMin ])
+			.range( [ MARGIN , getHeight()-MARGIN ]);
+		var linearElementScale = d3.scale.linear()
+			.domain([ 0 , MAXHEIGHT ])
+			.range( [ 2 , 10 ]);
+
+		candidates.transition()
+			.duration(1000)
+			.attr("cx", function(d){return linearWidthScale(+getXValue(d));})
+			.attr("cy", function(d){return linearHeigthScale(+getYValue(d));})
 	}
 /***********************************************************************
 	Visualization resizing ends
