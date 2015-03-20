@@ -26,6 +26,10 @@ var xAxisValue = axisValues[0], yAxisValue = axisValues[2];
 var axisValueOpposites = ["Maailmankansalaisuus", "Talousvasemmistolaisuus","Arvokonservatiivius", "\"Epävihreys\"",""];
 var segments = ["Oikeisto","Kansalliskonservatiivit","Viherliberaalit","Vihervasemmisto","Demarit"];
 
+/**********************
+	Helper functions
+/**********************/
+
 /*Maps parties and segments to colors, 
 party color from here http://fi.wikipedia.org/wiki/Luokka:Politiikkamallineet */
 function getColor(str){
@@ -82,13 +86,6 @@ function adjustVisualizationToScreenSize(){
 }
 adjustVisualizationToScreenSize();
 
-/*Init root elements for visualization*/
-var form = d3.select("#visualizationForm");
-var svg = d3.select("#visualizationSvg");
-svg
-.attr("width", getWidth())
-.attr("height", getHeight());
-
 
 //scales the data to screen size, these variables are used as functions when scaling the data.
 var linearWidthScale = d3.scale.linear()
@@ -100,6 +97,14 @@ var linearHeigthScale = d3.scale.linear()
 var linearElementScale = d3.scale.linear()
 								.domain([ 0 , MAXHEIGHT ])
 								.range( [ 2 , 10 ]);
+
+/************************************************************************/
+/*Init root elements for visualization*/
+var form = d3.select("#visualizationForm");
+var svg = d3.select("#visualizationSvg");
+svg
+.attr("width", getWidth())
+.attr("height", getHeight());
 
 /************************************************************************/
 /*Data begins*/
@@ -195,10 +200,106 @@ d3.csv("data.csv", function(d){
 		.property("checked", false)
 		.on("click", function() {showPartyColors = false; redraw();});
 	legendControls.append("label").html(" Värit segmenteittäin");
+
+
+			
+
+
+	/*****************************
+		Legend (right side bar)
+	/*****************************/
 	//init legendSvg
 	var legendSvg = d3.select("#legendSvg");
 	legendSvg.attr("width", LEGENDWIDHT).attr("height", 400);//height has currently a "magic number"
+	drawLegend();
 
+	function drawLegend(){
+		/*Party selection UI elements in legendContainer and logic*/
+		//helping function por positioning
+		var tick = 0;
+		function getNextTick(){tick = tick +1;return tick;}
+		//circles presenting the parties
+		var partiesSelection = legendSvg.selectAll("circle.parties")
+		.data(parties)
+		.enter()
+			.append("circle")
+			.attr("cx", LEGENDWIDHT-13)
+			.attr("cy", function(parties){return +(getNextTick()*20);})
+			.attr("r", 10)
+			.attr("class", "parties")
+			.style("fill", function(parties){return getColor(parties)})
+			.style("opacity", function(parties){return getOpacity(partyVisibility[parties]);})
+			.on("click", function(parties){
+				toggleSelection(parties, d3.select(this));
+				filterCandidates();
+				//redraw();
+			});
+		getNextTick();//skip one line
+		var segmentsSelection = legendSvg.selectAll("circle.segments")
+		.data(segments)
+		.enter()
+			.append("circle")
+			.attr("cx", LEGENDWIDHT-13)
+			.attr("cy", function(segments){return +(getNextTick()*20);})
+			.attr("r", 10)
+			.attr("class", "segments")
+			.style("fill", function(segments){return getColor(segments)})
+			.style("opacity", function(segments){return getOpacity(partyVisibility[segments]);})
+			.on("click", function(segments){
+				toggleSelection(segments, d3.select(this));
+				filterCandidates();
+				//redraw();
+			});
+		segments
+		tick = 0;
+		//text labels for circles
+		var partyLabes = legendSvg.selectAll("text")
+		.data(parties)
+		.enter()
+			.append("text")
+			.attr("x", LEGENDWIDHT-26)
+			.attr("y", function(parties){return +(getNextTick()*20 +5);})
+			.attr("class", "partyLabes")
+			.text(function(d){return d;});
+		//Draws separator line, but only once and when something to separate
+		var separatorYposition = getNextTick();
+		if (separatorYposition > 1) {
+			separatorYposition = separatorYposition*20;
+			legendSvg.append("line")
+				.attr("x1", 0)
+				.attr("y1", separatorYposition)
+				.attr("x2", LEGENDWIDHT)
+				.attr("y2", separatorYposition)
+				.attr("class", "axisLine")
+				.attr("stroke-width", 2)
+				.attr("stroke", "black");
+		};
+		//getNextTick();//skip one line
+		var partyLabes = legendSvg.selectAll("text.segments")
+		.data(segments)
+		.enter()
+			.append("text")
+			.attr("x", LEGENDWIDHT-26)
+			.attr("y", function(segments){return +(getNextTick()*20 +5);})
+			.attr("class", "partyLabes segments")
+			.text(function(d){return d;});
+	}
+
+	function toggleSelection(party, element){
+		partyVisibility[party] = !partyVisibility[party];
+		element.style("opacity", function(){return getOpacity(partyVisibility[party]);});
+	}
+
+	//TODO rename
+	function getOpacity(boolean){
+		if(boolean) return 1.0;
+		return 0.3;
+	}
+
+
+	/**********************
+		Axis
+	/**********************/
 
 	//Lazy enum for axis labels to data
 	function getXValue(d){
@@ -217,9 +318,7 @@ d3.csv("data.csv", function(d){
 			default: return 0;
 		}
 	}
-			
 
-	/*Axis*/
 	function changeAxisX(){
 		if (axisXSelector.property('selectedIndex') > 0) {//if something is selected in menu
 			xAxisValue = axisValues[axisXSelector.property('selectedIndex')-1];
@@ -233,17 +332,14 @@ d3.csv("data.csv", function(d){
 	function updateMaxMinForAxis(){
 		xMax = d3.max(d, function(d) { return +getValueFromStr(d, xAxisValue); });
 		xMin = d3.min(d, function(d) { return +getValueFromStr(d, xAxisValue); });
-		
 		yMax = d3.max(d, function(d) { return +getValueFromStr(d, yAxisValue); });
 		yMin = d3.min(d, function(d) { return +getValueFromStr(d, yAxisValue); });
-		//console.log(" x "+ xMax+" y "+ yMax+" x "+ xMin+" y "+ yMin+ "mikä koordinaatti"+ linearHeigthScale(yMax));
 	}
 	function updateAxis(){
 		changeAxisX();
 		changeAxisY();
 		updateMaxMinForAxis();
 	}
-
 
 	/*Draws axis*/
 	function drawAxis(){
@@ -293,87 +389,6 @@ d3.csv("data.csv", function(d){
 			.attr("transform", "translate(0, -5)")
 			.attr("class", "axisExplanation")
 			.text(axisValueOpposites[axisValues.indexOf(yAxisValue)]);
-	}
-
-
-	/*Party selection UI elements in legendContainer and logic*/
-	//helping function por positioning
-	var tick = 0;
-	function getNextTick(){tick = tick +1;return tick;}
-	//circles presenting the parties
-	var partiesSelection = legendSvg.selectAll("circle.parties")
-	.data(parties)
-	.enter()
-		.append("circle")
-		.attr("cx", LEGENDWIDHT-13)
-		.attr("cy", function(parties){return +(getNextTick()*20);})
-		.attr("r", 10)
-		.attr("class", "parties")
-		.style("fill", function(parties){return getColor(parties)})
-		.style("opacity", function(parties){return getOpacity(partyVisibility[parties]);})
-		.on("click", function(parties){
-			toggleSelection(parties, d3.select(this));
-			filterCandidates();
-			//redraw();
-		});
-	getNextTick();//skip one line
-	var segmentsSelection = legendSvg.selectAll("circle.segments")
-	.data(segments)
-	.enter()
-		.append("circle")
-		.attr("cx", LEGENDWIDHT-13)
-		.attr("cy", function(segments){return +(getNextTick()*20);})
-		.attr("r", 10)
-		.attr("class", "segments")
-		.style("fill", function(segments){return getColor(segments)})
-		.style("opacity", function(segments){return getOpacity(partyVisibility[segments]);})
-		.on("click", function(segments){
-			toggleSelection(segments, d3.select(this));
-			filterCandidates();
-			//redraw();
-		});
-	segments
-	tick = 0;
-	//text labels for circles
-	var partyLabes = legendSvg.selectAll("text")
-	.data(parties)
-	.enter()
-		.append("text")
-		.attr("x", LEGENDWIDHT-26)
-		.attr("y", function(parties){return +(getNextTick()*20 +5);})
-		.attr("class", "partyLabes")
-		.text(function(d){return d;});
-	//Draws separator line, but only once and when something to separate
-	var separatorYposition = getNextTick();
-	if (separatorYposition > 1) {
-		separatorYposition = separatorYposition*20;
-		legendSvg.append("line")
-			.attr("x1", 0)
-			.attr("y1", separatorYposition)
-			.attr("x2", LEGENDWIDHT)
-			.attr("y2", separatorYposition)
-			.attr("class", "axisLine")
-			.attr("stroke-width", 2)
-			.attr("stroke", "black");
-	};
-	//getNextTick();//skip one line
-	var partyLabes = legendSvg.selectAll("text.segments")
-	.data(segments)
-	.enter()
-		.append("text")
-		.attr("x", LEGENDWIDHT-26)
-		.attr("y", function(segments){return +(getNextTick()*20 +5);})
-		.attr("class", "partyLabes segments")
-		.text(function(d){return d;});
-
-	function toggleSelection(party, element){
-		partyVisibility[party] = !partyVisibility[party];
-		element.style("opacity", function(){return getOpacity(partyVisibility[party]);});
-	}
-
-	function getOpacity(boolean){
-		if(boolean) return 1.0;
-		return 0.3;
 	}
 
 	/**********************
@@ -449,6 +464,39 @@ d3.csv("data.csv", function(d){
 		return getColor(d.segment)
 	});
 
+	/*Sets css "display" to "none" for filtered candidate elements*/
+	function filterCandidates(){
+		//updates district filter
+		if (districtSelector.property("selectedIndex") > 0) {
+			currentDistrict = areas[districtSelector.property("selectedIndex")-1];
+		}
+		//updates name and candidate number filter
+		var searchValue = searchInput.property("value").toLowerCase();
+		var searchArray = searchValue.split(" ");
+
+		//Let the filtering begin!
+		candidates
+			.attr("display", function(d) {
+				//district filter
+				if (currentDistrict === ALLDISTRICTS) return "inline";
+				else if (currentDistrict && d.district !== currentDistrict) return "none";
+
+				if(!partyVisibility[d.party] || !partyVisibility[d.segment]) return "none";
+
+				//if something in the search box then also filter with that
+				if (searchValue) {
+					for (var i = 0; i < searchArray.length; i++) {
+						//name as default
+						if (d.name.toLowerCase().indexOf(searchArray[i].trim()) < 0){
+							//candidate voting number as secondary quess for input
+							if (d.id.toLowerCase().indexOf(searchArray[i].trim()) < 0){
+								return "none";
+							}
+						} 
+					}
+				}
+			})
+	}
 
 
 	/*highlights svg element, creates infoBox div with candidate information*/
@@ -507,44 +555,6 @@ d3.csv("data.csv", function(d){
 			explanationsDiv.removeChild(explanationsDiv.lastChild);
 		}
 	}
-
-	/*Sets css "display" to "none" for filtered candidate elements*/
-	function filterCandidates(){
-		//updates district filter
-		if (districtSelector.property("selectedIndex") > 0) {
-			currentDistrict = areas[districtSelector.property("selectedIndex")-1];
-		}
-		//updates name and candidate number filter
-		var searchValue = searchInput.property("value").toLowerCase();
-		var searchArray = searchValue.split(" ");
-
-		function isNotFiltered(d){
-		}
-
-		//Let the filtering begin!
-		candidates
-			.attr("display", function(d) {
-				//district filter
-				if (currentDistrict === ALLDISTRICTS) return "inline";
-				else if (currentDistrict && d.district !== currentDistrict) return "none";
-
-				if(!partyVisibility[d.party] || !partyVisibility[d.segment]) return "none";
-
-				//if something in the search box then also filter with that
-				if (searchValue) {
-					for (var i = 0; i < searchArray.length; i++) {
-						//name as default
-						if (d.name.toLowerCase().indexOf(searchArray[i].trim()) < 0){
-							//candidate voting number as secondary quess for input
-							if (d.id.toLowerCase().indexOf(searchArray[i].trim()) < 0){
-								return "none";
-							}
-						} 
-					}
-				}
-			})
-	}
-
 
 	/****************************************
 		Visualization resizing starts
