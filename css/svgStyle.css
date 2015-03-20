@@ -13,12 +13,6 @@ text{
 	fill: #BBB;/*ui_grey*/
 	opacity: 1.0;
 	font-size: 40px;
-	text-anchor: end;
-}
-.axisExplanationOpposite{
-	text-anchor: start;
-}
-.middle{
 	text-anchor: middle;
 }
 
