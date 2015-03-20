@@ -232,7 +232,6 @@ d3.csv("data.csv", function(d){
 			.on("click", function(parties){
 				toggleSelection(parties, d3.select(this));
 				filterCandidates();
-				//redraw();
 			});
 		getNextTick();//skip one line
 		var segmentsSelection = legendSvg.selectAll("circle.segments")
@@ -248,7 +247,6 @@ d3.csv("data.csv", function(d){
 			.on("click", function(segments){
 				toggleSelection(segments, d3.select(this));
 				filterCandidates();
-				//redraw();
 			});
 		segments
 		tick = 0;
@@ -301,6 +299,16 @@ d3.csv("data.csv", function(d){
 		Axis
 	/**********************/
 
+	/*Init axis elements*/
+	var axisGroup = svg.append("g");
+	axisGroup.attr("class", "axisGroup");
+	var xAxisLine = axisGroup.append("line");
+	var xAxisLabelRight = axisGroup.append("text");
+	var xAxisLabelLeft = axisGroup.append("text");
+	var yAxisLine = axisGroup.append("line");
+	var yAxisLabelTop = axisGroup.append("text");
+	var yAxisLabelBottom = axisGroup.append("text");
+
 	//Lazy enum for axis labels to data
 	function getXValue(d){
 		return getValueFromStr(d, xAxisValue);
@@ -339,16 +347,12 @@ d3.csv("data.csv", function(d){
 		changeAxisX();
 		changeAxisY();
 		updateMaxMinForAxis();
-	}
 
-	/*Draws axis*/
-	function drawAxis(){
-		var axisGroup = svg.append("g")
-		axisGroup.attr("class", "axisGroup");
+		/*Init helpers*/
 		var width = getWidth();
 		var height = getHeight();
 		//horisontal xAxis
-		var line = axisGroup.append("line")
+		xAxisLine
 			.attr("x1", 0)
 			.attr("y1", height/2)
 			.attr("x2", width)
@@ -356,20 +360,20 @@ d3.csv("data.csv", function(d){
 			.attr("class", "axisLine")
 			.attr("stroke-width", 2)
 			.attr("stroke", "black");
-		var text = axisGroup.append("text")
+		xAxisLabelRight
 			.attr("x", width)
 			.attr("y", height/2)
 			.attr("class", "axisExplanation")
 			.attr("transform", "rotate(90 "+width+" "+height/2+") translate(0, 35)")
 			.text(xAxisValue);
-		var text = axisGroup.append("text")
+		xAxisLabelLeft
 			.attr("x", 0)
 			.attr("y", height/2)
 			.attr("class", "axisExplanation")
 			.attr("transform", "rotate(270 "+0+" "+height/2+") translate(0, 35)")
 			.text(axisValueOpposites[axisValues.indexOf(xAxisValue)]);
 		//vertical yAxis
-		var line = axisGroup.append("line")
+		yAxisLine
 			.attr("x1", width/2)
 			.attr("y1", 0)
 			.attr("x2", width/2)
@@ -377,19 +381,22 @@ d3.csv("data.csv", function(d){
 			.attr("class", "axisLine")
 			.attr("stroke-width", 2)
 			.attr("stroke", "black");
-		var text = axisGroup.append("text")
+		yAxisLabelTop
 			.attr("x", width/2)
 			.attr("y", 30)
 			.attr("class", "axisExplanation")
 			.attr("transform", "translate(0, 5)")
 			.text(yAxisValue);
-		var text = axisGroup.append("text")
+		yAxisLabelBottom
 			.attr("x", width/2)
 			.attr("y", height)
 			.attr("transform", "translate(0, -5)")
 			.attr("class", "axisExplanation")
 			.text(axisValueOpposites[axisValues.indexOf(yAxisValue)]);
 	}
+
+	
+	
 
 	/**********************
 		Candidate
@@ -564,14 +571,7 @@ d3.csv("data.csv", function(d){
 	/****************************************
 		Visualization resizing starts
 	****************************************/
-	function redrawAxis(){
-		updateAxis();
-		//TODO transition.text("uus nimi")
-		svg.selectAll("text").remove();
-		svg.selectAll("line").remove();
-		drawAxis();
-	}
-	
+
 	function resize() {
 		/*Reset key values*/
 		width = getWidth();
@@ -582,14 +582,14 @@ d3.csv("data.csv", function(d){
 
 		removeInfoDivs();
 		adjustVisualizationToScreenSize();
-		redrawAxis();
+		updateAxis();
 		redraw();
 	}
 
 	function redraw() {
 		adjustVisualizationToScreenSize();
-		redrawAxis();
 		removeInfoDivs();
+		updateAxis();
 
 		//Updates static arrays
 		linearWidthScale.domain([ xMin , xMax ]).range([ MARGIN , getWidth()-MARGIN ]);
