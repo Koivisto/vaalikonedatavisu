@@ -17,7 +17,7 @@ text{
 }
 
 .partyLabes{
-	fill: #BBB;/*ui_grey*/
+	fill: #000;/*ui_grey*/
 	opacity: 1.0;
 	font-size: inherit;
 	text-anchor: end;
