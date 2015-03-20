@@ -162,7 +162,6 @@ a.infoBoxLink{
 	/*width: 200px;*/
 
 	padding: 10px 5px 10px 5px;
-	background-color: rgba(255,255,255,0.3);/*background-color: #FFF; w/ alpha*/
 	text-align: left;
 	color:#000;
 	box-shadow: 0px 0px 10px #000;
@@ -176,10 +175,8 @@ a.infoBoxLink{
 	border-bottom-left-radius: 100px 120px;
 }
 #legendSvg{
-	background-color: rgba(255,255,255,0.0);/*background-color: #FFF; w/ alpha*/
 }
 #legendControls{
-
 }
 .legendClose{
 	font-size: inherit;
@@ -196,6 +193,7 @@ a.infoBoxLink{
 		width:95%;
 	}
 	#legendContainer{
+		padding-bottom: 0px;
 		float:none;
 		display: block;
 		margin-right: 5px;
@@ -203,7 +201,9 @@ a.infoBoxLink{
 		margin-bottom: 5px;
 		text-align: center;
 	}
-
+	.legendClose{
+		margin-bottom: 10px;
+	}
 }  
 
 @media (min-width:720px) and (max-width:900px){
