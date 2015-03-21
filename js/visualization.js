@@ -4,8 +4,8 @@ Code can be found at https://github.com/Koivisto/vaalikonedatavisu
 */
 
 $( document ).ready(function() {
-var MAXHEIGHT = 1000;
-var MAXWIDTH = 2000; //#visualizationDiv has attribute max-width: 2000px; in css
+var MAXHEIGHT = 2160; //4k resolution will suffice for few years
+var MAXWIDTH = 4096; //#visualizationDiv has attribute "max-width" in css, this adjusts only the svg
 var MARGIN = 100;
 var LEGENDWIDHT = 200;
 var MOBILEBREAKPOINT = 700;
@@ -101,7 +101,7 @@ var linearHeigthScale = d3.scale.linear()
 								.range( [ MARGIN , getHeight()-MARGIN ]);
 var linearElementScale = d3.scale.linear()
 								.domain([ 0 , MAXHEIGHT ])
-								.range( [ 2 , 10 ]);
+								.range( [ 2 , 20 ]);
 
 /************************************************************************/
 /*Init root elements for visualization*/
@@ -617,7 +617,7 @@ d3.csv("data.csv", function(d){
 		//Updates static arrays
 		linearWidthScale.domain([ xMin , xMax ]).range([ MARGIN , getWidth()-MARGIN ]);
 		linearHeigthScale.domain([ yMax , yMin ]).range([ MARGIN , getHeight()-MARGIN ]);
-		linearElementScale.domain([ 0 , MAXHEIGHT ]).range([ 2 , 10 ]);
+		linearElementScale.domain([ 0 , MAXHEIGHT ]).range([ 2 , 20 ]);
 
 		candidates
 			.transition()

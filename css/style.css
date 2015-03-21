@@ -50,7 +50,7 @@ header div{
 }
 
 #visualizationDiv{
-	max-width: 2000px;
+	max-width: 4096px;
 	display:block;
 	margin:0 auto 0 auto;
 
