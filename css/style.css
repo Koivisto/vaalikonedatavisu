@@ -190,6 +190,16 @@ circle{
 }
 #legendControls{
 }
+.partyLabes{
+	cursor: pointer;
+}
+input{
+	cursor: pointer;
+}
+label{
+	cursor: pointer;
+}
+
 .legendClose{
 	font-size: inherit;
 	cursor: pointer;

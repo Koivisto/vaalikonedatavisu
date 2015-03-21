@@ -21,6 +21,10 @@ var partyVisibility = {"Itsenäisyyspuolue" : true,"Keskusta" : true,"Kokoomus" 
 			"Muutos 2011" : true,"Perussuomalaiset" : true,"Piraattipuolue" : true,"RKP" : true,"SDP" : true,
 			"SKP" : true,"STP" : true,"Vasemmistoliitto" : true,"Vihreät" : true,"Oikeisto": true,
 			"Kansalliskonservatiivit": true,"Viherliberaalit": true,"Vihervasemmisto": true,"Demarit": true};
+var abbreviations = {"Itsenäisyyspuolue" : "IP","Keskusta" : "KESK","Kokoomus" : "KOK","Kristillisdemokraatit" : "KD",
+			"Muutos 2011" : "M11","Perussuomalaiset" : "PS","Piraattipuolue" : "PIR","RKP" : "RKP","SDP" : "SDP",
+			"SKP" : "SKP","STP" : "STP","Vasemmistoliitto" : "VAS","Vihreät" : "VIH","Oikeisto": "oik",
+			"Kansalliskonservatiivit": "kans","Viherliberaalit": "vlib","Vihervasemmisto": "vvas","Demarit": "dem"};
 var axisValues = ["Impivaaralaisuus", "Talousoikeistolaisuus", "Arvoliberaalius", "Vihreys", "Ikä"];
 //init "Impivaaralaisuus" and "Arvoliberaalius" as first axis
 var xAxisValue = axisValues[0], yAxisValue = axisValues[2];
@@ -232,10 +236,11 @@ d3.csv("data.csv", function(d){
 			.attr("cy", function(parties){return +(getNextTick()*20);})
 			.attr("r", 10)
 			.attr("class", "parties")
+			.attr("id", function(parties){return abbreviations[parties]})
 			.style("fill", function(parties){return getColor(parties)})
 			.style("opacity", function(parties){return getOpacity(partyVisibility[parties]);})
 			.on("click", function(parties){
-				toggleSelection(parties, d3.select(this));
+				toggleSelection(parties);
 				filterCandidates();
 			});
 		getNextTick();//skip one line
@@ -247,10 +252,11 @@ d3.csv("data.csv", function(d){
 			.attr("cy", function(segments){return +(getNextTick()*20);})
 			.attr("r", 10)
 			.attr("class", "segments")
+			.attr("id", function(segments){return abbreviations[segments]})
 			.style("fill", function(segments){return getColor(segments)})
 			.style("opacity", function(segments){return getOpacity(partyVisibility[segments]);})
 			.on("click", function(segments){
-				toggleSelection(segments, d3.select(this));
+				toggleSelection(segments);
 				filterCandidates();
 			});
 		segments
@@ -263,7 +269,12 @@ d3.csv("data.csv", function(d){
 			.attr("x", LEGENDWIDHT-26)
 			.attr("y", function(parties){return +(getNextTick()*20 +5);})
 			.attr("class", "partyLabes")
-			.text(function(d){return d;});
+			.attr("id", function(parties){return abbreviations[parties]})
+			.text(function(d){return d;})
+			.on("click", function(parties){
+				toggleSelection(parties);
+				filterCandidates();
+			});
 		//Draws separator line, but only once and when something to separate
 		var separatorYposition = getNextTick();
 		if (separatorYposition > 1) {
@@ -285,12 +296,18 @@ d3.csv("data.csv", function(d){
 			.attr("x", LEGENDWIDHT-26)
 			.attr("y", function(segments){return +(getNextTick()*20 +5);})
 			.attr("class", "partyLabes segments")
-			.text(function(d){return d;});
+			.attr("id", function(segments){return abbreviations[segments]})
+			.text(function(d){return d;})
+			.on("click", function(segments){
+				toggleSelection(segments);
+				filterCandidates();
+			});
 	}
 
-	function toggleSelection(party, element){
+	function toggleSelection(party){
 		partyVisibility[party] = !partyVisibility[party];
-		element.style("opacity", function(){return getOpacity(partyVisibility[party]);});
+		//element.style("opacity", function(){return getOpacity(partyVisibility[party]);});
+		d3.selectAll("#"+abbreviations[party]+"").style("opacity", function(){return getOpacity(partyVisibility[party]);});
 	}
 
 	//TODO rename
