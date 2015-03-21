@@ -154,6 +154,7 @@ a.infoBoxLink{
 }
 
 #formContainer form *{
+	margin-bottom: 5px;
 }
 select{
 	cursor: pointer;
@@ -194,6 +195,7 @@ circle{
 }
 input{
 	cursor: pointer;
+	width: 100%;
 }
 label{
 	cursor: pointer;
