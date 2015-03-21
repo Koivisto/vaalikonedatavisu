@@ -104,17 +104,6 @@ var linearElementScale = d3.scale.linear()
 var form = d3.select("#visualizationForm");
 var svg = d3.select("#visualizationSvg");
 
-/*
-var searchForm = d3.select("#seachForm");
-var locationForm = d3.select("#locationForm");
-var xForm = d3.select("#xForm");
-var yForm = d3.select("#yForm");
-
-Tarkotuksena oli tosiaan, että luon nämä ja sitten tuolla alhaalla olevaan "form.append"-iin pistään että esim. searchForm.append, jolloin 
-pitäis mennä divin sisään toi sisältö. Muttei toiminut! Ideoita? Tuloksena haluisin siis jotain henkeen <div id="searchForm"><select></select></div>, You know.
-
-*/
-
 svg
 .attr("width", getWidth())
 .attr("height", getHeight());
@@ -129,13 +118,13 @@ d3.csv("data.csv", function(d){
 
 	/*Initializes UI elements inside the form*/
 	//name and candidate number filtering
-	var searchInput = form.append("input")
+	var searchInput = d3.select("#searchForm").append("input")
 		.attr("placeholder", "Etsi nimellä/numerolla")
 		.attr("type", "text")
 		.on("input", function(){filterCandidates();});
 
 	//District option menu
-	var districtSelector = form.append("select");
+	var districtSelector = d3.select("#locationForm").append("select");
 	districtSelector.append("option")
 		.attr("value", "all")
 		.text("Valitse alue");
@@ -154,11 +143,11 @@ d3.csv("data.csv", function(d){
 	var currentDistrict = null;
 
 	//X and Y axis selection option menus
-	var axisXSelector = form.append("select");
+	var axisXSelector = d3.select("#xForm").append("select");
 	axisXSelector.append("option")
 		.attr("value", "all")
 		.text("Valitse X-akseli");
-	var axisYSelector = form.append("select");
+	var axisYSelector = d3.select("#yForm").append("select");
 	axisYSelector.append("option")
 		.attr("value", "all")
 		.text("Valitse Y-akseli");
