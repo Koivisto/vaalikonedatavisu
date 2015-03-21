@@ -195,10 +195,12 @@ circle{
 }
 input{
 	cursor: pointer;
-	width: 100%;
 }
 label{
 	cursor: pointer;
+}
+#searchInput{
+	width: 100%;
 }
 
 .legendClose{
