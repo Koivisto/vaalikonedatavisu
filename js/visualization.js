@@ -3,6 +3,7 @@ Author: Aarne Leinonen
 Code can be found at https://github.com/Koivisto/vaalikonedatavisu
 */
 
+$( document ).ready(function() {
 var MAXHEIGHT = 1000;
 var MAXWIDTH = 2000; //#visualizationDiv has attribute max-width: 2000px; in css
 var MARGIN = 100;
@@ -102,6 +103,18 @@ var linearElementScale = d3.scale.linear()
 /*Init root elements for visualization*/
 var form = d3.select("#visualizationForm");
 var svg = d3.select("#visualizationSvg");
+
+/*
+var searchForm = d3.select("#seachForm");
+var locationForm = d3.select("#locationForm");
+var xForm = d3.select("#xForm");
+var yForm = d3.select("#yForm");
+
+Tarkotuksena oli tosiaan, että luon nämä ja sitten tuolla alhaalla olevaan "form.append"-iin pistään että esim. searchForm.append, jolloin 
+pitäis mennä divin sisään toi sisältö. Muttei toiminut! Ideoita? Tuloksena haluisin siis jotain henkeen <div id="searchForm"><select></select></div>, You know.
+
+*/
+
 svg
 .attr("width", getWidth())
 .attr("height", getHeight());
@@ -614,3 +627,4 @@ d3.csv("data.csv", function(d){
 
 });/*Data ends*/
 /***********************************************************************/
+});

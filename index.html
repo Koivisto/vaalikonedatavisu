@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="css/normalize.css">
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,700,600' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="css/foundation.min.css">
 <link rel="stylesheet" href="css/svgStyle.css">
 <link rel="stylesheet" href="css/style.css">
 <!--jQuery initializing-->
@@ -36,69 +37,92 @@ ga('send', 'pageview');
 </head>
 
 <body>
-	<header>
-		<div>
-			<h1>Data-analyysi ja visualisointi</h1>
-			<h3><a href="https://twitter.com/search?q=%23vaalit2015">#vaalit2015</a></h3>
-			<p>Avoimen vaalikonedatan analysointia ja visualisointia. Voit tarkastella kansanedustajaehdokastasi useammasta näkökulmasta tai löytää sopivan ehdokkaan itsellesi. Analyysissä on hyödynnetty faktorianalyysiä, jolla on saatu esiin suurempia kokonaisuuksia ja yhtenäisiä vastaajaprofiileja. Alla olevassa visualisoinnissa on tällä hetkellä vasta HS vaalikoneen vastauksista tehty analyysi. Valittavia akseleita ovat <a href="http://blogs.helsinki.fi/niemivir/?p=257">Impivaaralaisuus, Talousoikeistolaisuus, Arvoliberaalius, Vihreys</a> ja Ikä. Ehdokkaasta saa lisätietoja viemällä hiiren päälle. Voit myös piilottaa puolueita tai <a href="http://blogs.helsinki.fi/niemivir/?p=257">segmenttejä</a> näkyvistä.</p>
+	<header class="greenScheme">
+		<div class="row">
+			<div class="large-7 small-12 columns small-centered">
+				<h1>Data-analyysi ja visualisointi</h1>
+				<h3><a href="https://twitter.com/search?q=%23vaalit2015">#vaalit2015</a></h3>
+				<p>Avoimen vaalikonedatan analysointia ja visualisointia. Voit tarkastella kansanedustajaehdokastasi useammasta näkökulmasta tai löytää sopivan ehdokkaan itsellesi. Analyysissä on hyödynnetty faktorianalyysiä, jolla on saatu esiin suurempia kokonaisuuksia ja yhtenäisiä vastaajaprofiileja. Alla olevassa visualisoinnissa on tällä hetkellä vasta HS vaalikoneen vastauksista tehty analyysi. Valittavia akseleita ovat <a href="http://blogs.helsinki.fi/niemivir/?p=257">Impivaaralaisuus, Talousoikeistolaisuus, Arvoliberaalius, Vihreys</a> ja Ikä. Ehdokkaasta saa lisätietoja viemällä hiiren päälle. Voit myös piilottaa puolueita tai <a href="http://blogs.helsinki.fi/niemivir/?p=257">segmenttejä</a> näkyvistä.</p>
 
-			<iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" src="http://platform.twitter.com/widgets/tweet_button.3b6d1172463333ba9e3a4714e5a08ce6.en.html#_=1426600160341&amp;count=horizontal&amp;dnt=false&amp;id=twitter-widget-0&amp;lang=en&amp;original_referer=http%3A%2F%2Fusers.aalto.fi%2F~leinona1%2Fvaalit2015%2F&amp;size=m&amp;text=Vaalidatan%20faktorianalyysi%C3%A4%20%23vaalit2015%20%40AarneLeinonen%20%40mniemivirta&amp;url=http%3A%2F%2Fusers.aalto.fi%2F~leinona1%2Fvaalit2015%2F" class="twitter-share-button twitter-tweet-button twitter-share-button twitter-count-horizontal" title="Twitter Tweet Button" data-twttr-rendered="true" style="width: 108px; height: 20px;"></iframe>
-			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+				<iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" src="http://platform.twitter.com/widgets/tweet_button.3b6d1172463333ba9e3a4714e5a08ce6.en.html#_=1426600160341&amp;count=horizontal&amp;dnt=false&amp;id=twitter-widget-0&amp;lang=en&amp;original_referer=http%3A%2F%2Fusers.aalto.fi%2F~leinona1%2Fvaalit2015%2F&amp;size=m&amp;text=Vaalidatan%20faktorianalyysi%C3%A4%20%23vaalit2015%20%40AarneLeinonen%20%40mniemivirta&amp;url=http%3A%2F%2Fusers.aalto.fi%2F~leinona1%2Fvaalit2015%2F" class="twitter-share-button twitter-tweet-button twitter-share-button twitter-count-horizontal" title="Twitter Tweet Button" data-twttr-rendered="true" style="width: 108px; height: 20px;"></iframe>
+				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 
+			</div>
 		</div>
 	</header>
 
 	<!--Form that contains controls-->
-	<div id="formContainer">
-		<form id="visualizationForm"></form>
+	<div id="formContainer" class="row">
+		<div class="large-12 columns">
+			<form id="visualizationForm">
+				<!--
+
+				Tää ei nyt toimi, mutta ois kiva jos toimis niin näistä pötiköistä sais responsiiviset kanssa. Yritin JS:n puolella appendaa näihin ID:ihin, mutta ei skulannut silloin. :U
+				Jos on ideoita, miksei niin kerro ihmeessä. Kurkkaa JS:stä! 
+				
+				<div class="row">
+					<div class="large-3 small-12 columns" id="searchForm"></div>
+					<div class="large-3 small-12 columns" id="locationForm"></div>
+					<div class="large-3 small-12 columns" id="xForm"></div>
+					<div class="large-3 small-12 columns" id="yForm"></div>
+				</div>
+			-->
+		</form>
 	</div>
+</div>
 
-	<!--this small script is for legend toggle-->
-	<script src="js/legendHelper.js" type="text/javascript" charset="utf-8"></script>
-	<!--Div that contains legends for colors, and controls to toggle them-->
-	<div id="legendContainer" class="">
-		<div id="legendToggle" onclick="toggleLegendVisibility()" class="legendClose">Piilota selite</div>
-		<div id="legendControls"></div>
-		<svg id="legendSvg"></svg>
-	</div>
-
-	
-	<!--Div that contains all explanations-->
-	<div id="explanations" style="position: absolute;"></div>
-	<!--Actual visualization inside svg-element-->
-	<div id="visualizationDiv">
-		<svg id="visualizationSvg"></svg>
-	</div>
-	
-	<!--Visualization logic-->
-	<script src="js/visualization.js" type="text/javascript" charset="utf-8"></script>
+<!--this small script is for legend toggle-->
+<script src="js/legendHelper.js" type="text/javascript" charset="utf-8"></script>
+<!--Div that contains legends for colors, and controls to toggle them-->
+<div id="legendContainer" class="">
+	<div id="legendToggle" onclick="toggleLegendVisibility()" class="legendClose">Piilota selite</div>
+	<div id="legendControls"></div>
+	<svg id="legendSvg"></svg>
+</div>
 
 
-	<header><!--Nyt käytetty väärin, mutta on vaan tyylin testaamiseksi-->
-		<div>
+<!--Div that contains all explanations-->
+<div id="explanations" style="position: absolute;"></div>
+<!--Actual visualization inside svg-element-->
+<div id="visualizationDiv">
+	<svg id="visualizationSvg"></svg>
+</div>
+
+<!--Visualization logic-->
+<script src="js/visualization.js" type="text/javascript" charset="utf-8"></script>
+
+<div class="greenScheme">
+	<div class="row">
+		<div class="large-8 columns small-12 columns small-centered">
 			<p>
 				<h2>Lorem ipsum </h2>
-<p>
-dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit. Sed augue orci, lacinia eu tincidunt et eleifend nec lacus. Donec ultricies nisl ut felis, suspendisse potenti. Lorem ipsum ligula ut hendrerit mollis, ipsum erat vehicula risus, eu suscipit sem libero nec erat. Aliquam erat volutpat. Sed congue augue vitae neque. Nulla consectetuer porttitor pede. Fusce purus morbi tortor magna condimentum vel, placerat id blandit sit amet tortor.
-</p><p>
-Mauris sed libero. Suspendisse facilisis nulla in lacinia laoreet, lorem velit accumsan velit vel mattis libero nisl et sem. Proin interdum maecenas massa turpis sagittis in, interdum non lobortis vitae massa. Quisque purus lectus, posuere eget imperdiet nec sodales id arcu. Vestibulum elit pede dictum eu, viverra non tincidunt eu ligula.
-</p><p>
-Nam molestie nec tortor. Donec placerat leo sit amet velit. Vestibulum id justo ut vitae massa. Proin in dolor mauris consequat aliquam. Donec ipsum, vestibulum ullamcorper venenatis augue. Aliquam tempus nisi in auctor vulputate, erat felis pellentesque augue nec, pellentesque lectus justo nec erat. Aliquam et nisl. Quisque sit amet dolor in justo pretium condimentum.
-</p>
-		</div>
-	</header>
+				<p>
+					dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit. Sed augue orci, lacinia eu tincidunt et eleifend nec lacus. Donec ultricies nisl ut felis, suspendisse potenti. Lorem ipsum ligula ut hendrerit mollis, ipsum erat vehicula risus, eu suscipit sem libero nec erat. Aliquam erat volutpat. Sed congue augue vitae neque. Nulla consectetuer porttitor pede. Fusce purus morbi tortor magna condimentum vel, placerat id blandit sit amet tortor.
+				</p><p>
+				Mauris sed libero. Suspendisse facilisis nulla in lacinia laoreet, lorem velit accumsan velit vel mattis libero nisl et sem. Proin interdum maecenas massa turpis sagittis in, interdum non lobortis vitae massa. Quisque purus lectus, posuere eget imperdiet nec sodales id arcu. Vestibulum elit pede dictum eu, viverra non tincidunt eu ligula.
+			</p><p>
+			Nam molestie nec tortor. Donec placerat leo sit amet velit. Vestibulum id justo ut vitae massa. Proin in dolor mauris consequat aliquam. Donec ipsum, vestibulum ullamcorper venenatis augue. Aliquam tempus nisi in auctor vulputate, erat felis pellentesque augue nec, pellentesque lectus justo nec erat. Aliquam et nisl. Quisque sit amet dolor in justo pretium condimentum.
+		</p>
+	</div>
+</div>
+</div>
 
-	<footer>
-		Tekijät tässä vaiheessa: <a href="https://twitter.com/AarneLeinonen">Aarne Leinonen</a> (<a href="https://github.com/Koivisto/vaalikonedatavisu">koodi</a>, <a href="data.csv">muokattu data</a>, visualisoinnin ulkoasu), Markku Niemivirta (faktorianalyysi, <a href="data.csv">data</a>), Aleksi Taipale (sivun ulkoasu)
-		<br>
-		Kiitokset: <a href="http://www.hs.fi/politiikka/a1305929269692">HS</a>, Juha Törmänen
-		<br>
-		<br>
-		<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://users.aalto.fi/~leinona1/vaalit2015/" data-text="Vaalidatan faktorianalyysiä #vaalit2015 @AarneLeinonen @mniemivirta">Tweet</a>
-		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 
-	</footer>
+<div class="row">
+	<div class="large-8 columns small-12 small-centered">
+		<footer>
+			Tekijät tässä vaiheessa: <a href="https://twitter.com/AarneLeinonen">Aarne Leinonen</a> (<a href="https://github.com/Koivisto/vaalikonedatavisu">koodi</a>, <a href="data.csv">muokattu data</a>, visualisoinnin ulkoasu), Markku Niemivirta (faktorianalyysi, <a href="data.csv">data</a>), Aleksi Taipale (sivun ulkoasu)
+			<br>
+			Kiitokset: <a href="http://www.hs.fi/politiikka/a1305929269692">HS</a>, Juha Törmänen
+			<br>
+			<br>
+			<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://users.aalto.fi/~leinona1/vaalit2015/" data-text="Vaalidatan faktorianalyysiä #vaalit2015 @AarneLeinonen @mniemivirta">Tweet</a>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+		</footer>
+	</div>
+</div>
 
-	<br> 
+
+<br> 
 </body>
 </html>

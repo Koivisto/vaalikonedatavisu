@@ -19,10 +19,15 @@ h1{
 h3{
 	margin:2% 0 0 0;
 }
-header{
+
+.greenScheme{
 	color:white;
-	padding:2% 0;
 	background-color:#006F6F;
+}
+
+header{
+	padding:2% 0;
+
 }
 a{font-weight:700;}
 a{
@@ -57,9 +62,8 @@ header div{
 
 footer{
 	border-left:5px solid #006F6F;
-	width:70%;
-	margin:10% auto 10% auto;
 	bottom:0;
+	margin:20% auto 20% auto;
 	padding:2%;
 }
 
@@ -146,7 +150,7 @@ a.infoBoxLink{
 	width:90%;
 	display:block;
 	margin:3% auto 1% auto;
-	text-align: right;
+	text-align: center;
 }
 
 #formContainer form *{
@@ -197,11 +201,9 @@ circle{
 	text-align: center;
 }
 
-/* Media queries. These probably aren't very reliable at the moment, since they don't take in account the device pixel ratio, but they probably can be fixed */
+/* Media queries. */
 @media (max-width:720px){
-	header div{
-		width:95%;
-	}
+
 	#legendContainer{
 		padding-bottom: 0px;
 		float:none;
@@ -213,11 +215,5 @@ circle{
 	}
 	.legendClose{
 		margin-bottom: 10px;
-	}
-}  
-
-@media (min-width:720px) and (max-width:900px){
-	header div{
-		width:80%;
 	}
 }  
