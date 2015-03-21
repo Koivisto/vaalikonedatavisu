@@ -131,6 +131,7 @@ a.infoBoxLink{
 	position: absolute;
 	left: 195px;
 	top: -5px;
+	cursor: pointer;
 }
 .infoBoxClose:hover {
 	background: #8f8f8f;
@@ -150,6 +151,12 @@ a.infoBoxLink{
 
 #formContainer form *{
 	margin:5px;
+}
+select{
+	cursor: pointer;
+}
+circle{
+	cursor: pointer;
 }
 
 /*Color legend styles*/
@@ -181,6 +188,7 @@ a.infoBoxLink{
 }
 .legendClose{
 	font-size: inherit;
+	cursor: pointer;
 	background: #006F6F;
 	padding: 10px 10px 10px 10px;
 	margin: -10px -10px 10px -10px;
