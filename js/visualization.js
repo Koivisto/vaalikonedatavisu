@@ -193,7 +193,9 @@ d3.csv("data.csv", function(d){
 		.attr("id", "party")
 		.property("checked", true)
 		.on("click", function() {showPartyColors = true; setCandidateColor();});
-	legendControls.append("label").html(" Värit puolueittain<br>");
+	legendControls.append("label")
+		.attr("for", "party")
+		.html(" Värit puolueittain<br>");
 	var segmentRadioBtn = legendControls.append("input")
 		.attr("type", "radio")
 		.attr("name", "color")
@@ -201,8 +203,9 @@ d3.csv("data.csv", function(d){
 		.attr("id", "segment")
 		.property("checked", false)
 		.on("click", function() {showPartyColors = false; setCandidateColor();});
-	legendControls.append("label").html(" Värit segmenteittäin");
-
+	legendControls.append("label")
+		.attr("for", "segment")
+		.html(" Värit segmenteittäin");
 
 			
 
