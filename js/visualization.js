@@ -542,9 +542,9 @@ d3.csv("data.csv", function(d){
 		.attr("r", function(d){return linearElementScale(narrowerDimension)*2;})
 
 		//html text for infoBox
-		var infoString = "<strong>"+candidate.name+"</strong>, nro: "+ candidate.id+"<br>"+
-			candidate.party+"<br>"+
-			"<em>segmentti: \""+candidate.segment+"\"</em><br><br>"+
+		var infoString = "<strong>"+candidate.name+"</strong><br>"+//id != voting number//, nro: "+ candidate.id+"<br>"+
+			"<strong style=\"color:"+getColor(candidate.party)+"\">"+candidate.party+"</strong><br>"+
+			"segmentti: "+"<em style=\"color:"+getColor(candidate.segment)+"\">\""+candidate.segment+"\"</em><br><br>"+
 			candidate.district+"<br>"+
 			candidate.age+" vuotias, "+candidate.education+"<br>"+
 			"<br><a class=\"infoBoxLink\" href=\""+candidate.url+"\">"+candidate.url+"</a>";
