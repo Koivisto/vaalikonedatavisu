@@ -80,13 +80,16 @@ header a{
 }
 
 ::-moz-selection {
+    background:rgba(9, 161, 161, 0.99);/*#09A1A1*/
 	color: #FFFFFF;
-	background: #088989;
 }
-
-::selection {
+::-webkit-selection {
+    background:rgba(9, 161, 161, 0.99);/*#09A1A1*/
 	color: #FFFFFF;
-	background: #088989;
+}
+::selection {
+    background:rgba(9, 161, 161, 0.99);/*#09A1A1*/
+	color: #FFFFFF;
 }
 
 /*CSS for information boxes on candidates (visible when mouse over svg elements)*/
