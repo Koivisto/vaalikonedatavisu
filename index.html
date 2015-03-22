@@ -1,65 +1,60 @@
 <!DOCTYPE html>
 <head>
-	<title>Vaalikonedata-analyysi ja -visualisointi</title>
+	<title>Vaalikonedata-analyysi ja -visualisointi #HS #vaalit2015</title>
+	<meta charset="utf-8"/>
 	<meta property="og:title" content="Vaalikonedata-analyysi ja -visualisointi #vaalit2015" />
 	<meta property="og:type" content="website" />
-	<meta property="og:description" content="Avoimen vaalikonedatan analysointia ja visualisointia. Voit tarkastella kansanedustajaehdokastasi useammasta näkökulmasta tai löytää sopivan ehdokkaan itsellesi. Analyysissä on hyödynnetty faktorianalyysiä, jolla on saatu esiin suurempia kokonaisuuksia ja yhtenäisiä vastaajaprofiileja." />
+	<meta property="og:url" content="http://users.aalto.fi/~leinona1/vaalit2015/" />
+	<meta property="og:description" content="Avoimen vaalikonedatan analysointia ja visualisointia. Voit tarkastella kansanedustajaehdokastasi useammasta näkökulmasta tai löytää sopivan ehdokkaan itsellesi. Analyysissä on hyödynnetty ryhmittelyanalyysiä, jolla on muodostettu yhtenäisiä vastaajaprofiileja (segmentit) ja faktorianalyysiä, jolla on saatu esiin suurempia sisältökokonaisuuksia (akselit)." />
 	<meta property="og:image" content="http://users.aalto.fi/~leinona1/vaalit2015/some/visu_promo2.jpg" />
 	<meta property="article:author" content="Aarne Leinonen, Markku Niemivirta, Aleksi Taipale" />
+	<meta name="author" content="Aarne Leinonen, Markku Niemivirta, Aleksi Taipale" />
 	<link rel="icon" type="image/png" href="some/leaficon.png" />
-<!--
-<meta property="article:tag" content="" />
-<meta property="og:url" content="" />
-<meta name="author" content="" />
--->
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="css/normalize.css">
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,700,600' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="css/foundation.min.css">
-<link rel="stylesheet" href="css/svgStyle.css">
-<link rel="stylesheet" href="css/style.css">
-<!--jQuery initializing-->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<!--D3.js library initializing-->
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<!--Google Analytics. Sorry, big brother knows you were here-->
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/normalize.css">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,700,600' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="css/foundation.min.css">
+	<link rel="stylesheet" href="css/svgStyle.css">
+	<link rel="stylesheet" href="css/style.css">
+	<!--jQuery-->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<!--D3.js-->
+	<script src="http://d3js.org/d3.v3.min.js"></script>
+	<!--Sorry, big brother knows you were here. Google Analytics.-->
+	<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-ga('create', 'UA-60762742-1', 'auto');
-ga('send', 'pageview');
+	ga('create', 'UA-60762742-1', 'auto');
+	ga('send', 'pageview');
 
-</script>
-<!--FB script-->
-<script>(function(d, s, id) {
-	var js, fjs = d.getElementsByTagName(s)[0];
-	if (d.getElementById(id)) return;
-	js = d.createElement(s); js.id = id;
-	js.src = "//connect.facebook.net/fi_FI/sdk.js#xfbml=1&version=v2.0";
-	fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-<!--Twitter script-->
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+	</script>
+	<!--FB script-->
+	<script>(function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) return;
+		js = d.createElement(s); js.id = id;
+		js.src = "//connect.facebook.net/fi_FI/sdk.js#xfbml=1&version=v2.0";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));</script>
+	<!--Twitter script-->
+	<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 </head>
 
 <body>
-	<div id="fb-root"></div>
 
 	<header class="greenScheme">
 		<div class="row">
 			<div class="large-7 small-12 columns small-centered">
-				<h1>Data-analyysi ja visualisointi</h1>
-				<p>Wolf kogi cred, artisan Williamsburg pug mixtape chillwave bespoke squid typewriter cornhole ethical. Crucifix slow-carb flannel, normcore actually taxidermy lo-fi sustainable hoodie cardigan pug ethical ennui iPhone Tumblr. Hella organic forage gentrify bicycle rights, gluten-free church-key kitsch. Cred flexitarian keffiyeh, fanny pack leggings gentrify Echo Park McSweeney's migas street art small batch +1 bicycle rights Tumblr. 90's cred salvia quinoa chambray. Mumblecore Truffaut Tumblr leggings, actually food truck freegan migas. McSweeney's deep v sartorial gluten-free 90's selvage.</p>
-
-
+				<h1>HS vaalikonedatan analyysi ja visualisointityökalu</h1>
+				<p>Tämän sivuston tavoitteena on muodostaa kokonaiskuvaa eduskuntavaaliehdokkaista ja puolueiden eroista. Visualisoinnissa pystyy tarkastelemaan yksittäistä ehdokasta, vaihtamaan akseleita, rajaamaan alueen ja puolueet. Analyysissä on hyödynnetty ryhmittelyanalyysiä, jolla on muodostettu yhtenäisiä vastaajaprofiileja (segmentit) ja faktorianalyysiä, jolla on saatu esiin suurempia sisältökokonaisuuksia (akselit). Menetelmästä voi lukea lisää <a href="http://blogs.helsinki.fi/niemivir/?p=257">Markku Niemivirran analyysin</a> yhteydestä</p>
 			</div>
 		</div>
 	</header>
+
 	<!--Form that contains controls-->
 	<div id="formContainer" class="row">
 		<form id="visualizationForm">
@@ -70,10 +65,9 @@ ga('send', 'pageview');
 				<div class="large-3 small-12 columns" id="yForm"></div>
 			</div>
 		</form>
-
 	</div>
 
-	<!--this small script is for legend toggle-->
+	<!--Small script for legend toggle-->
 	<script src="js/legendHelper.js" type="text/javascript" charset="utf-8"></script>
 	<!--Div that contains legends for colors, and controls to toggle them-->
 	<div id="legendContainer" class="">
@@ -82,14 +76,13 @@ ga('send', 'pageview');
 		<svg id="legendSvg"></svg>
 	</div>
 
-
 	<!--Div that contains all explanations-->
 	<div id="explanations" style="position: absolute;"></div>
+
 	<!--Actual visualization inside svg-element-->
 	<div id="visualizationDiv">
 		<svg id="visualizationSvg"></svg>
 	</div>
-
 	<!--Visualization logic-->
 	<script src="js/visualization.js" type="text/javascript" charset="utf-8"></script>
 
@@ -102,15 +95,12 @@ ga('send', 'pageview');
 					<div class="fb-share-button" data-href="http://users.aalto.fi/~leinona1/vaalit2015/" data-layout="button_count"></div>
 				</div>
 				<h2>Hipster ipsum</h2>
-				<p>
-					Typewriter try-hard wayfarers, biodiesel scenester locavore vinyl chia art party Bushwick single-origin coffee banh mi. Cornhole lomo photo booth Shoreditch blog pug. Slow-carb tofu +1, umami four dollar toast normcore High Life shabby chic cornhole pug pour-over readymade sriracha. Street art kogi put a bird on it beard paleo, literally irony skateboard PBR&B Vice shabby chic mlkshk pickled YOLO. Neutra Williamsburg cliche, DIY occupy health goth heirloom single-origin coffee 8-bit kitsch skateboard. Chia seitan Kickstarter, Carles vegan locavore sartorial ethical wolf lo-fi. Truffaut bitters mixtape Thundercats.
-				</p><p>
-				Carles chillwave ennui heirloom sartorial, ethical bespoke salvia. Fap four loko vegan meggings deep v master cleanse. Fingerstache normcore literally church-key cred narwhal. McSweeney's Kickstarter dreamcatcher pickled, fixie flannel vinyl polaroid cliche Odd Future YOLO butcher narwhal Echo Park. Intelligentsia typewriter Carles fanny pack disrupt. Plaid banjo McSweeney's, dreamcatcher shabby chic American Apparel photo booth quinoa Portland fashion axe. Organic bespoke McSweeney's, XOXO forage fanny pack farm-to-table letterpress Pitchfork post-ironic sriracha deep v.
 
-			</p><p>
-			Echo Park tousled migas squid bicycle rights. Cronut Tumblr taxidermy kogi, slow-carb Blue Bottle viral hashtag disrupt letterpress dreamcatcher Helvetica squid. Master cleanse PBR&B shabby chic, whatever Intelligentsia readymade fixie iPhone distillery raw denim VHS four dollar toast PBR sustainable pug. Cornhole Blue Bottle retro, scenester narwhal Brooklyn 90's flannel church-key viral. Synth craft beer hashtag drinking vinegar viral gastropub. Carles small batch Austin, actually heirloom dreamcatcher irony taxidermy cred. Slow-carb hashtag 8-bit 90's, cliche viral street art fixie blog Schlitz High Life Odd Future.
+				<p>Typewriter try-hard wayfarers, biodiesel scenester locavore vinyl chia art party Bushwick single-origin coffee banh mi. Cornhole lomo photo booth Shoreditch blog pug. Slow-carb tofu +1, umami four dollar toast normcore High Life shabby chic cornhole pug pour-over readymade sriracha. Street art kogi put a bird on it beard paleo, literally irony skateboard PBa Vice shabby chic mlkshk pickled YOLO. Neutra Williamsburg cliche, DIY occupy health goth heirloom single-origin coffee 8-bit kitsch skateboard. Chia seitan Kickstarter, Carles vegan locavore sartorial ethical wolf lo-fi. Truffaut bitters mixtape Thundercats.</p>
 
-		</p>
+				<p>Carles chillwave ennui heirloom sartorial, ethical bespoke salvia. Fap four loko vegan meggings deep v master cleanse. Fingerstache normcore literally church-key cred narwhal. McSweeney's Kickstarter dreamcatcher pickled, fixie flannel vinyl polaroid cliche Odd Future YOLO butcher narwhal Echo Park. Intelligentsia typewriter Carles fanny pack disrupt. Plaid banjo McSweeney's, dreamcatcher shabby chic American Apparel photo booth quinoa Portland fashion axe. Organic bespoke McSweeney's, XOXO forage fanny pack farm-to-table letterpress Pitchfork post-ironic sriracha deep v.</p>
+
+				<p>Echo Park tousled migas squid bicycle rights. Cronut Tumblr taxidermy kogi, slow-carb Blue Bottle viral hashtag disrupt letterpress dreamcatcher Helvetica squid. Master cleanse PBa shabby chic, whatever Intelligentsia readymade fixie iPhone distillery raw denim VHS four dollar toast PBR sustainable pug. Cornhole Blue Bottle retro, scenester narwhal Brooklyn 90's flannel church-key viral. Synth craft beer hashtag drinking vinegar viral gastropub. Carles small batch Austin, actually heirloom dreamcatcher irony taxidermy cred. Slow-carb hashtag 8-bit 90's, cliche viral street art fixie blog Schlitz High Life Odd Future.</p>
 	</div>
 </div>
 </div>
@@ -120,15 +110,15 @@ ga('send', 'pageview');
 	<div class="large-8 columns small-12 small-centered">
 		<footer>
 			<p>
-				Tekijät tässä vaiheessa: <br>
-				<a href="https://twitter.com/AarneLeinonen">Aarne Leinonen</a> - <a href="https://github.com/Koivisto/vaalikonedatavisu">koodi</a>, <a href="data.csv">putsattu data</a>, visualisoinnin ulkoasu <br>
+				Tekijät: <br>
+				<a href="https://twitter.com/AarneLeinonen">Aarne Leinonen</a> - koordinointi, <a href="https://github.com/Koivisto/vaalikonedatavisu">koodi</a>, <a href="data.csv">putsattu data</a>, visualisoinnin ulkoasu <br>
 				<a href="https://twitter.com/mniemivirta">Markku Niemivirta</a> - <a href="http://blogs.helsinki.fi/niemivir/?p=257">ryhmittelyanalyysi, faktorianalyysi</a>, <a href="data.csv">data</a> <br>
 				<a href="http://www.aleksitaipale.com/">Aleksi Taipale</a> - sivun ulkoasu, fronttidevausta<br>
 				<br>
-				Analyysi ja visualisointi julkaistaan lisenssillä <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons 4.0 Nimeä - Ei kaupallinen - Jaa samoin</a> ja siinä on käytetty <a href="http://www.hs.fi/politiikka/a1305929269692">HS:n julkaisemaa avointa vaalikonedataa</a>. 
+				Analyysi, visualisointi ja koodi julkaistaan lisenssillä <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons 4.0 Nimeä - Ei kaupallinen - Jaa samoin</a>. Analyysin pohjalla on käytetty <a href="http://www.hs.fi/politiikka/a1305929269692">HS:n julkaisemaa avointa vaalikonedataa</a>. 
 				<br>
 				<br>
-				Kiitokset: HS, Juha Törmänen
+				Kiitokset: HS, <a href="http://kirkas.info/artikkeli/tilastollinen-poliitikkokartta-2015">Juha Törmänen (Tilastollinen poliitikkokartta 2015)</a>
 				<br><br>
 				<div class="shareDiv">
 					<div id="twitter5px" style="padding-top:5px;"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://users.aalto.fi/~leinona1/vaalit2015/" data-text="Vaalidatan faktorianalyysiä #vaalit2015 @AarneLeinonen @mniemivirta">Twiittaa</a></div>
