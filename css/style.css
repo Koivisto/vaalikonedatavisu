@@ -1,7 +1,10 @@
 /*Sets IE viewport to device*/
+
 @-ms-viewport{
 	width: device-width;
 }
+
+/* General stylings & positioning */
 
 * {
 
@@ -9,55 +12,9 @@
 	font-family:'Open Sans', sans-serif;
 }
 
-
-h1{
-	font-family:'Montserrat', sans-serif;
-	margin:0;
-	padding-left:3%;
-	border-left:5px solid white;
-}
-h3{
-	margin:2% 0 0 0;
-}
-
-.greenScheme{
-	color:white;
-	background-color:#006F6F;
-}
-
 header{
 	padding:2% 0;
 
-}
-a{font-weight:700;}
-a{
-	color:#006F6F;
-}
-header a{
-	color: #C8FFFF;
-}
-
-a:hover{
-	opacity:0.65;
-}
-
-
-header div{
-	width:50%;
-	display:block;
-	margin:0 auto 0 auto;
-
-}
-
-#visualizationDiv{
-	max-width: 4096px;
-	display:block;
-	margin:0 auto 0 auto;
-
-}
-
-#titleBox{
-	color:#006F6F;
 }
 
 footer{
@@ -67,7 +24,73 @@ footer{
 	padding:2%;
 }
 
+#visualizationDiv{
+	max-width: 4096px;
+	display:block;
+	margin:0 auto 0 auto;
+
+}
+
+input[type=range]{
+	width:100%;
+}
+
+.rangeBox{
+	margin:3% auto 5% auto;
+	font-weight:700;
+
+}
+
+/* Typography (text colors, fonts) & text positioning */
+
+
+h1{
+	font-family:'Montserrat', sans-serif;
+	margin:0;
+	padding-left:3%;
+	border-left:5px solid white;
+}
+
+h3{
+	margin:2% 0 0 0;
+}
+
+a{
+	font-weight:700;
+	color:#006F6F;
+}
+
+a:hover{
+	opacity:0.65;
+}
+
+header a{
+	color: #C8FFFF;
+}
+
+
+/* Colors */
+
+#titleBox{
+	color:#006F6F;
+}
+
+.greenScheme{
+	color:white;
+	background-color:#006F6F;
+}
+
+#range1R, #range2R{
+	text-align:right;
+}
+
+#range1L, #range2L{
+	text-align:left;
+}
+
 /*CSS for information boxes on candidates (visible when mouse over svg elements)*/
+/*--------------------------------------------------------*/
+
 #explanations{
 	color:#000;
 	background-color: #FFF;
@@ -98,7 +121,7 @@ a.infoBoxLink{
 	-webkit-border-top-left-radius: 30px;
 	-moz-border-radius-topleft: 30px;
 	border-top-left-radius: 30px;
-	
+
 	-webkit-border-bottom-right-radius: 100px 120px;
 	-moz-border-radius-bottomright: 100px 120px;
 	border-bottom-right-radius: 100px 120px;
@@ -115,7 +138,7 @@ a.infoBoxLink{
 	-webkit-border-top-right-radius: 45px;
 	-moz-border-radius-topright: 45px;
 	border-top-right-radius: 45px;
-	
+
 	-webkit-border-bottom-left-radius: 50px 60px;
 	-moz-border-radius-bottomleft: 50px 60px;
 	border-bottom-left-radius: 50px 60px;
@@ -186,10 +209,7 @@ circle{
 	-moz-border-radius-bottomleft: 100px 120px;
 	border-bottom-left-radius: 100px 120px;
 }
-#legendSvg{
-}
-#legendControls{
-}
+
 .partyLabes{
 	cursor: pointer;
 }
@@ -214,6 +234,8 @@ label{
 	text-align: center;
 }
 
+/*--------------------------------------------------------*/
+
 /* Media queries. */
 @media (max-width:720px){
 
@@ -230,3 +252,4 @@ label{
 		margin-bottom: 10px;
 	}
 }  
+

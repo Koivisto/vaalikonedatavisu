@@ -50,7 +50,6 @@ ga('send', 'pageview');
 			</div>
 		</div>
 	</header>
-
 	<!--Form that contains controls-->
 	<div id="formContainer" class="row">
 		<div class="large-12 columns">
@@ -65,40 +64,57 @@ ga('send', 'pageview');
 		</div>
 	</div>
 
-<!--this small script is for legend toggle-->
-<script src="js/legendHelper.js" type="text/javascript" charset="utf-8"></script>
-<!--Div that contains legends for colors, and controls to toggle them-->
-<div id="legendContainer" class="">
-	<div id="legendToggle" onclick="toggleLegendVisibility()" class="legendClose">Piilota selite</div>
-	<div id="legendControls"></div>
-	<svg id="legendSvg"></svg>
-</div>
-
-
-<!--Div that contains all explanations-->
-<div id="explanations" style="position: absolute;"></div>
-<!--Actual visualization inside svg-element-->
-<div id="visualizationDiv">
-	<svg id="visualizationSvg"></svg>
-</div>
-
-<!--Visualization logic-->
-<script src="js/visualization.js" type="text/javascript" charset="utf-8"></script>
-
-<div class="greenScheme">
-	<div class="row">
-		<div class="large-8 columns small-12 columns small-centered">
-			<p>
-				<h2>Lorem ipsum </h2>
-				<p>
-					dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit. Sed augue orci, lacinia eu tincidunt et eleifend nec lacus. Donec ultricies nisl ut felis, suspendisse potenti. Lorem ipsum ligula ut hendrerit mollis, ipsum erat vehicula risus, eu suscipit sem libero nec erat. Aliquam erat volutpat. Sed congue augue vitae neque. Nulla consectetuer porttitor pede. Fusce purus morbi tortor magna condimentum vel, placerat id blandit sit amet tortor.
-				</p><p>
-				Mauris sed libero. Suspendisse facilisis nulla in lacinia laoreet, lorem velit accumsan velit vel mattis libero nisl et sem. Proin interdum maecenas massa turpis sagittis in, interdum non lobortis vitae massa. Quisque purus lectus, posuere eget imperdiet nec sodales id arcu. Vestibulum elit pede dictum eu, viverra non tincidunt eu ligula.
-			</p><p>
-			Nam molestie nec tortor. Donec placerat leo sit amet velit. Vestibulum id justo ut vitae massa. Proin in dolor mauris consequat aliquam. Donec ipsum, vestibulum ullamcorper venenatis augue. Aliquam tempus nisi in auctor vulputate, erat felis pellentesque augue nec, pellentesque lectus justo nec erat. Aliquam et nisl. Quisque sit amet dolor in justo pretium condimentum.
-		</p>
+	<div class="row rangeBox">
+		<div class="large-6 small-12 columns">
+			<div class="row">
+				<div class="large-6 small-6 columns" id="range1L">Maailmankansalaisuus</div>
+				<div class="large-6 small-6 columns" id="range1R">Impivaaralaisuus</div>
+			</div>
+			<input type="range" id="range1" />
+		</div>
+		<div class="large-6 small-12 columns">
+			<div class="row">
+				<div class="large-6 small-6 columns" id="range2L">Maailmankansalaisuus</div>
+				<div class="large-6 small-6 columns" id="range2R">Impivaaralaisuus</div>
+			</div>
+			<input type="range" id="range2"/>
+		</div>
 	</div>
-</div>
+
+	<!--this small script is for legend toggle-->
+	<script src="js/legendHelper.js" type="text/javascript" charset="utf-8"></script>
+	<!--Div that contains legends for colors, and controls to toggle them-->
+	<div id="legendContainer" class="">
+		<div id="legendToggle" onclick="toggleLegendVisibility()" class="legendClose">Piilota selite</div>
+		<div id="legendControls"></div>
+		<svg id="legendSvg"></svg>
+	</div>
+
+
+	<!--Div that contains all explanations-->
+	<div id="explanations" style="position: absolute;"></div>
+	<!--Actual visualization inside svg-element-->
+	<div id="visualizationDiv">
+		<svg id="visualizationSvg"></svg>
+	</div>
+
+	<!--Visualization logic-->
+	<script src="js/visualization.js" type="text/javascript" charset="utf-8"></script>
+
+	<div class="greenScheme">
+		<div class="row">
+			<div class="large-8 columns small-12 columns small-centered">
+				<p>
+					<h2>Lorem ipsum </h2>
+					<p>
+						dolor sit amet, consectetuer adipiscing elit. Sed posuere interdum sem. Quisque ligula eros ullamcorper quis, lacinia quis facilisis sed sapien. Mauris varius diam vitae arcu. Sed arcu lectus auctor vitae, consectetuer et venenatis eget velit. Sed augue orci, lacinia eu tincidunt et eleifend nec lacus. Donec ultricies nisl ut felis, suspendisse potenti. Lorem ipsum ligula ut hendrerit mollis, ipsum erat vehicula risus, eu suscipit sem libero nec erat. Aliquam erat volutpat. Sed congue augue vitae neque. Nulla consectetuer porttitor pede. Fusce purus morbi tortor magna condimentum vel, placerat id blandit sit amet tortor.
+					</p><p>
+					Mauris sed libero. Suspendisse facilisis nulla in lacinia laoreet, lorem velit accumsan velit vel mattis libero nisl et sem. Proin interdum maecenas massa turpis sagittis in, interdum non lobortis vitae massa. Quisque purus lectus, posuere eget imperdiet nec sodales id arcu. Vestibulum elit pede dictum eu, viverra non tincidunt eu ligula.
+				</p><p>
+				Nam molestie nec tortor. Donec placerat leo sit amet velit. Vestibulum id justo ut vitae massa. Proin in dolor mauris consequat aliquam. Donec ipsum, vestibulum ullamcorper venenatis augue. Aliquam tempus nisi in auctor vulputate, erat felis pellentesque augue nec, pellentesque lectus justo nec erat. Aliquam et nisl. Quisque sit amet dolor in justo pretium condimentum.
+			</p>
+		</div>
+	</div>
 </div>
 
 
