@@ -75,6 +75,10 @@ header a{
 	background-color:#006F6F;
 }
 
+.greenScheme a{
+	color: #C8FFFF;
+}
+
 ::-moz-selection {
 	color: #FFFFFF;
 	background: #088989;
