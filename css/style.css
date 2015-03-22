@@ -75,7 +75,15 @@ header a{
 	background-color:#006F6F;
 }
 
+::-moz-selection {
+	color: #FFFFFF;
+	background: #088989;
+}
 
+::selection {
+	color: #FFFFFF;
+	background: #088989;
+}
 
 /*CSS for information boxes on candidates (visible when mouse over svg elements)*/
 /*--------------------------------------------------------*/
