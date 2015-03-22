@@ -123,7 +123,7 @@ d3.csv("data.csv", function(d){
 	/*Initializes UI elements inside the form*/
 	//name and candidate number filtering
 	var searchInput = d3.select("#searchForm").append("input")
-		.attr("placeholder", "Etsi nimellä/numerolla")
+		.attr("placeholder", "Etsi nimellä")
 		.attr("type", "text")
 		.attr("id", "searchInput")
 		.on("input", function(){filterCandidates();});
@@ -449,7 +449,6 @@ d3.csv("data.csv", function(d){
 			name: d.name, 
 			party: d.party, 
 			segment: d.segment,
-			id: d.id,
 			district: d.district,
 			age: d.age,
 			education: d.education,
@@ -521,12 +520,8 @@ d3.csv("data.csv", function(d){
 				//if something in the search box then also filter with that
 				if (searchValue) {
 					for (var i = 0; i < searchArray.length; i++) {
-						//name as default
 						if (d.name.toLowerCase().indexOf(searchArray[i].trim()) < 0){
-							//candidate voting number as secondary quess for input
-							if (d.id.toLowerCase().indexOf(searchArray[i].trim()) < 0){
-								return "none";
-							}
+							return "none";
 						} 
 					}
 				}
@@ -542,7 +537,7 @@ d3.csv("data.csv", function(d){
 		.attr("r", function(d){return linearElementScale(narrowerDimension)*2;})
 
 		//html text for infoBox
-		var infoString = "<strong>"+candidate.name+"</strong><br>"+//id != voting number//, nro: "+ candidate.id+"<br>"+
+		var infoString = "<strong>"+candidate.name+"</strong><br>"+
 			"<strong style=\"color:"+getColor(candidate.party)+"\">"+candidate.party+"</strong><br>"+
 			"segmentti: "+"<em style=\"color:"+getColor(candidate.segment)+"\">\""+candidate.segment+"\"</em><br><br>"+
 			candidate.district+"<br>"+
