@@ -233,6 +233,9 @@ label{
 	font-weight:700;
 	text-align: center;
 }
+.legendClose:hover{
+	background: #088989;
+}
 
 /*--------------------------------------------------------*/
 
