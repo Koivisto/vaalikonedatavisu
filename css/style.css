@@ -31,15 +31,6 @@ footer{
 
 }
 
-input[type=range]{
-	width:100%;
-}
-
-.rangeBox{
-	margin:3% auto 5% auto;
-	font-weight:700;
-
-}
 
 /* Typography (text colors, fonts) & text positioning */
 
@@ -80,13 +71,7 @@ header a{
 	background-color:#006F6F;
 }
 
-#range1R, #range2R{
-	text-align:right;
-}
 
-#range1L, #range2L{
-	text-align:left;
-}
 
 /*CSS for information boxes on candidates (visible when mouse over svg elements)*/
 /*--------------------------------------------------------*/
