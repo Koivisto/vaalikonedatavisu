@@ -5,7 +5,7 @@
 	<meta property="og:type" content="website" />
 	<meta property="og:description" content="Avoimen vaalikonedatan analysointia ja visualisointia. Voit tarkastella kansanedustajaehdokastasi useammasta näkökulmasta tai löytää sopivan ehdokkaan itsellesi. Analyysissä on hyödynnetty faktorianalyysiä, jolla on saatu esiin suurempia kokonaisuuksia ja yhtenäisiä vastaajaprofiileja." />
 	<meta property="og:image" content="http://users.aalto.fi/~leinona1/vaalit2015/some/visu_promo2.jpg" />
-	<meta property="article:author" content="Aarne Leinonen" />
+	<meta property="article:author" content="Aarne Leinonen, Markku Niemivirta, Aleksi Taipale" />
 	<link rel="icon" type="image/png" href="some/leaficon.png" />
 <!--
 <meta property="article:tag" content="" />
@@ -34,9 +34,21 @@ ga('create', 'UA-60762742-1', 'auto');
 ga('send', 'pageview');
 
 </script>
+<!--FB script-->
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/fi_FI/sdk.js#xfbml=1&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<!--Twitter script-->
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 </head>
 
 <body>
+<div id="fb-root"></div>
+
 	<header class="greenScheme">
 		<div class="row">
 			<div class="large-7 small-12 columns small-centered">
@@ -84,10 +96,11 @@ ga('send', 'pageview');
 	<div class="greenScheme">
 		<div class="row">
 			<div class="large-8 columns small-12 columns small-centered">
-				<p>
-				<iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" src="http://platform.twitter.com/widgets/tweet_button.3b6d1172463333ba9e3a4714e5a08ce6.en.html#_=1426600160341&amp;count=horizontal&amp;dnt=false&amp;id=twitter-widget-0&amp;lang=en&amp;original_referer=http%3A%2F%2Fusers.aalto.fi%2F~leinona1%2Fvaalit2015%2F&amp;size=m&amp;text=Vaalidatan%20faktorianalyysi%C3%A4%20%23vaalit2015%20%40AarneLeinonen%20%40mniemivirta&amp;url=http%3A%2F%2Fusers.aalto.fi%2F~leinona1%2Fvaalit2015%2F" class="twitter-share-button twitter-tweet-button twitter-share-button twitter-count-horizontal" title="Twitter Tweet Button" data-twttr-rendered="true" style="width: 108px; height: 20px;"></iframe>
-				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-				</p>
+				<br>
+				<div class="shareDiv">
+					<div id="twitter5px" style="padding-top:5px;"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://users.aalto.fi/~leinona1/vaalit2015/" data-text="Vaalidatan faktorianalyysiä #vaalit2015 @AarneLeinonen @mniemivirta">Twiittaa</a></div>
+					<div class="fb-share-button" data-href="http://users.aalto.fi/~leinona1/vaalit2015/" data-layout="button_count"></div>
+				</div>
 				<h2>Hipster ipsum</h2>
 				<p>
 Typewriter try-hard wayfarers, biodiesel scenester locavore vinyl chia art party Bushwick single-origin coffee banh mi. Cornhole lomo photo booth Shoreditch blog pug. Slow-carb tofu +1, umami four dollar toast normcore High Life shabby chic cornhole pug pour-over readymade sriracha. Street art kogi put a bird on it beard paleo, literally irony skateboard PBR&B Vice shabby chic mlkshk pickled YOLO. Neutra Williamsburg cliche, DIY occupy health goth heirloom single-origin coffee 8-bit kitsch skateboard. Chia seitan Kickstarter, Carles vegan locavore sartorial ethical wolf lo-fi. Truffaut bitters mixtape Thundercats.
@@ -106,13 +119,22 @@ Echo Park tousled migas squid bicycle rights. Cronut Tumblr taxidermy kogi, slow
 <div class="row">
 	<div class="large-8 columns small-12 small-centered">
 		<footer>
-			Tekijät tässä vaiheessa: <a href="https://twitter.com/AarneLeinonen">Aarne Leinonen</a> (<a href="https://github.com/Koivisto/vaalikonedatavisu">koodi</a>, <a href="data.csv">muokattu data</a>, visualisoinnin ulkoasu), Markku Niemivirta (faktorianalyysi, <a href="data.csv">data</a>), Aleksi Taipale (sivun ulkoasu)
+			<p>
+			Tekijät tässä vaiheessa: <br>
+			<a href="https://twitter.com/AarneLeinonen">Aarne Leinonen</a> (<a href="https://github.com/Koivisto/vaalikonedatavisu">koodi</a>, <a href="data.csv">putsattu data</a>, visualisoinnin ulkoasu) <br>
+			<a href="https://twitter.com/mniemivirta">Markku Niemivirta</a> (<a href="http://blogs.helsinki.fi/niemivir/?p=257">ryhmittelyanalyysi, faktorianalyysi</a>, <a href="data.csv">data</a>) <br>
+			<a href="http://www.aleksitaipale.com/">Aleksi Taipale</a> (sivun ulkoasu, fronttidevausta)<br>
 			<br>
-			Kiitokset: <a href="http://www.hs.fi/politiikka/a1305929269692">HS</a>, Juha Törmänen
+			Analyysi ja visualisointi julkaistaan lisenssillä <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons 4.0 Nimeä - Ei kaupallinen - Jaa samoin</a> ja siinä on käytetty <a href="http://www.hs.fi/politiikka/a1305929269692">HS:n julkaisemaa avointa vaalikonedataa</a>. 
 			<br>
 			<br>
-			<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://users.aalto.fi/~leinona1/vaalit2015/" data-text="Vaalidatan faktorianalyysiä #vaalit2015 @AarneLeinonen @mniemivirta">Tweet</a>
-			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+			Kiitokset: HS, Juha Törmänen
+			<br><br>
+			<div class="shareDiv">
+				<div id="twitter5px" style="padding-top:5px;"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://users.aalto.fi/~leinona1/vaalit2015/" data-text="Vaalidatan faktorianalyysiä #vaalit2015 @AarneLeinonen @mniemivirta">Twiittaa</a></div>
+				<div class="fb-share-button" data-href="http://users.aalto.fi/~leinona1/vaalit2015/" data-layout="button_count"></div>
+			</div>
+			</p>
 		</footer>
 	</div>
 </div>
