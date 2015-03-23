@@ -532,7 +532,7 @@ d3.csv("data.csv", function(d){
 			"segmentti: "+"<em style=\"color:"+getColor(candidate.segment)+"\">\""+candidate.segment+"\"</em><br><br>"+
 			candidate.district+"<br>"+
 			candidate.age+" vuotias, "+candidate.education+"<br>"+
-			"<br><a class=\"infoBoxLink\" href=\""+candidate.url+"\">"+candidate.url+"</a>";
+			"<br><a class=\"infoBoxLink\" target=\"_blank\" href=\""+candidate.url+"\">"+candidate.url+"</a>";
 
 		//infoBox for candidate information
 		var infoDiv = document.createElement("div");
