@@ -222,7 +222,7 @@ d3.csv("data.csv", function(d){
 			.attr("class", "parties")
 			.attr("id", function(parties){return abbreviations[parties]})
 			.style("fill", function(parties){return getColor(parties)})
-			.style("opacity", function(parties){return getOpacity(partyVisibility[parties]);})
+			.style("opacity", function(parties){return getSelectionOpacity(partyVisibility[parties]);})
 			.on("click", function(parties){
 				toggleSelection(parties);
 				filterCandidates();
@@ -238,7 +238,7 @@ d3.csv("data.csv", function(d){
 			.attr("class", "segments")
 			.attr("id", function(segments){return abbreviations[segments]})
 			.style("fill", function(segments){return getColor(segments)})
-			.style("opacity", function(segments){return getOpacity(partyVisibility[segments]);})
+			.style("opacity", function(segments){return getSelectionOpacity(partyVisibility[segments]);})
 			.on("click", function(segments){
 				toggleSelection(segments);
 				filterCandidates();
@@ -290,12 +290,11 @@ d3.csv("data.csv", function(d){
 
 	function toggleSelection(party){
 		partyVisibility[party] = !partyVisibility[party];
-		//element.style("opacity", function(){return getOpacity(partyVisibility[party]);});
-		d3.selectAll("#"+abbreviations[party]+"").style("opacity", function(){return getOpacity(partyVisibility[party]);});
+		d3.selectAll("#"+abbreviations[party]+"")
+			.style("opacity", function(){return getSelectionOpacity(partyVisibility[party]);});
 	}
 
-	//TODO rename
-	function getOpacity(boolean){
+	function getSelectionOpacity(boolean){
 		if(boolean) return 1.0;
 		return 0.3;
 	}
