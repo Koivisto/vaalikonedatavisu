@@ -211,7 +211,7 @@ d3.csv("data.csv", function(d){
 	legendSvg.attr("width", LEGENDWIDHT).attr("height", 400);//height has currently a "magic number"
 	drawLegend();
 
-	/*Party selection UI elements in legendContainer and logic*/
+	/*Draws party selection UI elements in legendSvg , adds logic to them*/
 	function drawLegend(){
 		var tick = 0;
 		//helping function for positioning
@@ -303,7 +303,6 @@ d3.csv("data.csv", function(d){
 		return 0.3;
 	}
 
-
 	/**********************
 		Axis
 	/**********************/
@@ -318,13 +317,15 @@ d3.csv("data.csv", function(d){
 	var yAxisLabelTop = axisGroup.append("text");
 	var yAxisLabelBottom = axisGroup.append("text");
 
-	//Lazy enum for axis labels to data
+	/*Lazy enum for axis labels to data*/
 	function getXValue(d){
 		return getValueFromStr(d, xAxisValue);
 	}
+
 	function getYValue(d){
 		return getValueFromStr(d, yAxisValue);
 	}
+
 	function getValueFromStr(d, str){
 		switch(str){
 			case "Impivaaralaisuus": return d.imp;
@@ -341,17 +342,21 @@ d3.csv("data.csv", function(d){
 			xAxisValue = axisValues[axisXSelector.property('selectedIndex')-1];
 		}
 	}
+
 	function changeAxisY(){
 		if (axisYSelector.property('selectedIndex') > 0) {//if something is selected in menu
 			yAxisValue = axisValues[axisYSelector.property('selectedIndex')-1];
 		}
 	}
+
 	function updateMaxMinForAxis(){
 		xMax = d3.max(d, function(d) { return +getValueFromStr(d, xAxisValue); });
 		xMin = d3.min(d, function(d) { return +getValueFromStr(d, xAxisValue); });
 		yMax = d3.max(d, function(d) { return +getValueFromStr(d, yAxisValue); });
 		yMin = d3.min(d, function(d) { return +getValueFromStr(d, yAxisValue); });
 	}
+
+	/*Updates axis line position and text value*/
 	function updateAxis(){
 		changeAxisX();
 		changeAxisY();
@@ -404,12 +409,9 @@ d3.csv("data.csv", function(d){
 			.text(axisValueOpposites[axisValues.indexOf(yAxisValue)]);
 	}
 
-	
-	
-
-	/**********************
+	/******************
 		Candidate
-	/**********************/
+	/******************/
 
 	//some helper variables for logic
 	var candidate = null;
@@ -423,8 +425,10 @@ d3.csv("data.csv", function(d){
 		.data(d)
 		.enter()
 			.append("circle")
-			.attr("cx", getWidth()/2)//function(d){return linearWidthScale(getXValue(d));})
-			.attr("cy", getHeight()/2)//function(d){return linearHeigthScale(getYValue(d));})
+			/*	getWidth()/2 is the reason for a spread effect in the start, could have initialized them with:
+				function(d){return linearWidthScale(getXValue(d));}*/
+			.attr("cx", getWidth()/2)
+			.attr("cy", getHeight()/2)
 			.attr("r", function(d){return linearElementScale(narrowerDimension);})
 			.style("fill", function(d){return getColor(d.party);});
 
@@ -501,6 +505,7 @@ d3.csv("data.csv", function(d){
 				if (currentDistrict === ALLDISTRICTS) return "inline";
 				else if (currentDistrict && d.district !== currentDistrict) return "none";
 
+				//party filter
 				if(!partyVisibility[d.party] || !partyVisibility[d.segment]) return "none";
 
 				//if something in the search box then also filter with that
@@ -513,7 +518,6 @@ d3.csv("data.csv", function(d){
 				}
 			})
 	}
-
 
 	/*highlights svg element, creates infoBox div with candidate information*/
 	function displayInfo(candidate){
@@ -546,7 +550,7 @@ d3.csv("data.csv", function(d){
 		}
 		infoDiv.id = candidate.name;
 		infoDiv.innerHTML = infoString;
-		//TODO: fix over MAXWIDTH delocation due centralization, hotfix was 2000px maxwidth
+		//TODO: fix over MAXWIDTH delocation due centralization of svg, hotfix was 4096px MAXWIDTH
 		infoDiv.style.left = parseInt(candidate.element.attr("cx") + svg.offsetLeft) + "px";
 		infoDiv.style.top = parseInt(candidate.element.attr("cy") + svg.offsetTop) +-10+"px";
 		closeButton.appendChild(document.createTextNode("X"));
@@ -611,10 +615,6 @@ d3.csv("data.csv", function(d){
 
 	d3.select(window).on("resize", resize); 
 	resize();
-	redraw();
-	/****************************************
-		Visualization resizing ends
-	****************************************/
 
 });/*Data ends*/
 /***********************************************************************/
