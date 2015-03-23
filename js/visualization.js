@@ -1,9 +1,17 @@
 /*
 Author: Aarne Leinonen 
 Code can be found at https://github.com/Koivisto/vaalikonedatavisu
+This code is shared under Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International 
+http://creativecommons.org/licenses/by-nc-sa/4.0/
+http://creativecommons.org/licenses/by-nc-sa/4.0/legalcode
 */
 
 $( document ).ready(function() {
+
+/**********************
+	Init values
+/**********************/
+
 var MAXHEIGHT = 2160; //4k resolution will suffice for few years
 var MAXWIDTH = 4096; //#visualizationDiv has attribute "max-width" in css, this adjusts only the svg
 var MARGIN = 100;
@@ -74,8 +82,8 @@ function adjustVisualizationToScreenSize(){
 }
 adjustVisualizationToScreenSize();
 
-
-//scales the data to screen size, these variables are used as functions when scaling the data.
+/*scales the data to screen size, these variables are used as functions when scaling the data. 
+Domain and range values are revaluated locally*/
 var linearWidthScale = d3.scale.linear()
 								.domain([ xMin   , xMax ])
 								.range( [ MARGIN , getWidth()-MARGIN ]);
@@ -86,8 +94,10 @@ var linearElementScale = d3.scale.linear()
 								.domain([ 0 , MAXHEIGHT ])
 								.range( [ 2 , 20 ]);
 
-/************************************************************************/
-/*Init root elements for visualization*/
+/**********************
+	Init root elements
+	for visualization
+/**********************/
 var form = d3.select("#visualizationForm");
 var svg = d3.select("#visualizationSvg");
 
@@ -167,8 +177,6 @@ d3.csv("data.csv", function(d){
 	axisXSelector.on("change", function(){redraw();});
 	axisYSelector.on("change", function(){redraw();});
 
-
-
 	/*Initializes Legend UI elements*/
 	//Candidate color toggle on party/segment
 	var legendContainer = d3.select("#legendContainer");
@@ -195,9 +203,6 @@ d3.csv("data.csv", function(d){
 		.attr("for", "segment")
 		.html(" Värit segmenteittäin");
 
-			
-
-
 	/*****************************
 		Legend (right side bar)
 	/*****************************/
@@ -206,10 +211,10 @@ d3.csv("data.csv", function(d){
 	legendSvg.attr("width", LEGENDWIDHT).attr("height", 400);//height has currently a "magic number"
 	drawLegend();
 
+	/*Party selection UI elements in legendContainer and logic*/
 	function drawLegend(){
-		/*Party selection UI elements in legendContainer and logic*/
-		//helping function por positioning
 		var tick = 0;
+		//helping function for positioning
 		function getNextTick(){tick = tick +1;return tick;}
 		//circles presenting the parties
 		var partiesSelection = legendSvg.selectAll("circle.parties")
@@ -272,7 +277,6 @@ d3.csv("data.csv", function(d){
 				.attr("stroke-width", 2)
 				.attr("stroke", "black");
 		};
-		//getNextTick();//skip one line
 		var partyLabes = legendSvg.selectAll("text.segments")
 		.data(segments)
 		.enter()
