@@ -418,18 +418,23 @@ d3.csv("data.csv", function(d){
 	var previousCandidate = null;
 	var isClicked = false;
 
+	var symbols = d3.svg.symbol()
+		.type(function(d) { return 'diamond'; })
+		.size(function(d) {	return linearElementScale(narrowerDimension)*10; });
+
 	/*Connects the data to svg elements, determines the interaction logic, create DOM elements*/
 	var candidateGroup = svg.append("g")
 	candidateGroup.attr("class", "candidateGroup")
-	var candidates = candidateGroup.selectAll("circle")
+	var candidates = candidateGroup.selectAll("path")
 		.data(d)
 		.enter()
-			.append("circle")
+			.append("path")
 			/*	getWidth()/2 is the reason for a spread effect in the start, could have initialized them with:
 				function(d){return linearWidthScale(getXValue(d));}*/
-			.attr("cx", getWidth()/2)
-			.attr("cy", getHeight()/2)
-			.attr("r", function(d){return linearElementScale(narrowerDimension);})
+			.attr("d", symbols)
+			.attr("x", getWidth()/2)
+			.attr("y", getHeight()/2)
+			//.attr("r", function(d){return linearElementScale(narrowerDimension);})
 			.style("fill", function(d){return getColor(d.party);});
 
 	/*Creates candidate data object containing element, name, party, segment, 
@@ -607,9 +612,13 @@ d3.csv("data.csv", function(d){
 		candidates
 			.transition()
 			.duration(750)
-			.attr("cx", function(d){return linearWidthScale(+getXValue(d));})
-			.attr("cy", function(d){return linearHeigthScale(+getYValue(d));})
-			.attr("r", function(d){return linearElementScale(narrowerDimension);});
+			.attr("transform" , function(d) { 
+				return 'translate('+
+					[linearWidthScale(+getXValue(d)), 
+					linearHeigthScale(+getYValue(d))]+')'; });
+			//.attr("x", function(d){return linearWidthScale(+getXValue(d));})
+			//.attr("y", function(d){return linearHeigthScale(+getYValue(d));})
+			//.attr("r", function(d){return linearElementScale(narrowerDimension);});
 		filterCandidates();
 	}
 
