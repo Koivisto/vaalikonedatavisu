@@ -21,6 +21,11 @@ var partyVisibility = {"Itsenäisyyspuolue" : true,"Keskusta" : true,"Kokoomus" 
 			"Muutos 2011" : true,"Perussuomalaiset" : true,"Piraattipuolue" : true,"RKP" : true,"SDP" : true,
 			"SKP" : true,"STP" : true,"Vasemmistoliitto" : true,"Vihreät" : true,"Oikeisto": true,
 			"Kansalliskonservatiivit": true,"Viherliberaalit": true,"Vihervasemmisto": true,"Demarit": true};
+var partyColors = {"Oikeisto" : "#006288", "Kansalliskonservatiivit" : "grey", "Viherliberaalit" : "#61BF1A", 
+			"Vihervasemmisto" : "#55110F", "Demarit" : "#E11931", "Kokoomus" : "#006288", "RKP" : "#FFDD93", 
+			"Perussuomalaiset" : "#FFDE55", "Keskusta" : "#01954B", "Vihreät" : "#61BF1A", "Vasemmistoliitto" : 
+			"#BF1E24", "SKP" : "#DA2301", "Kristillisdemokraatit" : "#18359B", "Itsenäisyyspuolue" : "#017BC4", 
+			"Piraattipuolue" : "#660099", "Muutos 2011" : "#004460", "SDP" : "#E11931", "STP" : "#CC0000" };
 var abbreviations = {"Itsenäisyyspuolue" : "IP","Keskusta" : "KESK","Kokoomus" : "KOK","Kristillisdemokraatit" : "KD",
 			"Muutos 2011" : "M11","Perussuomalaiset" : "PS","Piraattipuolue" : "PIR","RKP" : "RKP","SDP" : "SDP",
 			"SKP" : "SKP","STP" : "STP","Vasemmistoliitto" : "VAS","Vihreät" : "VIH","Oikeisto": "oik",
@@ -38,29 +43,7 @@ var segments = ["Oikeisto","Kansalliskonservatiivit","Viherliberaalit","Vihervas
 /*Maps parties and segments to colors, 
 party color from here http://fi.wikipedia.org/wiki/Luokka:Politiikkamallineet */
 function getColor(str){
-	switch(str){
-		//segments
-		case "Oikeisto": return "#006288";
-		case "Kansalliskonservatiivit": return "grey";
-		case "Viherliberaalit": return "#61BF1A";
-		case "Vihervasemmisto": return "#55110F";
-		case "Demarit": return "#E11931";
-		//parties
-		case "Kokoomus": return "#006288";
-		case "RKP": return "#FFDD93";
-		case "Perussuomalaiset": return "#FFDE55";
-		case "Keskusta": return "#01954B";
-		case "Vihreät": return "#61BF1A";
-		case "Vasemmistoliitto": return "#BF1E24";
-		case "SKP": return "#DA2301";
-		case "Kristillisdemokraatit": return "#18359B";
-		case "Itsenäisyyspuolue": return "#017BC4";
-		case "Piraattipuolue": return "#660099";
-		case "Muutos 2011": return "#004460";
-		case "SDP": return "#E11931";
-		case "STP": return "#CC0000";
-		default: return "#FFFFFF";
-	}
+	return partyColors[str];
 }
 
 /*Decides proper size for the visualization*/
