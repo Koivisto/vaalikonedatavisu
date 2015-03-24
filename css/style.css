@@ -192,19 +192,17 @@ circle{
 
 /*Color legend styles*/
 #legendContainer{
-	display: inline;
 	position: relative;
 	float:right;
 	margin-right: 10px;
 	margin-left: 0px;
-	/*width: 200px;*/
-
 	padding: 10px 5px 10px 5px;
-	text-align: left;
+	text-align: center;
 	color:#000;
 	background-color:#FFF;
 	box-shadow: 0px 0px 10px #000;
 	overflow: hidden;
+
 	/*corners*/
 	-webkit-border-top-right-radius: 45px;
 	-moz-border-radius-topright: 45px;
@@ -214,15 +212,18 @@ circle{
 	border-bottom-left-radius: 100px 120px;
 }
 
-.partyLabes{
+.partyLabels{
 	cursor: pointer;
 }
+
 input{
 	cursor: pointer;
 }
+
 label{
 	cursor: pointer;
 }
+
 #searchInput{
 	width: 100%;
 }
@@ -237,8 +238,13 @@ label{
 	font-weight:700;
 	text-align: center;
 }
+
 .legendClose:hover{
 	background: #088989;
+}
+
+.grey{
+	color: #BBB;/*ui_grey*/
 }
 
 /*--------------------------------------------------------*/
@@ -253,7 +259,6 @@ label{
 		margin-right: 5px;
 		margin-left: 5px;
 		margin-bottom: 5px;
-		text-align: center;
 	}
 	.legendClose{
 		margin-bottom: 10px;

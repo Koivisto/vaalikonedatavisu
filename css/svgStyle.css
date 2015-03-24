@@ -16,12 +16,27 @@ text{
 	text-anchor: middle;
 }
 
-.partyLabes{
+.partyLabels{
 	fill: #000;/*ui_grey*/
 	opacity: 1.0;
 	font-size: inherit;
 	text-anchor: end;
 }
+
+#legendSvg{
+	margin-top: 10px;
+}
+
+.legendLabel{
+	font-style: italic;
+	text-anchor: middle;
+	fill: #BBB;/*ui_grey*/
+}
+
+.partyLabels:hover{
+	fill: #BBB;/*ui_grey*/
+}
+
 circle {
 	stroke: #000;
 	opacity: 1.0;
@@ -33,6 +48,9 @@ circle.ui{
 }
 circle.segments{
 	opacity: 1.0;
+}
+.parties:hover{
+	fill: #BBB;/*ui_grey*/
 }
 
 @media (max-width:800px){

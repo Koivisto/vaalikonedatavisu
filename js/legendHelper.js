@@ -5,12 +5,12 @@ function toggleLegendVisibility(){
 	if(isVisible){
 		$("#legendControls").hide(200);
 		$("#legendSvg").hide(200);
-		$("#legendToggle").html("Näytä selite");
+		$("#legendToggle").html("Näytä valinnat");
 	}
 	else{
 		$("#legendControls").show(200);
 		$("#legendSvg").show(200);
-		$("#legendToggle").html("Piilota selite");
+		$("#legendToggle").html("Piilota valinnat");
 	}
 	isVisible = !isVisible
 }

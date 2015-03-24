@@ -42,7 +42,7 @@ var axisValues = ["Impivaaralaisuus", "Talousoikeistolaisuus", "Arvoliberaalius"
 //init "Impivaaralaisuus" and "Arvoliberaalius" as first axis
 var xAxisValue = axisValues[0], yAxisValue = axisValues[2];
 var axisValueOpposites = ["Maailmankansalaisuus", "Talousvasemmistolaisuus","Arvokonservatiivius", "\"Epävihreys\"",""];
-var segments = ["Oikeisto","Kansalliskonservatiivit","Viherliberaalit","Vihervasemmisto","Demarit"];
+var segments = ["Demarit","Kansalliskonservatiivit","Oikeisto","Viherliberaalit","Vihervasemmisto",];
 
 /**********************
 	Helper functions
@@ -181,6 +181,8 @@ d3.csv("data.csv", function(d){
 	//Candidate color toggle on party/segment
 	var legendContainer = d3.select("#legendContainer");
 	var legendControls = legendContainer.select("#legendControls");
+	legendControls.append("span")
+		.html("<em class=\"grey\">Näytä väritys:</em><br>");
 	var showPartyColors = true;
 	var partyRadioBtn = legendControls.append("input")
 		.attr("type", "radio")
@@ -191,7 +193,7 @@ d3.csv("data.csv", function(d){
 		.on("click", function() {showPartyColors = true; setCandidateColor();});
 	legendControls.append("label")
 		.attr("for", "party")
-		.html(" Värit puolueittain<br>");
+		.html(" Puolueittain<br>");
 	var segmentRadioBtn = legendControls.append("input")
 		.attr("type", "radio")
 		.attr("name", "color")
@@ -201,19 +203,20 @@ d3.csv("data.csv", function(d){
 		.on("click", function() {showPartyColors = false; setCandidateColor();});
 	legendControls.append("label")
 		.attr("for", "segment")
-		.html(" Värit segmenteittäin");
+		.html(" Segmenteittäin<br>");
 
 	/*****************************
 		Legend (right side bar)
 	/*****************************/
 	//init legendSvg
 	var legendSvg = d3.select("#legendSvg");
-	legendSvg.attr("width", LEGENDWIDHT).attr("height", 400);//height has currently a "magic number"
+	legendSvg.attr("width", LEGENDWIDHT).attr("height", 430);//height has currently a "magic number"
 	drawLegend();
 
 	/*Draws party selection UI elements in legendSvg , adds logic to them*/
 	function drawLegend(){
-		var tick = 0;
+		//var guide = "Valitse näytettävät puolueet:"
+		var tick = 1;
 		//helping function for positioning
 		function getNextTick(){tick = tick +1;return tick;}
 		//circles presenting the parties
@@ -238,7 +241,7 @@ d3.csv("data.csv", function(d){
 		.enter()
 			.append("circle")
 			.attr("cx", LEGENDWIDHT-13)
-			.attr("cy", function(segments){return +(getNextTick()*20);})
+			.attr("cy", function(segments){return +(getNextTick()*20+15);})
 			.attr("r", 10)
 			.attr("class", "segments")
 			.attr("id", function(segments){return abbreviations[segments]})
@@ -248,16 +251,20 @@ d3.csv("data.csv", function(d){
 				toggleSelection(segments);
 				filterCandidates();
 			});
-		segments
 		tick = 0;
+		legendSvg.append("text")
+			.attr("x", LEGENDWIDHT/2)
+			.attr("y", function(segments){return +(getNextTick()*20);})
+			.attr("class", "legendLabel")
+			.text("Valitse puolueita:");
 		//text labels for circles
-		var partyLabes = legendSvg.selectAll("text")
+		var partyLabels = legendSvg.selectAll("text.parties")
 		.data(parties)
 		.enter()
 			.append("text")
 			.attr("x", LEGENDWIDHT-26)
 			.attr("y", function(parties){return +(getNextTick()*20 +5);})
-			.attr("class", "partyLabes")
+			.attr("class", "partyLabels")
 			.attr("id", function(parties){return abbreviations[parties]})
 			.text(function(d){return d;})
 			.on("click", function(parties){
@@ -265,25 +272,18 @@ d3.csv("data.csv", function(d){
 				filterCandidates();
 			});
 		//Draws separator line, but only once and when something to separate
-		var separatorYposition = getNextTick();
-		if (separatorYposition > 1) {
-			separatorYposition = separatorYposition*20;
-			legendSvg.append("line")
-				.attr("x1", 0)
-				.attr("y1", separatorYposition)
-				.attr("x2", LEGENDWIDHT)
-				.attr("y2", separatorYposition)
-				.attr("class", "axisLine")
-				.attr("stroke-width", 2)
-				.attr("stroke", "black");
-		};
-		var partyLabes = legendSvg.selectAll("text.segments")
+		legendSvg.append("text")
+			.attr("x", LEGENDWIDHT/2)
+			.attr("y", function(segments){return +(getNextTick()*20 +15);})
+			.attr("class", "legendLabel")
+			.text("Valitse segmenttejä:");
+		var partyLabels = legendSvg.selectAll("text.segments")
 		.data(segments)
 		.enter()
 			.append("text")
 			.attr("x", LEGENDWIDHT-26)
-			.attr("y", function(segments){return +(getNextTick()*20 +5);})
-			.attr("class", "partyLabes segments")
+			.attr("y", function(segments){return +(getNextTick()*20 +20);})
+			.attr("class", "partyLabels segments")
 			.attr("id", function(segments){return abbreviations[segments]})
 			.text(function(d){return d;})
 			.on("click", function(segments){
