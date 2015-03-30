@@ -109,6 +109,49 @@
 </div>
 </div>
 
+	<!--Form that contains controls-->
+	<div id="formContainer" class="row">
+		<form id="visualizationForm_yle">
+			<div class="large-12 columns">
+				<div class="large-3 small-12 columns" id="searchForm_yle"></div>
+				<div class="large-3 small-12 columns" id="locationForm_yle"></div>
+				<div class="large-3 small-12 columns" id="xForm_yle"></div>
+				<div class="large-3 small-12 columns" id="yForm_yle"></div>
+			</div>
+		</form>
+	</div>
+
+	<!--Div that contains legends for colors, and controls to toggle them-->
+	<div id="legendContainer_yle" class="">
+		<div id="legendToggle" onclick="toggleLegendVisibility()" class="legendClose">Piilota valinnat</div>
+		<div id="legendControls_yle"></div>
+		<svg id="legendSvg_yle"></svg>
+	</div>
+
+	<!--Div that contains all explanations-->
+	<div id="explanations" style="position: absolute;"></div>
+
+	<!--Actual visualization inside svg-element-->
+	<div id="visualizationDiv_yle">
+		<svg id="visualizationSvg_yle"></svg>
+	</div>
+	<!--Visualization logic-->
+	<script src="js/visualization_yle.js" type="text/javascript" charset="utf-8"></script>
+
+	<div class="greenScheme">
+		<div class="row">
+			<div class="large-8 columns small-12 columns small-centered">
+				<br>
+				<div class="shareDiv">
+					<div id="twitter5px" style="padding-top:5px;"><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://users.aalto.fi/~leinona1/vaalit2015/" data-text="Vaalidatan faktorianalyysiä ja visualisointia #vaalit2015 @AarneLeinonen @mniemivirta">Twiittaa</a></div>
+					<div class="fb-share-button" data-href="http://users.aalto.fi/~leinona1/vaalit2015/" data-layout="button_count"></div>
+				</div>
+				<h2>Lorem Ipsumia täytteeksi</h2>
+				<p>lorem ipsum<br><br><br><br></p>
+	</div>
+</div>
+</div>
+
 
 <div class="row">
 	<div class="large-8 columns small-12 small-centered">
