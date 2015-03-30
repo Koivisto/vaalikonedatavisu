@@ -191,7 +191,7 @@ circle{
 }
 
 /*Color legend styles*/
-#legendContainer{
+.legendContainer{
 	position: relative;
 	float:right;
 	margin-right: 10px;
