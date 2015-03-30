@@ -107,7 +107,7 @@ d3.csv("data_yle.csv", function(d){
 	var searchInput = d3.select("#searchForm_yle").append("input")
 		.attr("placeholder", "Etsi nimellä")
 		.attr("type", "text")
-		.attr("id", "searchInput")
+		.attr("id", "searchInput_yle")
 		.on("input", function(){filterCandidates();});
 
 	//District option menu
@@ -175,23 +175,23 @@ d3.csv("data_yle.csv", function(d){
 	var showPartyColors = true;
 	var partyRadioBtn = legendControls.append("input")
 		.attr("type", "radio")
-		.attr("name", "color")
-		.attr("value", "party")
-		.attr("id", "party")
+		.attr("name", "color_yle")
+		.attr("value", "party_yle")
+		.attr("id", "party_yle")
 		.property("checked", true)
 		.on("click", function() {showPartyColors = true; setCandidateColor();});
 	legendControls.append("label")
-		.attr("for", "party")
+		.attr("for", "party_yle")
 		.html(" Puolueittain<br>");
 	var segmentRadioBtn = legendControls.append("input")
 		.attr("type", "radio")
-		.attr("name", "color")
-		.attr("value", "segment")
-		.attr("id", "segment")
+		.attr("name", "color_yle")
+		.attr("value", "segment_yle")
+		.attr("id", "segment_yle")
 		.property("checked", false)
 		.on("click", function() {showPartyColors = false; setCandidateColor();});
 	legendControls.append("label")
-		.attr("for", "segment")
+		.attr("for", "segment_yle")
 		.html(" Segmenteittäin<br>");
 
 	/*****************************
