@@ -238,7 +238,7 @@ d3.csv("data_yle.csv", function(d){
 	/*****************************/
 	//init legendSvg
 	var legendSvg = d3.select("#legendSvg_yle");
-	legendSvg.attr("width", LEGENDWIDHT).attr("height", 430);//height has currently a "magic number"
+	legendSvg.attr("width", LEGENDWIDHT).attr("height", 550);//height has currently a "magic number"
 	drawLegend();
 
 	/*Draws party selection UI elements in legendSvg , adds logic to them*/
@@ -294,7 +294,8 @@ d3.csv("data_yle.csv", function(d){
 			.attr("y", function(parties){return +(getNextTick()*20 +5);})
 			.attr("class", "partyLabels")
 			.attr("id", function(parties){return abbreviations[parties]})
-			.text(function(d){return d;})
+			.style("opacity", function(parties){return getSelectionOpacity(partyVisibility[parties]);})
+			.text(function(parties){if(parties.length >= 22)return abbreviations[parties];return parties;})
 			.on("click", function(parties){
 				toggleSelection(parties);
 				filterCandidates();
@@ -313,7 +314,7 @@ d3.csv("data_yle.csv", function(d){
 			.attr("y", function(segments){return +(getNextTick()*20 +20);})
 			.attr("class", "partyLabels segments")
 			.attr("id", function(segments){return abbreviations[segments]})
-			.text(function(d){return d;})
+			.text(function(segments){if(segments.length >= 22)return abbreviations[segments];return segments;})
 			.on("click", function(segments){
 				toggleSelection(segments);
 				filterCandidates();
