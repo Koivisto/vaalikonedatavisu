@@ -23,51 +23,11 @@ var narrowerDimension = MAXHEIGHT;
 var xMax = 3;var yMax = 3;var xMin = -3;var yMin = -3;
 
 //init some data that is used in logic and visualization
-var parties = ["Itsenäisyyspuolue",
-"Ahvenanmaan liberaalit",
-"Kommunistinen Työväenpuolue - Rauhan ja Sosialismin puolesta",
-"Köyhien Asialla",
-"Pirkanmaan Sitoutumattomat yhteislista",
-"Åländsk Samling",
-"Suomen Keskusta","Kansallinen Kokoomus","Suomen Kristillisdemokraatit (KD)","Muutos 2011","Perussuomalaiset",
-			"Piraattipuolue","Suomen ruotsalainen kansanpuolue","Suomen Sosialidemokraattinen Puolue","Suomen Kommunistinen Puolue","Suomen Työväenpuolue STP","Vasemmistoliitto","Vihreä liitto"];
-var partyVisibility = {"Itsenäisyyspuolue" : true,
-"Ahvenanmaan liberaalit": true,
-"Kommunistinen Työväenpuolue - Rauhan ja Sosialismin puolesta": true,
-"Köyhien Asialla": true,
-"Pirkanmaan Sitoutumattomat yhteislista": true,
-"Åländsk Samling": true,
-"Valitsijayhdistys Jaakko Katajisto": true,"Valitsijayhdistys Jani Leinonen": true,"Valitsijayhdistys Jani Pontus Toivanen": true,"Valitsijayhdistys Joni Tikka": true,
-"Valitsijayhdistys Jyrki Helminen": true,"Valitsijayhdistys Kari Leppäjoki": true,"Valitsijayhdistys Kim Sjöström": true,"Valitsijayhdistys Kristiina Kreisler": true,
-"Valitsijayhdistys Mika Vähäkangas": true,"Valitsijayhdistys Risto Hintikka": true,"Valitsijayhdistys Sanna Hirvonen": true,"Valitsijayhdistys Tero Poikolainen": true,
-"Valitsijayhdistys Ville Punto": true,"Valitsijayhdistys Yakup Yilmaz": true,
-"Suomen Keskusta" : true,"Kansallinen Kokoomus" : true,"Suomen Kristillisdemokraatit (KD)" : true,
-			"Muutos 2011" : true,"Perussuomalaiset" : true,"Piraattipuolue" : true,"Suomen ruotsalainen kansanpuolue" : true,"Suomen Sosialidemokraattinen Puolue" : true,
-			"Suomen Kommunistinen Puolue" : true,"Suomen Työväenpuolue STP" : true,"Vasemmistoliitto" : true,"Vihreä liitto" : true,"Markkinaliberaalit": true,
-			"Konservatiivit": true, "Nationalistikonservatiivit": true,"Liberaalit": true,"Vasemmistoliberaalit": true,"Maltillinen vasemmisto": true};
-var partyColors = {"Markkinaliberaalit" : "#006288", 
-"Ahvenanmaan liberaalit": "#FFFFFF",
-"Kommunistinen Työväenpuolue - Rauhan ja Sosialismin puolesta": "#FF0000",
-"Köyhien Asialla": "#FF0000",
-"Pirkanmaan Sitoutumattomat yhteislista": "#FFFFFF",
-"Åländsk Samling": "#000000",
-"Konservatiivit": "#666666", "Nationalistikonservatiivit" : "grey", "Liberaalit" : "#61BF1A", 
-			"Vasemmistoliberaalit" : "#55110F", "Maltillinen vasemmisto" : "#E11931", "Kansallinen Kokoomus" : "#006288", "Suomen ruotsalainen kansanpuolue" : "#FFDD93", 
-			"Perussuomalaiset" : "#FFDE55", "Suomen Keskusta" : "#01954B", "Vihreä liitto" : "#61BF1A", "Vasemmistoliitto" : 
-			"#BF1E24", "Suomen Kommunistinen Puolue" : "#DA2301", "Suomen Kristillisdemokraatit (KD)" : "#18359B", "Itsenäisyyspuolue" : "#017BC4", 
-			"Piraattipuolue" : "#660099", "Muutos 2011" : "#004460", "Suomen Sosialidemokraattinen Puolue" : "#E11931", "Suomen Työväenpuolue STP" : "#CC0000" };
-var abbreviations = {"Itsenäisyyspuolue" : "IP",
-"Ahvenanmaan liberaalit": "ahlib",
-"Kommunistinen Työväenpuolue - Rauhan ja Sosialismin puolesta": "ktrjsp",
-"Köyhien Asialla": "koy",
-"Pirkanmaan Sitoutumattomat yhteislista": "psy",
-"Åländsk Samling": "sam",
-"Suomen Keskusta" : "KESK","Kansallinen Kokoomus" : "KOK","Suomen Kristillisdemokraatit (KD)" : "KD",
-			"Muutos 2011" : "M11","Perussuomalaiset" : "PS","Piraattipuolue" : "PIR","Suomen ruotsalainen kansanpuolue" : "RKP","Suomen Sosialidemokraattinen Puolue" : "SDP",
-			"Suomen Kommunistinen Puolue" : "SKP","Suomen Työväenpuolue STP" : "STP","Vasemmistoliitto" : "VAS","Vihreä liitto" : "VIH","Markkinaliberaalit": "mark" , 
-			"Konservatiivit": "kons", "Nationalistikonservatiivit": "nat","Liberaalit": "vlib","Vasemmistoliberaalit": "vvas","Maltillinen vasemmisto": "malt"};
+var parties = ["Ahvenanmaan liberaalit","Itsenäisyyspuolue","Kansallinen Kokoomus","Kommunistinen Työväenpuolue - Rauhan ja Sosialismin puolesta","Köyhien Asialla","Muutos 2011","Perussuomalaiset","Piraattipuolue","Pirkanmaan Sitoutumattomat yhteislista","Suomen Keskusta","Suomen Kommunistinen Puolue","Suomen Kristillisdemokraatit (KD)","Suomen ruotsalainen kansanpuolue","Suomen Sosialidemokraattinen Puolue","Suomen Työväenpuolue STP","Vasemmistoliitto","Vihreä liitto","Åländsk Samling",];
+var partyVisibility = {"Itsenäisyyspuolue" : false,"Ahvenanmaan liberaalit": false,"Kommunistinen Työväenpuolue - Rauhan ja Sosialismin puolesta": false,"Köyhien Asialla": false,"Pirkanmaan Sitoutumattomat yhteislista": false,"Åländsk Samling": false,"Valitsijayhdistys Jaakko Katajisto": false,"Valitsijayhdistys Jani Leinonen": false,"Valitsijayhdistys Jani Pontus Toivanen": false,"Valitsijayhdistys Joni Tikka": false,"Valitsijayhdistys Jyrki Helminen": false,"Valitsijayhdistys Kari Leppäjoki": false,"Valitsijayhdistys Kim Sjöström": false,"Valitsijayhdistys Kristiina Kreisler": false,"Valitsijayhdistys Mika Vähäkangas": false,"Valitsijayhdistys Risto Hintikka": false,"Valitsijayhdistys Sanna Hirvonen": false,"Valitsijayhdistys Tero Poikolainen": false,"Valitsijayhdistys Ville Punto": false,"Valitsijayhdistys Yakup Yilmaz": false,"Suomen Keskusta" : true,"Kansallinen Kokoomus" : true,"Suomen Kristillisdemokraatit (KD)" : true,"Muutos 2011" : true,"Perussuomalaiset" : true,"Piraattipuolue" : false,"Suomen ruotsalainen kansanpuolue" : true,"Suomen Sosialidemokraattinen Puolue" : true,"Suomen Kommunistinen Puolue" : false,"Suomen Työväenpuolue STP" : false,"Vasemmistoliitto" : true,"Vihreä liitto" : true,"Markkinaliberaalit": true,"Konservatiivit": true, "Nationalistikonservatiivit": true,"Liberaalit": true,"Vasemmistoliberaalit": true,"Maltillinen vasemmisto": true};
+var partyColors = {"Markkinaliberaalit" : "#006288", "Ahvenanmaan liberaalit": "#FFFFFF","Kommunistinen Työväenpuolue - Rauhan ja Sosialismin puolesta": "#FF0000","Köyhien Asialla": "#FF0000","Pirkanmaan Sitoutumattomat yhteislista": "#FFFFFF","Åländsk Samling": "#000000","Konservatiivit": "#666666", "Nationalistikonservatiivit" : "grey", "Liberaalit" : "#61BF1A", "Vasemmistoliberaalit" : "#55110F", "Maltillinen vasemmisto" : "#E11931", "Kansallinen Kokoomus" : "#006288", "Suomen ruotsalainen kansanpuolue" : "#FFDD93", "Perussuomalaiset" : "#FFDE55", "Suomen Keskusta" : "#01954B", "Vihreä liitto" : "#61BF1A", "Vasemmistoliitto" : "#BF1E24", "Suomen Kommunistinen Puolue" : "#DA2301", "Suomen Kristillisdemokraatit (KD)" : "#18359B", "Itsenäisyyspuolue" : "#017BC4", "Piraattipuolue" : "#660099", "Muutos 2011" : "#004460", "Suomen Sosialidemokraattinen Puolue" : "#E11931", "Suomen Työväenpuolue STP" : "#CC0000" };
+var abbreviations = {"Itsenäisyyspuolue" : "IP","Ahvenanmaan liberaalit": "AL","Kommunistinen Työväenpuolue - Rauhan ja Sosialismin puolesta": "KTRJSP","Köyhien Asialla": "KOY","Pirkanmaan Sitoutumattomat yhteislista": "PSY","Åländsk Samling": "AS","Suomen Keskusta" : "KESK","Kansallinen Kokoomus" : "KOK","Suomen Kristillisdemokraatit (KD)" : "KD","Muutos 2011" : "M11","Perussuomalaiset" : "PS","Piraattipuolue" : "PIR","Suomen ruotsalainen kansanpuolue" : "RKP","Suomen Sosialidemokraattinen Puolue" : "SDP","Suomen Kommunistinen Puolue" : "SKP","Suomen Työväenpuolue STP" : "STP","Vasemmistoliitto" : "VAS","Vihreä liitto" : "VIH","Markkinaliberaalit": "mark" , "Konservatiivit": "kons", "Nationalistikonservatiivit": "Nat.konservatiivit","Liberaalit": "vlib","Vasemmistoliberaalit": "vvas","Maltillinen vasemmisto": "Malt.vasemmisto"};
 var segments = ["Konservatiivit","Nationalistikonservatiivit","Vasemmistoliberaalit","Liberaalit","Maltillinen vasemmisto", "Markkinaliberaalit"];
-			
 var axisValues = ["Talousoikeistolaisuus", "Nationalismikonservatiivisuus", "Arvoliberaalius", "Ikä", "Ehdokasnumero"];
 //init "Nationalismikonservatiivisuus" and "Arvoliberaalius" as first axis
 var xAxisValue = axisValues[1], yAxisValue = axisValues[2];
