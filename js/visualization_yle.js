@@ -538,7 +538,7 @@ d3.csv("data_yle.csv", function(d){
 		var infoDiv = document.createElement("div");
 		//infobox closing button
 		var closeButton = document.createElement("BUTTON");
-		document.getElementById("explanations").appendChild(infoDiv);
+		document.getElementById("explanations_yle").appendChild(infoDiv);
 		//if too far to right border, then uses different class
 		if(parseInt(candidate.element.attr("cx") + svg.offsetLeft) > (width-220)){
 			infoDiv.className = "infoBox toLeft";
@@ -570,7 +570,7 @@ d3.csv("data_yle.csv", function(d){
 
 	/*removes all info boxes present*/
 	function removeInfoDivs(){
-		var explanationsDiv = document.getElementById("explanations");
+		var explanationsDiv = document.getElementById("explanations_yle");
 		while (explanationsDiv.hasChildNodes()) {
 			explanationsDiv.removeChild(explanationsDiv.lastChild);
 		}
