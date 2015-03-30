@@ -27,22 +27,23 @@ var parties = ["Itsenäisyyspuolue","Keskusta","Kokoomus","Kristillisdemokraatit
 			"Piraattipuolue","RKP","SDP","SKP","STP","Vasemmistoliitto","Vihreät"];
 var partyVisibility = {"Itsenäisyyspuolue" : true,"Keskusta" : true,"Kokoomus" : true,"Kristillisdemokraatit" : true,
 			"Muutos 2011" : true,"Perussuomalaiset" : true,"Piraattipuolue" : true,"RKP" : true,"SDP" : true,
-			"SKP" : true,"STP" : true,"Vasemmistoliitto" : true,"Vihreät" : true,"Oikeisto": true,
-			"Kansalliskonservatiivit": true,"Viherliberaalit": true,"Vihervasemmisto": true,"Demarit": true};
-var partyColors = {"Oikeisto" : "#006288", "Kansalliskonservatiivit" : "grey", "Viherliberaalit" : "#61BF1A", 
-			"Vihervasemmisto" : "#55110F", "Demarit" : "#E11931", "Kokoomus" : "#006288", "RKP" : "#FFDD93", 
+			"SKP" : true,"STP" : true,"Vasemmistoliitto" : true,"Vihreät" : true,"Markkinaliberaalit": true,
+			"Konservatiivit": true, "Nationalistikonservatiivit": true,"Liberaalit": true,"Vasemmistoliberaalit": true,"Maltillinen vasemmisto": true};
+var partyColors = {"Markkinaliberaalit" : "#006288", "Konservatiivit": "#666666", "Nationalistikonservatiivit" : "grey", "Liberaalit" : "#61BF1A", 
+			"Vasemmistoliberaalit" : "#55110F", "Maltillinen vasemmisto" : "#E11931", "Kokoomus" : "#006288", "RKP" : "#FFDD93", 
 			"Perussuomalaiset" : "#FFDE55", "Keskusta" : "#01954B", "Vihreät" : "#61BF1A", "Vasemmistoliitto" : 
 			"#BF1E24", "SKP" : "#DA2301", "Kristillisdemokraatit" : "#18359B", "Itsenäisyyspuolue" : "#017BC4", 
 			"Piraattipuolue" : "#660099", "Muutos 2011" : "#004460", "SDP" : "#E11931", "STP" : "#CC0000" };
 var abbreviations = {"Itsenäisyyspuolue" : "IP","Keskusta" : "KESK","Kokoomus" : "KOK","Kristillisdemokraatit" : "KD",
 			"Muutos 2011" : "M11","Perussuomalaiset" : "PS","Piraattipuolue" : "PIR","RKP" : "RKP","SDP" : "SDP",
-			"SKP" : "SKP","STP" : "STP","Vasemmistoliitto" : "VAS","Vihreät" : "VIH","Oikeisto": "oik",
-			"Kansalliskonservatiivit": "kans","Viherliberaalit": "vlib","Vihervasemmisto": "vvas","Demarit": "dem"};
-var axisValues = ["Impivaaralaisuus", "Talousoikeistolaisuus", "Arvoliberaalius", "Vihreys", "Ikä"];
-//init "Impivaaralaisuus" and "Arvoliberaalius" as first axis
-var xAxisValue = axisValues[0], yAxisValue = axisValues[2];
-var axisValueOpposites = ["Maailmankansalaisuus", "Talousvasemmistolaisuus","Arvokonservatiivius", "\"Epävihreys\"",""];
-var segments = ["Demarit","Kansalliskonservatiivit","Oikeisto","Viherliberaalit","Vihervasemmisto",];
+			"SKP" : "SKP","STP" : "STP","Vasemmistoliitto" : "VAS","Vihreät" : "VIH","Markkinaliberaalit": "mark" , 
+			"Konservatiivit": "kons", "Nationalistikonservatiivit": "nat","Liberaalit": "vlib","Vasemmistoliberaalit": "vvas","Maltillinen vasemmisto": "malt"};
+var segments = ["Konservatiivit","Nationalistikonservatiivit","Vasemmistoliberaalit","Liberaalit","Maltillinen vasemmisto", "Markkinaliberaalit"];
+			
+var axisValues = ["Talousoikeistolaisuus", "Nationalismikonservatiivisuus", "Arvoliberaalius", "Ikä", "Ehdokasnumero"];
+//init "Nationalismikonservatiivisuus" and "Arvoliberaalius" as first axis
+var xAxisValue = axisValues[1], yAxisValue = axisValues[2];
+var axisValueOpposites = ["Talousvasemmistolaisuus", "Maailmankansalaisuus", "Arvokonservatiivius", "",""];
 
 /**********************
 	Helper functions
@@ -327,11 +328,11 @@ d3.csv("data_yle.csv", function(d){
 
 	function getValueFromStr(d, str){
 		switch(str){
-			case "Impivaaralaisuus": return d.imp;
+			case "Nationalismikonservatiivisuus": return d.nat;
 			case "Talousoikeistolaisuus": return d.oik;
 			case "Arvoliberaalius": return d.lib;
-			case "Vihreys": return d.vih;
 			case "Ikä": return d.age;
+			case "Ehdokasnumero": return d.votenumber;
 			default: return 0;
 		}
 	}
