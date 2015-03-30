@@ -208,7 +208,7 @@ d3.csv("data_yle.csv", function(d){
 		Legend (right side bar)
 	/*****************************/
 	//init legendSvg
-	var legendSvg = d3.select("#legendSvg");
+	var legendSvg = d3.select("#legendSvg_yle");
 	legendSvg.attr("width", LEGENDWIDHT).attr("height", 430);//height has currently a "magic number"
 	drawLegend();
 
