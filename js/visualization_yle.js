@@ -468,6 +468,7 @@ d3.csv("data_yle.csv", function(d){
 			party: d.party, 
 			segment: d.segment,
 			district: d.district,
+			votenumber: d.votenumber,
 			age: d.age,
 			education: d.education,
 			url: d.www,
@@ -555,7 +556,7 @@ d3.csv("data_yle.csv", function(d){
 		.attr("r", function(d){return linearElementScale(narrowerDimension)*2;})
 
 		//html text for infoBox
-		var infoString = "<strong>"+candidate.name+"</strong><br>"+
+		var infoString = "<strong>"+candidate.name+"</strong>, nro. "+candidate.votenumber+"<br>"+
 			"<strong style=\"color:"+getColor(candidate.party)+"\">"+candidate.party+"</strong><br>"+
 			"segmentti: "+"<em style=\"color:"+getColor(candidate.segment)+"\">\""+candidate.segment+"\"</em><br><br>"+
 			candidate.district+"<br>"+
