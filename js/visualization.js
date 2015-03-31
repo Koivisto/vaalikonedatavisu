@@ -179,7 +179,7 @@ d3.csv("data.csv", function(d){
 
 	/*Initializes Legend UI elements*/
 	//Candidate color toggle on party/segment
-	var legendContainer = d3.select("#legendContainer");
+	var legendContainer = d3.select("#legendContainer_hs");
 	var legendControls = legendContainer.select("#legendControls");
 	legendControls.append("span")
 		.html("<em class=\"grey\">Näytä väritys:</em><br>");
