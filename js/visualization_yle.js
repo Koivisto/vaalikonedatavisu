@@ -606,7 +606,7 @@ d3.csv("data_yle.csv", function(d){
 		filterCandidates();
 	}
 
-	d3.select(window).on("resize", resize); 
+	d3.select(window).on("resize.two", resize); 
 	resize();
 
 });/*Data ends*/

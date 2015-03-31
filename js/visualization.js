@@ -613,7 +613,7 @@ d3.csv("data.csv", function(d){
 		filterCandidates();
 	}
 
-	d3.select(window).on("resize", resize); 
+	d3.select(window).on("resize.one", resize); 
 	resize();
 
 });/*Data ends*/
