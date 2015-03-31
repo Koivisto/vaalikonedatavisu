@@ -45,7 +45,8 @@ h2{
 	margin-top: 40px;
 }
 h2.contentLabel{
-	margin-top: 0px;
+	margin-top: -20px;
+	padding-bottom: 20px;
 }
 
 h3{
@@ -75,6 +76,7 @@ header a{
 .greenScheme{
 	color:white;
 	background-color:#006F6F;
+	padding-bottom: 50px;
 }
 
 .greenScheme a{
