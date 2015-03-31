@@ -107,7 +107,7 @@ svg
 
 /************************************************************************/
 /*Data begins*/
-d3.csv("data.csv", function(d){
+d3.csv("data_hs.csv", function(d){
 
 	/**********************
 		User interface
