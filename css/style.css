@@ -224,7 +224,7 @@ label{
 	cursor: pointer;
 }
 
-#searchInput{
+.searchInput{
 	width: 100%;
 }
 

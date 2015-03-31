@@ -110,6 +110,7 @@ d3.csv("data_yle.csv", function(d){
 		.attr("placeholder", "Etsi nimellä/numerolla")
 		.attr("type", "text")
 		.attr("id", "searchInput_yle")
+		.attr("class", "searchInput")
 		.on("input", function(){filterCandidates();});
 
 	//District option menu

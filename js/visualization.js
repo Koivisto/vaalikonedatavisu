@@ -118,7 +118,8 @@ d3.csv("data.csv", function(d){
 	var searchInput = d3.select("#searchForm").append("input")
 		.attr("placeholder", "Etsi nimellä")
 		.attr("type", "text")
-		.attr("id", "searchInput")
+		.attr("id", "searchInput_hs")
+		.attr("class", "searchInput")
 		.on("input", function(){filterCandidates();});
 
 	//District option menu
