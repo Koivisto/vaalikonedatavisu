@@ -107,7 +107,7 @@ d3.csv("data_yle.csv", function(d){
 	/*Initializes UI elements inside the form*/
 	//name and candidate number filtering
 	var searchInput = d3.select("#searchForm_yle").append("input")
-		.attr("placeholder", "Etsi nimellä")
+		.attr("placeholder", "Etsi nimellä/numerolla")
 		.attr("type", "text")
 		.attr("id", "searchInput_yle")
 		.on("input", function(){filterCandidates();});
@@ -432,7 +432,7 @@ d3.csv("data_yle.csv", function(d){
 			party: d.party, 
 			segment: d.segment,
 			district: d.district,
-			votenumber: d.votenumber,
+			votenumber: +d.votenumber,
 			age: d.age,
 			education: d.education,
 			url: d.www,
@@ -505,7 +505,10 @@ d3.csv("data_yle.csv", function(d){
 				if (searchValue) {
 					for (var i = 0; i < searchArray.length; i++) {
 						if (d.name.toLowerCase().indexOf(searchArray[i].trim()) < 0){
-							return "none";
+							//candidate voting number as secondary quess for input
+							if (d.votenumber.toLowerCase().indexOf(searchArray[i].trim()) < 0){
+								return "none";
+							}
 						} 
 					}
 				}
