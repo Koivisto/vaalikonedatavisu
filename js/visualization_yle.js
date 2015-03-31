@@ -581,9 +581,6 @@ d3.csv("data_yle.csv", function(d){
 		.attr("width", width)
 		.attr("height", height);
 
-		removeInfoDivs();
-		adjustVisualizationToScreenSize();
-		updateAxis();
 		redraw();
 	}
 

@@ -588,9 +588,6 @@ d3.csv("data.csv", function(d){
 		.attr("width", width)
 		.attr("height", height);
 
-		removeInfoDivs();
-		adjustVisualizationToScreenSize();
-		updateAxis();
 		redraw();
 	}
 
