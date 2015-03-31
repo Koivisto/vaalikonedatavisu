@@ -252,12 +252,12 @@ label{
 /* Media queries. */
 @media (max-width:720px){
 
-	#legendContainer{
+	.legendContainer{
 		padding-bottom: 0px;
 		float:none;
 		display: block;
-		margin-right: 5px;
-		margin-left: 5px;
+		margin-right: 10px;
+		margin-left: 20px;
 		margin-bottom: 5px;
 	}
 	.legendClose{
