@@ -1,4 +1,4 @@
-Tämän projektin tavoitteena on visualisoida avointa dataa eduskuntavaaleista 2015. 
+Tämän projektin tavoitteena on visualisoida avointa dataa eduskuntavaaleista 2015. Sivusto on livenä osoitteessa http://users.aalto.fi/~leinona1/vaalit2015/
 
 Vaalien alla mm. YLE ja HS ovat alkaneet julkaista vaalikonedataa avoimena muiden käyttöön. Tarkoituksenani on koota pieni tiimi, joka saa analysoimalla ja visualisoinneilla enemmän irti kevään 2015 eduskuntavaalien avoimesta datasta, kuin perinteiset mediayhtiöt. 
 
@@ -12,7 +12,7 @@ Tässä muutamia osoitteita data-analyysiin liittyen
 
 Itse data
 HS vaalikonedata 2015: http://www.hs.fi/politiikka/a1305929269692
-YLE, MTV3? tulee varmaan myöhemmin
+Yle vaalikonedata 2015: http://yle.fi/uutiset/yle_julkaisee_vaalikoneen_vastaukset_avoimena_datana/7869597
 
 Ideoita analyysiin
 Juha Törmänen 2011, idea oikean suuntainen, hieman "jäykkä" käyttää: http://peili.kirkas.info/archive/hsvaalikone11/kartta/
